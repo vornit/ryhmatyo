@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom'
 import data from "./kuntienavainluvut"; 
 
@@ -7,13 +7,17 @@ import data from "./kuntienavainluvut";
 const App = () => {
     
     
+  const [ counter, setCounter ] = useState(0)
+
+  const setToValue = (value) => setCounter(value)
+
     const valuet = data.dataset.dimension["Alue 2019"].category.label
     const asukasmaara = data.dataset.value
 
 
     var taulukko = [];
     var x;
-    var listaIndex = 0;
+    var listaIndex;
     
 
     for (x in valuet) {
@@ -21,13 +25,16 @@ const App = () => {
       }
 
     var indexLista = 0
-    const tulosta = (listaValittu) => {
-    	console.log(listaIndex)
-    	listaIndex = listaValittu.target.value
 
+    const tulosta = (listaValittu) => {
+    	
+      listaIndex = listaValittu.target.value
+      console.log(listaIndex)
+      setToValue(listaIndex)
+      console.log(counter)
     }
     
-    console.log(listaIndex)
+   
     return (
       <div>
         
@@ -38,12 +45,12 @@ const App = () => {
                 
             </select>
         
-        <p>
+        
         
               
+        <div>{asukasmaara[counter]}</div>
             
-            
-        </p>
+        
         
       </div>
     )

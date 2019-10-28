@@ -11,18 +11,49 @@ const App = () => {
 
   const setToValue = (value) => setCounter(value)
 
-    const valuet = data.dataset.dimension["Alue 2019"].category.label
-    const asukasmaara = data.dataset.value
+  	//objektilista kuntien nimistä
+    const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
+    //objektilista asukasluvuista
+    const asukasmaarat = data.dataset.value
+    //objektilista kuntien indekseistä
+    const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
-
-    var taulukko = [];
-    var x;
+    var nimiTaulukko = [];
+    var kuntienIit = [];
     var listaIndex;
     
+    // kuntien nimet taulukkoon
+    for (var x in kuntienNimet) {
+        nimiTaulukko.push(kuntienNimet[x]);
+    }
 
-    for (x in valuet) {
-        taulukko.push(valuet[x]);
-      }
+    // kuntien indeksit taulukkoon
+    for (var x in kuntienIndeksit) {
+        kuntienIit.push(kuntienIndeksit[x]);
+    }
+
+    var avain;
+    var arvo;
+    var nimetJaIndeksit = {};
+
+    // kuntien nimet ja indeksit mapitettuna yhteen objektilistaan
+    for (var i = 0; i < nimiTaulukko.length; i++){
+    	avain = kuntienIit[i];
+    	arvo = nimiTaulukko[i];
+    	nimetJaIndeksit[avain] = arvo;
+    }
+
+    const jarjestetty = {};
+    // objektilistan järjestys avainarvon eli indeksin mukaan
+    Object.keys(nimetJaIndeksit).sort().forEach(function(key) {
+  	jarjestetty[key] = nimetJaIndeksit[key];
+	});
+
+    // Kuntien nimien erotus järjestetystä objektilistasta
+	var nimetJarjestyksessa = [];
+	for (var x in jarjestetty) {
+        nimetJarjestyksessa.push(jarjestetty[x]);
+    }
 
     var indexLista = 0
 
@@ -40,7 +71,7 @@ const App = () => {
         
         
           <select id="listaKunnista" size="25" onChange={tulosta}>
-          {taulukko.map(s => (<option value={indexLista++}>{s}</option>))}
+          {nimetJarjestyksessa.map(s => (<option value={indexLista++}>{s}</option>))}
 
                 
             </select>
@@ -48,7 +79,7 @@ const App = () => {
         
         
               
-        <div>{asukasmaara[counter]}</div>
+        <div>{asukasmaarat[counter]}</div>
             
         
         
@@ -56,7 +87,7 @@ const App = () => {
     )
 
     
-  }
+ }
 
 ReactDOM.render(
   React.createElement(App, null),

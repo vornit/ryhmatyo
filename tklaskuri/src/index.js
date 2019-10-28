@@ -20,7 +20,7 @@ const App = () => {
 
     var nimiTaulukko = [];
     var kuntienIit = [];
-    var listaIndex;
+    
     
     // kuntien nimet taulukkoon
     for (var x in kuntienNimet) {
@@ -55,8 +55,9 @@ const App = () => {
         nimetJarjestyksessa.push(jarjestetty[x]);
     }
 
-    var indexLista = 0
-
+    
+    var listaIndex;
+    // ottaa selectistä valuen ja tulostaa sen
     const tulosta = (listaValittu) => {
     	
       listaIndex = listaValittu.target.value
@@ -65,24 +66,18 @@ const App = () => {
       console.log(counter)
     }
     
-   
+    
+    var indexLista = 0;
+    // valintalista kunnista, indeksöi samalla 0->n
     return (
-      <div>
-        
-        
-          <select id="listaKunnista" size="25" onChange={tulosta}>
-          {nimetJarjestyksessa.map(s => (<option value={indexLista++}>{s}</option>))}
+      <div>				
 
-                
-            </select>
-        
-        
-        
-              
-        <div>{asukasmaarat[counter]}</div>
-            
-        
-        
+        <select id="listaKunnista" size="25" onChange={tulosta}>
+        {nimetJarjestyksessa.map(s => (<option value={indexLista++}>{s}</option>))} 
+        </select>
+
+      <div>{asukasmaarat[counter]}</div>
+
       </div>
     )
 

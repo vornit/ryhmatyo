@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom'
 import data from "./kuntienavainluvut"; 
+import './App.css';
 
 
 
@@ -70,14 +71,33 @@ const App = () => {
     var indexLista = 0;
     // valintalista kunnista, indeksöi samalla 0->n
     return (
-      <div>				
+      <div className="container">	
 
-        <select id="listaKunnista" size="25" onChange={tulosta}>
-        {nimetJarjestyksessa.map(s => (<option value={indexLista++}>{s}</option>))} 
-        </select>
 
-      <div>{asukasmaarat[counter]}</div>
+<div class="row justify-content-md-center">
+    
 
+<div class="btn-group btn-group-lg">
+    <button type="button" class="btn btn-primary" aria-pressed="true">Toimialat</button>
+    <button type="button" class="btn btn-primary" aria-pressed="true">Paikkakunnat</button>
+    
+  </div>
+  
+  </div>
+
+        <div className="row">
+        <div className="col-sm">
+          
+          <select id="listaKunnista" className="form-control" size="25" onChange={tulosta}>
+          {nimetJarjestyksessa.map(s => (<option value={indexLista++}>{s}</option>))} 
+          </select>
+          </div>
+
+          <div className="col-sm">
+         Kunnan asukasluku: {asukasmaarat[counter]}
+        </div>
+
+        </div>		
       </div>
     )
 

@@ -20,6 +20,7 @@ const App = () => {
     const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
     //objektilista asukasluvuista
     const pktiedot = data.dataset.value
+
     var kuntienAsLuvut = [];
     for (let i = 0, j = 0; i < pktiedot.length; i+=4, j++){
       kuntienAsLuvut[j] = pktiedot[i];
@@ -27,6 +28,14 @@ const App = () => {
     var vlMuutokset = [];
     for (let i = 1, j = 0; i < pktiedot.length; i+=4, j++){
       vlMuutokset[j] = pktiedot[i];
+    }
+    var tyoAsteet = [];
+    for (let i = 2, j = 0; i < pktiedot.length; i+=4, j++){
+      tyoAsteet[j] = pktiedot[i];
+    }
+    var tpLukumaarat = [];
+    for (let i = 3, j = 0; i < pktiedot.length; i+=4, j++){
+      tpLukumaarat[j] = pktiedot[i];
     }
     //objektilista kuntien indekseistä
     const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index

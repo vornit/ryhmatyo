@@ -30,6 +30,32 @@
   padding: 2em;
 }
 
+.col1{
+  
+  height: 233px;
+}
+
+.col3{
+  
+  height: 233px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2em;
+  background-color: #EEEEEE;
+  color: grey;
+  text-align: center;
+  opacity: 50%;
+}
+
+
+
+
+
 
 
 

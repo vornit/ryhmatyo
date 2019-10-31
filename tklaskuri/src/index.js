@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import data from "./kuntienavainluvut1"; 
 import './App.css';
 import datavaakunat from "./vaakunaKuvat"
+import dataverot from "./verotietoja"
 
 
 
@@ -40,6 +41,10 @@ const App = () => {
     //objektilista kuntien indekseistä
     const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
+    const verotiedot = dataverot.dataset.value
+
+    
+
     const vaakunat = datavaakunat.selection1
 
     console.log(vaakunat[5].image)
@@ -56,7 +61,46 @@ const App = () => {
         nimiTaulukko.push(kuntienNimet[x]);
     }
 
- 
+    const verokategoriat = dataverot.dataset.dimension.Tiedot.category.label 
+    const solujenLkmPerVuosi = nimiTaulukko.length * Object.keys(verokategoriat).length
+    console.log(solujenLkmPerVuosi)
+    //vuodet 2005-2017 taulukossa indeksistä 0 alkaen
+    const veroTietojenVuodet = Object.keys(dataverot.dataset.dimension.Vuosi.category.label)
+    console.log(veroTietojenVuodet)
+
+    var verodata2017indeksi = (veroTietojenVuodet.length - 1) * solujenLkmPerVuosi
+    console.log(verodata2017indeksi)
+
+    var tulonsaajat = [];
+    for (let i = verodata2017indeksi, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      tulonsaajat[j] = verotiedot[i];
+    }
+    //console.log(tulonsaajat)
+
+    var veronalaisetTulotKeskimaarin = [];
+    for (let i = verodata2017indeksi + 1, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      veronalaisetTulotKeskimaarin[j] = verotiedot[i];
+    }
+
+     var ansioTulotKeskimaarin = [];
+    for (let i = verodata2017indeksi + 2, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      ansioTulotKeskimaarin[j] = verotiedot[i];
+    }
+
+     var verotYhteensaKeskimaarin = [];
+    for (let i = verodata2017indeksi + 3, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      verotYhteensaKeskimaarin[j] = verotiedot[i];
+    }
+
+    var valtionVeroKeskimaarin = [];
+    for (let i = verodata2017indeksi + 4, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      valtionVeroKeskimaarin[j] = verotiedot[i];
+    }
+
+    var kunnallisVeroKeskimaarin = [];
+    for (let i = verodata2017indeksi + 5, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      kunnallisVeroKeskimaarin[j] = verotiedot[i];
+    }
 
     // kuntien indeksit taulukkoon
     for (var x in kuntienIndeksit) {
@@ -134,10 +178,26 @@ const App = () => {
               <img src={vaakunat[counter].image} alt="new"/>
             </div>
 
-            <br></br>
+            <br />
             <small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}
-            <br></br>
-            <small class="text-muted">Väkiluvun muutos edellisestä vuodesta prosentteina: </small> {vlMuutokset[counter]}
+            <br />
+            <small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}
+            <br />
+            <small class="text-muted">Työllisyysaste: </small> {tyoAsteet[counter] + "%"}
+            <br />
+            <small class="text-muted">Työpaikkojen lukumäärä: </small> {tpLukumaarat[counter]}
+            <br />
+            <small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}
+            <br />
+            <small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter] + "€/vuosi"}
+            <br />
+            <small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]+ "€/vuosi"}
+            <br />
+            <small class="text-muted">Verot yhteensä keskimäärin: </small> {verotYhteensaKeskimaarin[counter]+ "€/vuosi"}
+            <br />
+            <small class="text-muted">Valtionvero keskimäärin: </small> {valtionVeroKeskimaarin[counter]+ "€/vuosi"}
+            <br />
+            <small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]+ "€/vuosi"}
 
         </div>
         </div>		

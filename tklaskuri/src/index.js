@@ -9,14 +9,24 @@ const App = () => {
     
     
   const [ counter, setCounter ] = useState(0)
+  const [ muutosIndeksi, asetaMuutos ] = useState(0)
 
   const setToValue = (value) => setCounter(value)
-  console.log(counter)
+
+  const asetaMuutosArvo = (value) => asetaMuutos(value)
 
   	//objektilista kuntien nimistä
     const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
     //objektilista asukasluvuista
     const pktiedot = data.dataset.value
+    var kuntienAsLuvut = [];
+    for (let i = 0, j = 0; i < pktiedot.length; i+=4, j++){
+      kuntienAsLuvut[j] = pktiedot[i];
+    }
+    var vlMuutokset = [];
+    for (let i = 1, j = 0; i < pktiedot.length; i+=4, j++){
+      vlMuutokset[j] = pktiedot[i];
+    }
     //objektilista kuntien indekseistä
     const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
@@ -58,20 +68,23 @@ const App = () => {
     }
 
     
-    var listaIndex;
+    var asukasLukuI;
+    var listaI;
     // ottaa selectistä valuen ja tulostaa sen
     const tulosta = (listaValittu) => {
     	
-      listaIndex = listaValittu.target.value
-      console.log(listaIndex)
-      setToValue(listaIndex)
+      listaI = listaValittu.target.value
+      //console.log(listaIndex)
+      setToValue(listaI)
+      asetaMuutosArvo(listaI)
       console.log(counter)
+      console.log(muutosIndeksi)
     }
+
     
     // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
-    var asukaslukuInd = -4;
-    // väkiluvunmuutos löytyvät taulukosta kolmen indeksin välein
-    var vakiluvunMuutos = -3;
+    var asukaslukuInd = 0;
+
     // valintalista kunnista, indeksöi samalla 0->n
     return (
       <div className="container">	
@@ -92,15 +105,15 @@ const App = () => {
         <div className="col-sm">
           
           <select id="listaKunnista" className="form-control" size="25" onChange={tulosta}>
-          {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd+=4}>{s}</option>))} 
+          {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
           </select>
           </div>
 
           <div className="col-sm">
-         Kunnan asukasluku: {pktiedot[counter]}
+         Kunnan asukasluku: {kuntienAsLuvut[counter]}
         </div>
         <div className="col-sm">
-         Väkiluvun muutos edellisestä vuodesta prosentteina: {pktiedot[counter]}
+         Väkiluvun muutos edellisestä vuodesta prosentteina: {vlMuutokset[counter]}
         </div>
 
         </div>		

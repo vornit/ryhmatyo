@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom'
-import data from "./kuntienavainluvut"; 
+import data from "./kuntienavainluvut1"; 
 import './App.css';
 import datavaakunat from "./vaakunaKuvat"
 
@@ -11,13 +11,15 @@ const App = () => {
     
   const [ asindeksi, setCounter ] = useState(0)
 
+
   const setToValue = (value) =>
    { setCounter(value) }
+
 
   	//objektilista kuntien nimistä
     const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
     //objektilista asukasluvuista
-    const asukasmaarat = data.dataset.value
+    const pktiedot = data.dataset.value
     //objektilista kuntien indekseistä
     const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
@@ -69,8 +71,10 @@ const App = () => {
       
     }
     
-    
-    var indexLista = 0;
+    // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
+    var asukaslukuInd = -4;
+    // väkiluvunmuutos löytyvät taulukosta kolmen indeksin välein
+    var vakiluvunMuutos = -3;
     // valintalista kunnista, indeksöi samalla 0->n
 
     return (
@@ -111,10 +115,24 @@ const App = () => {
           
       
           
+
           <div class="col-sm">
 
           <h3>Vertailu</h3>
           </div>
+
+
+          <select id="listaKunnista" className="form-control" size="25" onChange={tulosta}>
+          {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd+=4}>{s}</option>))} 
+          </select>
+          </div>
+
+          <div className="col-sm">
+         Kunnan asukasluku: {pktiedot[counter]}
+        </div>
+        <div className="col-sm">
+         Väkiluvun muutos edellisestä vuodesta prosentteina: {pktiedot[counter]}
+        </div>
 
 
 

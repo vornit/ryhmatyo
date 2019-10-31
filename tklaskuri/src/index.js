@@ -106,42 +106,40 @@ const App = () => {
 
     // valintalista kunnista, indeksöi samalla 0->n
     return (
-      <div className="container">	
+    // Bootstrapin pääcontainer
+    <div className="container">	
 
-
-<div class="row justify-content-md-center">
-    
-
-<div class="btn-group btn-group-lg">
-    <button type="button" class="btn btn-primary" aria-pressed="true">Toimialat</button>
-    <button type="button" class="btn btn-primary" aria-pressed="true">Paikkakunnat</button>
-    
-  </div>
-  
-  </div>
+      <div class="row justify-content-md-center">
+      
+      <div class="btn-group btn-group-lg">
+      <button type="button" class="btn btn-primary" aria-pressed="true">Toimialat</button>
+      <button type="button" class="btn btn-primary" aria-pressed="true">Paikkakunnat</button>
+      </div>
+      </div>
 
         <div className="row">
-        <div className="col-sm">
+          <div className="col-sm">
           
-          <select id="listaKunnista" className="form-control" size="25" onChange={tulosta}>
-          {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
-          </select>
+            <select id="listaKunnista" className="form-control" size="25" onChange={tulosta}>
+            {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
+            </select>
+
           </div>
 
-          <div className="col-sm">
-         Kunnan asukasluku: {kuntienAsLuvut[counter]}
-            
+          <div className="col-sm jumbotron">
 
-         <img 
-      src={vaakunat[counter].image}
-      alt="new"
-      />
+            <div className="tiedotheader">
+              <h4>{nimetJarjestyksessa[counter]}</h4> 
+              <br></br>
+              <img src={vaakunat[counter].image} alt="new"/>
+            </div>
+
+            <br></br>
+            <small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}
+            <br></br>
+            <small class="text-muted">Väkiluvun muutos edellisestä vuodesta prosentteina: </small> {vlMuutokset[counter]}
 
         </div>
-        <div className="col-sm">
-         Väkiluvun muutos edellisestä vuodesta prosentteina: {vlMuutokset[counter]}
-        </div>
-
         </div>		
       </div>
     )

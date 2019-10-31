@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom'
 import data from "./kuntienavainluvut1"; 
 import './App.css';
+import datavaakunat from "./vaakunaKuvat"
 
 
 
@@ -20,14 +21,23 @@ const App = () => {
     //objektilista kuntien indekseistä
     const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
+    const vaakunat = datavaakunat.selection1
+
+    console.log(vaakunat[5].image)
+
     var nimiTaulukko = [];
     var kuntienIit = [];
+    var vaakunaTaulukko = [];
+
+
     
     
     // kuntien nimet taulukkoon
     for (var x in kuntienNimet) {
         nimiTaulukko.push(kuntienNimet[x]);
     }
+
+ 
 
     // kuntien indeksit taulukkoon
     for (var x in kuntienIndeksit) {
@@ -97,7 +107,14 @@ const App = () => {
           </div>
 
           <div className="col-sm">
+            
          Kunnan asukasluku: {pktiedot[counter]}
+
+         <img 
+      src={vaakunat[counter].image}
+      alt="new"
+      />
+
         </div>
         <div className="col-sm">
          Väkiluvun muutos edellisestä vuodesta prosentteina: {pktiedot[counter]}

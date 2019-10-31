@@ -106,19 +106,23 @@ const App = () => {
           </select>
           </div>
 
-          <div className="col-sm">
-            
-         Kunnan asukasluku: {pktiedot[counter]}
-
-         <img 
+          <div className="col-sm jumbotron">
+        <div className="tiedotheader">
+         <h4>{nimetJarjestyksessa[counter]}</h4> 
+          <br></br>
+          <img 
       src={vaakunat[counter].image}
-      alt="new"
-      />
+      alt="new"/>
+      </div>
+            <br></br>
+            <small class="text-muted">Kunnan asukasluku: </small>{pktiedot[counter]}
+         <br></br>
+         <small class="text-muted">Väkiluvun muutos edellisestä vuodesta prosentteina: </small> {pktiedot[counter]}
+
+      
 
         </div>
-        <div className="col-sm">
-         Väkiluvun muutos edellisestä vuodesta prosentteina: {pktiedot[counter]}
-        </div>
+        
 
         </div>		
       </div>

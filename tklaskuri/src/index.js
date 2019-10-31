@@ -163,8 +163,10 @@ const App = () => {
 
         <div className="row">
           <div className="col-sm">
-          
-            <select id="listaKunnista" className="form-control" size="25" onChange={tulosta}>
+        
+
+        
+            <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
             {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
             </select>
 
@@ -173,9 +175,9 @@ const App = () => {
           <div className="col-sm jumbotron">
 
             <div className="tiedotheader">
-              <h4>{nimetJarjestyksessa[counter]}</h4> 
-              <br></br>
-              <img src={vaakunat[counter].image} alt="new"/>
+              <h5>{nimetJarjestyksessa[counter]}</h5> 
+              
+              <img src={vaakunat[counter].image} alt="new" align="right"/>
             </div>
 
             <br />
@@ -200,6 +202,10 @@ const App = () => {
             <small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]+ "€/vuosi"}
 
         </div>
+
+        
+
+
         </div>		
       </div>
     )

@@ -180,7 +180,7 @@ const App = () => {
           <div className="col-sm">
 
           	<div>
-        <input type="text" id="search" name="search" onKeyUp={etsi}/>
+        <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsi}/>
             </div>
         
             <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
@@ -190,7 +190,15 @@ const App = () => {
 
           </div>
 
-          <div className="col-sm jumbotron">
+          <div className="col-10">
+
+        
+
+            
+
+            <br />
+            <div className="row">
+            <div class="col jumbotron">
 
             <div className="tiedotheader">
               <h5>{nimetJarjestyksessa[counter]}</h5> 
@@ -198,26 +206,48 @@ const App = () => {
               <img src={vaakunat[counter].image} alt="new" align="right"/>
             </div>
 
-            <br />
-            <small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}
-            <br />
-            <small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}
-            <br />
-            <small class="text-muted">Työllisyysaste: </small> {tyoAsteet[counter] + "%"}
-            <br />
-            <small class="text-muted">Työpaikkojen lukumäärä: </small> {tpLukumaarat[counter]}
-            <br />
-            <small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}
-            <br />
-            <small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter] + "€/vuosi"}
-            <br />
-            <small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]+ "€/vuosi"}
-            <br />
-            <small class="text-muted">Verot yhteensä keskimäärin: </small> {verotYhteensaKeskimaarin[counter]+ "€/vuosi"}
-            <br />
-            <small class="text-muted">Valtionvero keskimäärin: </small> {valtionVeroKeskimaarin[counter]+ "€/vuosi"}
-            <br />
-            <small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]+ "€/vuosi"}
+            <ul class="list-group list-group-horizontal">
+  
+            <ul class="list-group">
+
+            <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}</li>
+            <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}</li>
+            <li class="list-group-item"> <small class="text-muted">Työllisyysaste: </small> {tyoAsteet[counter] + "%"}</li>
+            <li class="list-group-item"> <small class="text-muted">Työpaikkojen lukumäärä: </small> {tpLukumaarat[counter]}</li>
+            <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}</li>
+            </ul>
+
+            <ul class="list-group">
+
+            <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter] + "€/vuosi"}</li>
+            <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]+ "€/vuosi"}</li>
+            <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> {verotYhteensaKeskimaarin[counter]+ "€/vuosi"}</li>
+            <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small> {valtionVeroKeskimaarin[counter]+ "€/vuosi"}</li>
+            <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]+ "€/vuosi"}</li>
+            </ul>
+
+            </ul>
+
+            </div>
+            </div>
+
+
+            <div class="row">
+    <div class="col jumbotron">
+      1 of 2
+      sq
+      <br></br>
+      sq
+      <br></br>
+      sq
+      <br></br>
+      sq
+      <br></br>
+      sq
+      sq
+    </div>
+    
+  </div>
 
         </div>
 

@@ -22,8 +22,8 @@
 }
 
 .container {
+  max-width: 1200px;
   
-  font-size: 1.5em;
 }
 
 .justify-content-md-center {
@@ -54,13 +54,12 @@
 
 .tiedotheader {
   
-  margin-top: -2em;
-  margin-bottom: -.5em;
+ height: 30px;
   align-content: space-between;
 }
 
-.col-sm {
-  margin-bottom: 0rem;
+col-sm {
+  margin-bottom: 0rem;  
 }
 
 h5 {
@@ -80,6 +79,20 @@ p {
 img {
   margin-right: 0.7em;
 }
+
+body {
+  font-size: 0.7em;
+}
+
+#listaKunnista {
+  max-width: 216px;
+}
+
+.jumbotron {
+  padding: 1rem;
+}
+
+
 
 
 

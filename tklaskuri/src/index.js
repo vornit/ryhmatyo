@@ -18,6 +18,10 @@ import datatoimialatKunnittain from "./toimialatKunnittain"
     const verokategoriat = dataverot.dataset.dimension.Tiedot.category.label
     // verotiedot taulukossa
     const verotiedot = dataverot.dataset.value
+    // lista eri toimialoista
+    const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+    // toimialojen määrät taulukossa
+    const toimialojenMaarat = datatoimialatKunnittain.dataset.value
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
 */
@@ -42,16 +46,25 @@ function luoVeroTaulukko(sarakeNro){
   return taulukko;
 }
 
+function parsiKunnanToimialat(kunnanIndeksi){
+  var toimialojenLkm = Object.keys(toimialalista).length
+  var kunnanToimialojenLkmt = [];
+
+  for ( let i = kunnanIndeksi * toimialojenLkm; i <= (i + toimialojenLkm); i++){
+    kunnanToimialojenLkmt.push(toimialojenMaarat[i]);
+  }
+  return kunnanToimialojenLkmt;
+
+}
+
 const App = () => {
     
-  console.log(datatoimialatKunnittain)
+  //console.log(datatoimialatKunnittain)
+  //console.log(toimialojenMaarat)
   
-  const [ counter, setCounter ] = useState(0)
-  const [ muutosIndeksi, asetaMuutos ] = useState(0)
+  const [ counter, setCounter ] = useState(1)
 
   const setToValue = (value) => setCounter(value)
-
-  const asetaMuutosArvo = (value) => asetaMuutos(value)
 
 
 
@@ -100,11 +113,12 @@ const App = () => {
   	jarjestetty[key] = nimetJaIndeksit[key];
 	});
 
-    // Kuntien nimien erotus järjestetystä objektilistasta
+    // Kuntien nimien erotus järjestetystä objektilistasta taulukkoon
 	var nimetJarjestyksessa = [];
 	for (var x in jarjestetty) {
         nimetJarjestyksessa.push(jarjestetty[x]);
     }
+
 
     // verotiedot parsittuna omiin taulukoihin
     var tulonsaajat = luoVeroTaulukko(0);
@@ -133,15 +147,17 @@ const App = () => {
 
     var asukasLukuI;
     var listaI;
+    var kunnantoimialat = [0, 0];
     // ottaa selectistä valuen ja tulostaa sen
     const tulosta = (listaValittu) => {
     	
       listaI = listaValittu.target.value
       //console.log(listaIndex)
       setToValue(listaI)
-      asetaMuutosArvo(listaI)
-      //console.log(counter)
+      //asetaMuutosArvo(listaI)
+      console.log(counter)
       //console.log(muutosIndeksi)
+      kunnantoimialat = parsiKunnanToimialat(listaI);
     }
 
     // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
@@ -219,7 +235,7 @@ const App = () => {
             <div class="row">
     <div class="col jumbotron">
       1 of 2
-      sq
+      <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {kunnantoimialat[1]}</li>
       <br></br>
       sq
       <br></br>

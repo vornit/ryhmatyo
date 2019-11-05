@@ -49,8 +49,16 @@ function luoVeroTaulukko(sarakeNro){
 function parsiKunnanToimialat(kunnanIndeksi){
   var toimialojenLkm = Object.keys(toimialalista).length
   var kunnanToimialojenLkmt = [];
+  var alkuindeksi = kunnanIndeksi * toimialojenLkm;
+  var alkuindeksi2;
+  //console.log("kunnani: " + kunnanIndeksi)
+  //console.log("alkui: " + alkuindeksi2)
+  if (kunnanIndeksi == 1) alkuindeksi2 = 7 * toimialojenLkm
+  else if (kunnanIndeksi > 1  && kunnanIndeksi < 8 ) alkuindeksi2 = alkuindeksi - toimialojenLkm
+  else alkuindeksi2 = alkuindeksi
+  //console.log("alkui: " + alkuindeksi2)
 
-  for ( let i = kunnanIndeksi * toimialojenLkm; i <= (i + toimialojenLkm); i++){
+  for ( let i = alkuindeksi2; i < (alkuindeksi2 + toimialojenLkm); i++){
     kunnanToimialojenLkmt.push(toimialojenMaarat[i]);
   }
   return kunnanToimialojenLkmt;
@@ -89,7 +97,7 @@ const App = () => {
         nimiTaulukko.push(kuntienNimet[x]);
     }
 
-    console.log("kuntien lkm: " + nimiTaulukko.length)
+    //console.log("kuntien lkm: " + nimiTaulukko.length)
 
     // kuntien indeksit taulukkoon
     for (var x in kuntienIndeksit) {
@@ -128,6 +136,9 @@ const App = () => {
     var valtionVeroKeskimaarin = luoVeroTaulukko(4);
     var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
 
+
+    var kunnantoimialat = parsiKunnanToimialat(counter);
+
     // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
     // piilottaa valuet, jotka eivät vastaa hakusanaa
     var select
@@ -147,7 +158,7 @@ const App = () => {
 
     var asukasLukuI;
     var listaI;
-    var kunnantoimialat = [0, 0];
+    //var kunnantoimialat = [];
     // ottaa selectistä valuen ja tulostaa sen
     const tulosta = (listaValittu) => {
     	
@@ -157,7 +168,8 @@ const App = () => {
       //asetaMuutosArvo(listaI)
       console.log(counter)
       //console.log(muutosIndeksi)
-      kunnantoimialat = parsiKunnanToimialat(listaI);
+      
+      //console.log(kunnantoimialat)
     }
 
     // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
@@ -235,7 +247,7 @@ const App = () => {
             <div class="row">
     <div class="col jumbotron">
       1 of 2
-      <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {kunnantoimialat[1]}</li>
+      <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {kunnantoimialat[0]}</li>
       <br></br>
       sq
       <br></br>

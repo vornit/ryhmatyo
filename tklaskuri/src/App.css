@@ -53,12 +53,34 @@
 }
 
 .tiedotheader {
-  text-align: center;
+  
+  margin-top: -2em;
+  margin-bottom: -.5em;
+  align-content: space-between;
 }
 
 .col-sm {
   margin-bottom: 0rem;
 }
+
+h5 {
+  display: block;
+  font-size: .83em;
+  margin-top: 0.5em;
+  margin-bottom: -0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+p {
+  font-size: 0.8em;
+}
+
+img {
+  margin-right: 0.7em;
+}
+
 
 
 

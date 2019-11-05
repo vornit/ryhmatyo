@@ -46,7 +46,7 @@ const App = () => {
 
     const vaakunat = datavaakunat.selection1
 
-    console.log(vaakunat[5].image)
+    
 
     var nimiTaulukko = [];
     var kuntienIit = [];
@@ -129,7 +129,23 @@ const App = () => {
         nimetJarjestyksessa.push(jarjestetty[x]);
     }
 
-    
+    // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
+    // piilottaa valuet, jotka eivät vastaa hakusanaa
+    var select
+    var haettava 
+    const etsi = (hakusana) => {
+    	
+    	haettava = hakusana.target.value
+    	console.log(haettava)
+ 	  	select = document.getElementById("listaKunnista");
+    	for (var i = 0; i < select.length; i++){
+    		var txt = select[i].text
+    		var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
+    		select.options[i].style.display = include ? 'list-item' : 'none';
+    	} 
+
+    } 
+
     var asukasLukuI;
     var listaI;
     // ottaa selectistä valuen ja tulostaa sen
@@ -139,11 +155,10 @@ const App = () => {
       //console.log(listaIndex)
       setToValue(listaI)
       asetaMuutosArvo(listaI)
-      console.log(counter)
-      console.log(muutosIndeksi)
+      //console.log(counter)
+      //console.log(muutosIndeksi)
     }
 
-    
     // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
     var asukaslukuInd = 0;
 
@@ -162,10 +177,13 @@ const App = () => {
 
         <div className="row">
           <div className="col-sm">
-        
 
+          	<div>
+        <input type="text" id="search" name="search" onKeyUp={etsi}/>
+            </div>
         
             <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
+
             {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
             </select>
 

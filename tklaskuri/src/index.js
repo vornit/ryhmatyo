@@ -5,7 +5,20 @@ import './App.css';
 import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 
+    //objektilista kuntien nimistä
+    const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
+    //objektilista asukasluvuista
+    const pktiedot = data.dataset.value
+    //objektilista kuntien indekseistä
+    const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
+function luoPKtaulukko(sarakeNro){
+  var taulukko = [];
+  for (let i = sarakeNro, j = 0; i < pktiedot.length; i+=4, j++){
+      taulukko[j] = pktiedot[i];
+    }
+    return taulukko;
+}
 
 const App = () => {
     
@@ -17,29 +30,15 @@ const App = () => {
 
   const asetaMuutosArvo = (value) => asetaMuutos(value)
 
-  	//objektilista kuntien nimistä
-    const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
-    //objektilista asukasluvuista
-    const pktiedot = data.dataset.value
 
-    var kuntienAsLuvut = [];
-    for (let i = 0, j = 0; i < pktiedot.length; i+=4, j++){
-      kuntienAsLuvut[j] = pktiedot[i];
-    }
-    var vlMuutokset = [];
-    for (let i = 1, j = 0; i < pktiedot.length; i+=4, j++){
-      vlMuutokset[j] = pktiedot[i];
-    }
-    var tyoAsteet = [];
-    for (let i = 2, j = 0; i < pktiedot.length; i+=4, j++){
-      tyoAsteet[j] = pktiedot[i];
-    }
-    var tpLukumaarat = [];
-    for (let i = 3, j = 0; i < pktiedot.length; i+=4, j++){
-      tpLukumaarat[j] = pktiedot[i];
-    }
-    //objektilista kuntien indekseistä
-    const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
+
+    var kuntienAsLuvut = luoPKtaulukko(0);
+    var vlMuutokset = luoPKtaulukko(1);
+    var tyoAsteet = luoPKtaulukko(2);
+    var tpLukumaarat = luoPKtaulukko(3);
+  
+    
+
 
     const verotiedot = dataverot.dataset.value
 

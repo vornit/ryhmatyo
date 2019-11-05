@@ -4,12 +4,48 @@ import data from "./kuntienavainluvut1";
 import './App.css';
 import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
+import datatoimialatKunnittain from "./toimialatKunnittain"
 
+    //objektilista kuntien nimistä
+    const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
+    //objektilista asukasluvuista
+    const pktiedot = data.dataset.value
+    //objektilista kuntien indekseistä
+    const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
+    //vuodet 2005-2017 taulukossa indeksistä 0 alkaen
+    const veroTietojenVuodet = Object.keys(dataverot.dataset.dimension.Vuosi.category.label)
+    // objektilista verotietoihin koskevista kategorioista
+    const verokategoriat = dataverot.dataset.dimension.Tiedot.category.label
+    // verotiedot taulukossa
+    const verotiedot = dataverot.dataset.value
 
+/** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
+*/
+function luoPKtaulukko(sarakeNro){
+  var taulukko = [];
+  for (let i = sarakeNro, j = 0; i < pktiedot.length; i+=4, j++){
+      taulukko[j] = pktiedot[i];
+    }
+    return taulukko;
+}
+
+/** Parsii verotiedot omaan taulukkoon sarakenumeron perusteella
+*/
+function luoVeroTaulukko(sarakeNro){
+  var taulukko = [];
+  const solujenLkmPerVuosi = Object.keys(kuntienNimet).length * Object.keys(verokategoriat).length
+  var verodata2017indeksi = (veroTietojenVuodet.length - 1) * solujenLkmPerVuosi
+  
+  for (let i = verodata2017indeksi + sarakeNro, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
+      taulukko[j] = verotiedot[i];
+  }
+  return taulukko;
+}
 
 const App = () => {
     
-    
+  console.log(datatoimialatKunnittain)
+  
   const [ counter, setCounter ] = useState(0)
   const [ muutosIndeksi, asetaMuutos ] = useState(0)
 
@@ -17,42 +53,21 @@ const App = () => {
 
   const asetaMuutosArvo = (value) => asetaMuutos(value)
 
-  	//objektilista kuntien nimistä
-    const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
-    //objektilista asukasluvuista
-    const pktiedot = data.dataset.value
 
-    var kuntienAsLuvut = [];
-    for (let i = 0, j = 0; i < pktiedot.length; i+=4, j++){
-      kuntienAsLuvut[j] = pktiedot[i];
-    }
-    var vlMuutokset = [];
-    for (let i = 1, j = 0; i < pktiedot.length; i+=4, j++){
-      vlMuutokset[j] = pktiedot[i];
-    }
-    var tyoAsteet = [];
-    for (let i = 2, j = 0; i < pktiedot.length; i+=4, j++){
-      tyoAsteet[j] = pktiedot[i];
-    }
-    var tpLukumaarat = [];
-    for (let i = 3, j = 0; i < pktiedot.length; i+=4, j++){
-      tpLukumaarat[j] = pktiedot[i];
-    }
-    //objektilista kuntien indekseistä
-    const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
 
-    const verotiedot = dataverot.dataset.value
-
+    //paikkakuntatiedot parsittuna omiin taulukkoihin
+    var kuntienAsLuvut = luoPKtaulukko(0);
+    var vlMuutokset = luoPKtaulukko(1);
+    var tyoAsteet = luoPKtaulukko(2);
+    var tpLukumaarat = luoPKtaulukko(3);
     
 
     const vaakunat = datavaakunat.selection1
 
-    
-
+ 
     var nimiTaulukko = [];
     var kuntienIit = [];
     var vaakunaTaulukko = [];
-
 
     
     
@@ -61,46 +76,7 @@ const App = () => {
         nimiTaulukko.push(kuntienNimet[x]);
     }
 
-    const verokategoriat = dataverot.dataset.dimension.Tiedot.category.label 
-    const solujenLkmPerVuosi = nimiTaulukko.length * Object.keys(verokategoriat).length
-    console.log(solujenLkmPerVuosi)
-    //vuodet 2005-2017 taulukossa indeksistä 0 alkaen
-    const veroTietojenVuodet = Object.keys(dataverot.dataset.dimension.Vuosi.category.label)
-    console.log(veroTietojenVuodet)
-
-    var verodata2017indeksi = (veroTietojenVuodet.length - 1) * solujenLkmPerVuosi
-    console.log(verodata2017indeksi)
-
-    var tulonsaajat = [];
-    for (let i = verodata2017indeksi, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
-      tulonsaajat[j] = verotiedot[i];
-    }
-    //console.log(tulonsaajat)
-
-    var veronalaisetTulotKeskimaarin = [];
-    for (let i = verodata2017indeksi + 1, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
-      veronalaisetTulotKeskimaarin[j] = verotiedot[i];
-    }
-
-     var ansioTulotKeskimaarin = [];
-    for (let i = verodata2017indeksi + 2, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
-      ansioTulotKeskimaarin[j] = verotiedot[i];
-    }
-
-     var verotYhteensaKeskimaarin = [];
-    for (let i = verodata2017indeksi + 3, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
-      verotYhteensaKeskimaarin[j] = verotiedot[i];
-    }
-
-    var valtionVeroKeskimaarin = [];
-    for (let i = verodata2017indeksi + 4, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
-      valtionVeroKeskimaarin[j] = verotiedot[i];
-    }
-
-    var kunnallisVeroKeskimaarin = [];
-    for (let i = verodata2017indeksi + 5, j = 0; i < solujenLkmPerVuosi*veroTietojenVuodet.length; i+=6, j++){
-      kunnallisVeroKeskimaarin[j] = verotiedot[i];
-    }
+    console.log("kuntien lkm: " + nimiTaulukko.length)
 
     // kuntien indeksit taulukkoon
     for (var x in kuntienIndeksit) {
@@ -129,6 +105,14 @@ const App = () => {
 	for (var x in jarjestetty) {
         nimetJarjestyksessa.push(jarjestetty[x]);
     }
+
+    // verotiedot parsittuna omiin taulukoihin
+    var tulonsaajat = luoVeroTaulukko(0);
+    var veronalaisetTulotKeskimaarin = luoVeroTaulukko(1);
+    var ansioTulotKeskimaarin = luoVeroTaulukko(2);
+    var verotYhteensaKeskimaarin = luoVeroTaulukko(3);
+    var valtionVeroKeskimaarin = luoVeroTaulukko(4);
+    var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
 
     // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
     // piilottaa valuet, jotka eivät vastaa hakusanaa

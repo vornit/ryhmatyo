@@ -68,12 +68,17 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat){
 
 }
 
-function etsiSuurin(tAlaLkm, ohita){
-  console.log(tAlaLkm)
+function etsiSuurin(tAlaNimet, tAlaLkm, ohita){
+  //console.log(tAlaLkm)
   let suurin = 0
-  for (let i = 1; i < tAlaLkm.length; i++){
+  for (let i = 0; i < tAlaLkm.length; i++){
     if (tAlaLkm[i] >= ohita) continue;
     if (tAlaLkm[i] > suurin) {
+      let s = tAlaNimet[i]
+      let alkutunnus = s.substr(0, s.indexOf(' '))
+      //console.log(alkutunnus)
+      if (isNaN(parseInt(alkutunnus))) continue
+      //console.log(alkutunnus)
       suurin = tAlaLkm[i]
     }
   }
@@ -81,27 +86,28 @@ function etsiSuurin(tAlaLkm, ohita){
 
 }
 
-function tulostaIsoimmat(toimialojenNimet,toimialojenLkm){
+function tulostaIsoin(toimialojenNimet, toimialojenLkm, eniten){
+  //console.log(eniten)
   //let suurin = 0;
-  let suurin = etsiSuurin(toimialojenLkm, 9999999)
-  let toiseksiSuurin = etsiSuurin(toimialojenLkm, suurin)
-  let kolmas = etsiSuurin(toimialojenLkm, toiseksiSuurin)
+  //let toiseksiSuurin = etsiSuurin(toimialojenLkm, suurin)
+  //let kolmas = etsiSuurin(toimialojenLkm, toiseksiSuurin)
   
-  let suurimmanIndeksi = toimialojenLkm.indexOf(suurin)
-  let indeksi2 = toimialojenLkm.indexOf(toiseksiSuurin)
-  console.log(suurimmanIndeksi)
-  console.log(suurin)
-  console.log(toiseksiSuurin)
-  console.log(kolmas)
+  let suurimmanIndeksi = toimialojenLkm.indexOf(eniten)
+  //let indeksi2 = toimialojenLkm.indexOf(toiseksiSuurin)
+  //console.log(suurimmanIndeksi)
+  //console.log(suurin)
+  //console.log(toiseksiSuurin)
+  //console.log(kolmas)
+  let s = toimialojenNimet[suurimmanIndeksi] + " : " + eniten
 
-  return toimialojenNimet[suurimmanIndeksi] + " : " + suurin + "\n" +
-         toimialojenNimet[indeksi2] + " : " + toiseksiSuurin + "\n"
+  return s
+  //return s.substr(s.indexOf(' ')+1).trim()
 }
 
 const App = () => {
     
-  console.log(datatoimialatKunnittain)
-  console.log(toimialojenMaarat)
+  //console.log(datatoimialatKunnittain)
+  //console.log(toimialojenMaarat)
   
   const [ counter, setCounter ] = useState(1)
 
@@ -203,7 +209,7 @@ const App = () => {
     const etsi = (hakusana) => {
     	
     	haettava = hakusana.target.value
-    	console.log(haettava)
+    	//console.log(haettava)
  	  	select = document.getElementById("listaKunnista");
     	for (var i = 0; i < select.length; i++){
     		var txt = select[i].text
@@ -223,15 +229,20 @@ const App = () => {
       //console.log(listaIndex)
       setToValue(listaI)
       //asetaMuutosArvo(listaI)
-      console.log(counter)
+      //console.log(counter)
       //console.log(muutosIndeksi)
       
       //console.log(kunnantoimialat)
     }
 
     // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
+    //console.log(toimialojenNimet)
     var asukaslukuInd = 0;
-
+    let eniten = etsiSuurin(toimiAlatJarj, kunnantoimialat, 9999999)
+    //let toiseksiEniten = etsiSuurin(toimiAlatJarj, kunnantoimialat, eniten)
+    //let kolmas = etsiSuurin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
+    let enitenTulostus = tulostaIsoin(toimiAlatJarj, kunnantoimialat, eniten)
+    //let toiseksiEnitenTulostus = tulostaIsoin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
     // valintalista kunnista, indeksöi samalla 0->n
     return (
     // Bootstrapin pääcontainer
@@ -303,7 +314,7 @@ const App = () => {
 
             <div class="row">
     <div class="col jumbotron">
-      <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {tulostaIsoimmat(toimiAlatJarj, kunnantoimialat)}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus}</li>
       <br></br>
       sq
       <br></br>

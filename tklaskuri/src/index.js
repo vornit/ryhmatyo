@@ -19,7 +19,7 @@ import datatoimialatKunnittain from "./toimialatKunnittain2"
     // verotiedot taulukossa
     const verotiedot = dataverot.dataset.value
     // lista eri toimialoista
-    const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+    //const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
     // toimialojen määrät taulukossa
     const toimialojenMaarat = datatoimialatKunnittain.dataset.value
     // toimialat ja niitä vastaavat indeksit
@@ -48,60 +48,76 @@ function luoVeroTaulukko(sarakeNro){
   return taulukko;
 }
 
+/** Parsii sovelluksessa valitun kunnan toimialatiedot yhteen taulukkoon.
+* Parametreina ovat valitun kunnan indeksi ja toimialojen nimet järjestetyssä listassa.
+* Toimialojen määrät -datasetistä lasketaan oikea aloitusindeksi kunnan indeksin avulla.
+*/
 function parsiKunnanToimialat(kunnanIndeksi, toimialat){
   var toimialojenLkm = Object.keys(toimialat).length
   var kunnanToimialojenLkmt = [];
   var alkuindeksi = kunnanIndeksi * toimialojenLkm;
-  var alkuindeksi2;
+  //var alkuindeksi2;
   //console.log("kunnani: " + kunnanIndeksi)
   //console.log("alkui: " + alkuindeksi2)
-  if (kunnanIndeksi == 1) alkuindeksi2 = 7 * toimialojenLkm
-  else if (kunnanIndeksi > 1  && kunnanIndeksi < 8 ) alkuindeksi2 = alkuindeksi - toimialojenLkm
-  else alkuindeksi2 = alkuindeksi
+  //if (kunnanIndeksi == 1) alkuindeksi2 = 7 * toimialojenLkm
+  //else if (kunnanIndeksi > 1  && kunnanIndeksi < 8 ) alkuindeksi2 = alkuindeksi - toimialojenLkm
+  //else alkuindeksi2 = alkuindeksi
   //console.log("alkui: " + alkuindeksi2)
 
 
-  for ( let i = alkuindeksi2; i < (alkuindeksi2 + toimialojenLkm); i++){
+  for ( let i = alkuindeksi; i < (alkuindeksi + toimialojenLkm); i++){
     kunnanToimialojenLkmt.push(toimialojenMaarat[i]);
   }
   return kunnanToimialojenLkmt;
 
 }
 
-function etsiSuurin(tAlaNimet, tAlaLkm, ohita){
+/** Etsii annetusta kunnan toimialojen lkm -taulukosta suurimman alkion indeksin.
+* Ohittaa parametrina annetun alkion ja sitä suuremmat, jotta funktiota voi käyttää myös
+* toiseksi suurimman etsintään (jne)
+* param1(tAlaNimet): toimialojen nimet järjestetyssä listassa
+* param2(tAlaLkm): valitun kunnan toimialojen lukumäärät taulukossa
+* param3(ohitaI): Alkion indeksi, joka ja jota suuremmat ohitetaan
+*/
+function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohitaI){
   //console.log(tAlaLkm)
   let suurin = 0
+  let suurimmanI = 0
   for (let i = 0; i < tAlaLkm.length; i++){
-    if (tAlaLkm[i] >= ohita) continue;
+    if (tAlaLkm[i] >= ohitaI) continue;
     if (tAlaLkm[i] > suurin) {
       let s = tAlaNimet[i]
-      let alkutunnus = s.substr(0, s.indexOf(' '))
+      let alkutunnus = s.substr(0, s.indexOf(' ')).trim()
       //console.log(alkutunnus)
-      if (isNaN(parseInt(alkutunnus))) continue
+      //console.log(isNaN(parseInt(alkutunnus)))
+      if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
       //console.log(alkutunnus)
       suurin = tAlaLkm[i]
+      suurimmanI = i
+      //console.log("suurin: " + suurin)
     }
   }
-  return suurin
+  return suurimmanI
 
 }
 
-function tulostaIsoin(toimialojenNimet, toimialojenLkm, eniten){
+/** Muotoilee ja palauttaa merkkijonona annettua indeksiä vastaavan toimialan 
+* nimen ja lukumäärän
+*/ 
+function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
   //console.log(eniten)
   //let suurin = 0;
   //let toiseksiSuurin = etsiSuurin(toimialojenLkm, suurin)
   //let kolmas = etsiSuurin(toimialojenLkm, toiseksiSuurin)
   
-  let suurimmanIndeksi = toimialojenLkm.indexOf(eniten)
+  //let suurimmanIndeksi = toimialojenLkm.indexOf(eniten)
   //let indeksi2 = toimialojenLkm.indexOf(toiseksiSuurin)
   //console.log(suurimmanIndeksi)
   //console.log(suurin)
   //console.log(toiseksiSuurin)
   //console.log(kolmas)
-  let s = toimialojenNimet[suurimmanIndeksi] + " : " + eniten
-
-  return s
-  //return s.substr(s.indexOf(' ')+1).trim()
+  let s = toimialojenNimet[i] + " : " + toimialojenLkm[i]
+  return s.substr(s.indexOf(' ')+1).trim()
 }
 
 const App = () => {
@@ -109,7 +125,7 @@ const App = () => {
   //console.log(datatoimialatKunnittain)
   //console.log(toimialojenMaarat)
   
-  const [ counter, setCounter ] = useState(1)
+  const [ counter, setCounter ] = useState(0)
 
   const setToValue = (value) => setCounter(value)
 
@@ -127,19 +143,19 @@ const App = () => {
  
     var nimiTaulukko = [];
     var kuntienIit = [];
-    var vaakunaTaulukko = [];
+    //var vaakunaTaulukko = [];
 
     
     
     // kuntien nimet taulukkoon
-    for (var x in kuntienNimet) {
+    for (let x in kuntienNimet) {
         nimiTaulukko.push(kuntienNimet[x]);
     }
 
     //console.log("kuntien lkm: " + nimiTaulukko.length)
 
     // kuntien indeksit taulukkoon
-    for (var x in kuntienIndeksit) {
+    for (let x in kuntienIndeksit) {
         kuntienIit.push(kuntienIndeksit[x]);
     }
 
@@ -162,7 +178,7 @@ const App = () => {
 
     // Kuntien nimien erotus järjestetystä objektilistasta taulukkoon
 	var nimetJarjestyksessa = [];
-	for (var x in jarjestetty) {
+	for (let x in jarjestetty) {
         nimetJarjestyksessa.push(jarjestetty[x]);
     }
 
@@ -175,11 +191,11 @@ const App = () => {
     var valtionVeroKeskimaarin = luoVeroTaulukko(4);
     var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
 
+
     var toimialojenNimet = []
     for (let x in toimialatJaIndeksit.label){
       toimialojenNimet.push(toimialatJaIndeksit.label[x])
     }
-
 
     var toimialojenIndeksit = []
     for (let x in toimialatJaIndeksit.index){
@@ -193,6 +209,7 @@ const App = () => {
       toimiAJaI[avain] = arvo;
     }
 
+    //toimialat ja niiden indeksit avain-arvo pareina listassa
     const toimiAlatJarj = {};
     // objektilistan järjestys avainarvon eli indeksin mukaan
     Object.keys(toimiAJaI).sort().forEach(function(key) {
@@ -200,6 +217,7 @@ const App = () => {
   });
 
     //console.log(toimiAlatJarj)
+    // käyttäjän valitseman kunnan toimialatiedot taulukossa 
     var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
 
     // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
@@ -219,7 +237,7 @@ const App = () => {
 
     } 
 
-    var asukasLukuI;
+    //var asukasLukuI;
     var listaI;
     //var kunnantoimialat = [];
     // ottaa selectistä valuen ja tulostaa sen
@@ -236,13 +254,22 @@ const App = () => {
     }
 
     // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
-    //console.log(toimialojenNimet)
     var asukaslukuInd = 0;
-    let eniten = etsiSuurin(toimiAlatJarj, kunnantoimialat, 9999999)
-    //let toiseksiEniten = etsiSuurin(toimiAlatJarj, kunnantoimialat, eniten)
+
+    
+    let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
+    let toiseksiEnitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[enitenI])
+    let kolmasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[toiseksiEnitenI])
+    let neljasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[kolmasI])
+    let viidesI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[neljasI])
     //let kolmas = etsiSuurin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
-    let enitenTulostus = tulostaIsoin(toimiAlatJarj, kunnantoimialat, eniten)
-    //let toiseksiEnitenTulostus = tulostaIsoin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
+    let enitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, enitenI)
+    let toiseksiEnitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
+    let kolmasTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, kolmasI)
+    let neljasTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, neljasI)
+    let viidesTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, viidesI)
+
+    
     // valintalista kunnista, indeksöi samalla 0->n
     return (
     // Bootstrapin pääcontainer
@@ -315,15 +342,10 @@ const App = () => {
             <div class="row">
     <div class="col jumbotron">
       <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus}</li>
-      <br></br>
-      sq
-      <br></br>
-      sq
-      <br></br>
-      sq
-      <br></br>
-      sq
-      sq
+      <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialoja kolmanneksi eniten: </small> {kolmasTulostus}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialoja neljänneksi eniten: </small> {neljasTulostus}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialoja viidenneksi eniten: </small> {viidesTulostus}</li>
     </div>
     
   </div>

@@ -32,6 +32,7 @@ console.log(dataPaastot)
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
+
     
 
     
@@ -135,6 +136,40 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
   let s = toimialojenNimet[i] + " : " + toimialojenLkm[i]
   //return s.substr(s.indexOf(' ')+1).trim()
   return toimialojenNimet[i] + " : " + toimialojenLkm[i]
+}
+
+function jarjestaIndekseittain(datasetti){
+  var labelit = []
+    for (let x in datasetti.label){
+      labelit.push(datasetti.label[x])
+    }
+
+    var indeksit = []
+    for (let x in datasetti.index){
+      indeksit.push(datasetti.index[x])
+    }
+
+    var labelitJaIndeksit = {}
+    for (let i = 0; i < Object.keys(datasetti.label).length; i++){
+      let avain = indeksit[i];
+      let arvo = labelit[i];
+      labelitJaIndeksit[avain] = arvo;
+    }
+
+    //toimialat ja niiden indeksit avain-arvo pareina listassa
+    let jarjestetty = {};
+    // objektilistan järjestys avainarvon eli indeksin mukaan
+    Object.keys(labelitJaIndeksit).sort().forEach(function(key) {
+    jarjestetty[key] = labelitJaIndeksit[key];
+  });
+    return jarjestetty
+
+}
+
+function parsiPaastotVuodelta(vuodenIndeksi){
+  var paastoTaulukko = dataPaastot.dataset.value
+  let toimialojenLkm = Object.keys(dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.label).length
+  
 }
 
 const App = () => {
@@ -307,6 +342,13 @@ for (let x in jarjestetty) {
  var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
 
 
+ var paastotToimialat = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category
+ console.log(paastotToimialat)
+ var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
+ console.log(paastojenToimialatJarj)
+
+ var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
+
  
 
  // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
@@ -325,7 +367,7 @@ for (let x in jarjestetty) {
      select.options[i].style.display = include ? '' : 'none';
    } 
 
- } 
+ }
 
  var asukasLukuI;
  var listaI;

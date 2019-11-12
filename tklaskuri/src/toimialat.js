@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 
 // lista eri toimialoista
@@ -8,15 +8,17 @@ const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.cat
 
 const Toimialat = () => {
 
-
+    // State joka pitää muistissa indeksiä 
+  const [ counter, setCounter ] = useState(1)
+  const setToValue = (value) => setCounter(value)
   
-    function luoToimialaTaulukko() {
-      var taulukko = [];
-        for (let key in toimialalista){
-          if(key.length == 2){
+  function luoToimialaTaulukko() {
 
+    var taulukko = [];
+      for (let key in toimialalista){
+        if(key.length == 2){
           taulukko.push(toimialalista[key])
-          }
+        }
           continue;
         } 
         return taulukko;
@@ -24,24 +26,23 @@ const Toimialat = () => {
     
 
     function parsiTaulukko(taulukko){
+
       for(let x in taulukko){
         taulukko[x] = taulukko[x].replace(/^[\s\d]+/, '');
       }
     }
  
     
-
-
     var toimialaInd = 0;
     var haettava;
     var select;
     var taulukkoToimialoista = luoToimialaTaulukko();
     parsiTaulukko(taulukkoToimialoista);
-    console.log(taulukkoToimialoista)
+    
+
     const etsiToimiala = (hakusana) => {
    
    haettava = hakusana.target.value
-   console.log(haettava)
    select = document.getElementById("listaToimialoista");
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
@@ -52,17 +53,12 @@ const Toimialat = () => {
  }
  
  
-   var listaI;
-   const tulosta = (listaValittu) => {
    
-   listaI = listaValittu.target.value
-   //console.log(listaIndex)
+   const tulostaToimiala = (listaValittu) => {
    
-   //asetaMuutosArvo(listaI)
+   setToValue(listaValittu.target.value)
+   console.log(listaValittu.target.value)
    
-   console.log(listaI)
-   
-   //console.log(kunnantoimialat)
  }
 
 
@@ -81,7 +77,7 @@ const Toimialat = () => {
       <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
           </div>
       
-          <select id="listaToimialoista"className="form-control" size="28" onChange={tulosta} >
+          <select id="listaToimialoista"className="form-control" size="28" onChange={tulostaToimiala} >
              
           {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
           </select>

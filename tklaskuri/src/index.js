@@ -324,13 +324,11 @@ for (let x in jarjestetty) {
  } 
 
  var asukasLukuI;
- var listaI;
 
  // ottaa selectistä valuen ja asettaa sen countteriin
- const tulosta = (listaValittu) => {
+ const tulostaPaikkakunta = (listaValittu) => {
    
-   listaI = listaValittu.target.value
-   setToValue(listaI)
+   setToValue(listaValittu.target.value)
   
  }
 
@@ -353,7 +351,7 @@ for (let x in jarjestetty) {
      <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPaikkakunta}/>
          </div>
      
-         <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
+         <select id="listaKunnista"className="form-control" size="28" onChange={tulostaPaikkakunta} >
 
          {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
          </select>

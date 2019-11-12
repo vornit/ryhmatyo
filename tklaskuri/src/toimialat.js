@@ -4,11 +4,12 @@ import datatoimialatKunnittain from "./toimialatKunnittain2";
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 
-class Toimialat extends React.Component {
 
 
-  render() {
+const Toimialat = () => {
 
+
+  
     function luoToimialaTaulukko() {
       var taulukko = [];
         for (let key in toimialalista){
@@ -16,6 +17,7 @@ class Toimialat extends React.Component {
         }
         return taulukko;
     }
+    
 
     function parsiTaulukko(taulukko){
       for(let x in taulukko){
@@ -85,6 +87,6 @@ class Toimialat extends React.Component {
     </div>
         );
   }
-}
+
 
 export default Toimialat;

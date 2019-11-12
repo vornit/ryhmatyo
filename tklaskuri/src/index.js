@@ -5,6 +5,7 @@ import './App.css';
 import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
+import dataPaastot from "./paastotToimialoittain"
 
     //objektilista kuntien nimistä
     const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
@@ -90,7 +91,7 @@ function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohitaI){
       let alkutunnus = s.substr(0, s.indexOf(' ')).trim()
       //console.log(alkutunnus)
       //console.log(isNaN(parseInt(alkutunnus)))
-      if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
+      if (isNaN(parseInt(alkutunnus)) /*|| alkutunnus.length > 2*/) continue
       //console.log(alkutunnus)
       suurin = tAlaLkm[i]
       suurimmanI = i

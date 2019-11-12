@@ -6,6 +6,9 @@ import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
 import dataPaastot from "./paastotToimialoittain"
+import Auto from './paikkakunnat'
+
+
 
     //objektilista kuntien nimistä
     const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
@@ -20,11 +23,22 @@ import dataPaastot from "./paastotToimialoittain"
     // verotiedot taulukossa
     const verotiedot = dataverot.dataset.value
     // lista eri toimialoista
-    //const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+    const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
     // toimialojen määrät taulukossa
     const toimialojenMaarat = datatoimialatKunnittain.dataset.value
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
+
+    console.log(toimialalista);
+
+    var toimialataulukko = [];
+    
+    // kuntien nimet taulukkoon
+ for (let x in toimialalista) {
+  toimialataulukko.push(toimialalista[x]);
+}
+
+console.log(toimialataulukko);
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
 */
@@ -122,75 +136,149 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
 }
 
 const App = () => {
-    
-  //console.log(datatoimialatKunnittain)
-  //console.log(toimialojenMaarat)
-  
-  const [ counter, setCounter ] = useState(0)
 
+  const [page, setPage] = useState('home')
+
+  const  toPage = (page) => (event) => {
+    event.preventDefault()
+    setPage(page)
+  }
+    
+  
+
+  const content = () => {
+    if (page === 'paikkakunnat') {
+      return <Paikkakunnat />
+    } else if (page === 'toimialat') {
+      return <Toimialat />
+    }
+  }
+
+
+
+    return (
+
+
+      <div>
+      
+      <div class="row justify-content-md-center">
+         
+        <div class="btn-group btn-group-lg">
+        <button type="button" class="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Toimialat</button>
+        <button type="button" class="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Paikkakunnat</button>
+        </div>
+        
+        
+        </div>
+        {content()}
+        </div>
+       )
+    
+
+  }
+
+  // HUOM TOIMIALAT
+  //TOIMIALAKOMPONENTTI joka piirtää toimialat omalle välilehdelleen
+  const Toimialat = () => {
+
+    function luoToimialaTaulukko() {
+      var taulukko = [];
+        for (let key in toimialalista){
+          taulukko.push(toimialalista[key])
+        }
+        return taulukko;
+    }
+ 
+    var toimialaInd = 0;
+    var haettava;
+    var taulukkoToimialoista = luoToimialaTaulukko();
+    console.log(taulukkoToimialoista)
+    const etsiToimiala = (hakusana) => {
+   
+   haettava = hakusana.target.value
+   console.log(haettava)
+ /*   select = document.getElementById("listaKunnista");
+   for (var i = 0; i < select.length; i++){
+     var txt = select[i].text
+     var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
+     select.options[i].style.display = include ? 'list-item' : 'none';
+     */
+   }
+ 
+ 
+   var listaI;
+   const tulosta = (listaValittu) => {
+   
+   listaI = listaValittu.target.value
+   //console.log(listaIndex)
+   
+   //asetaMuutosArvo(listaI)
+   
+   console.log(listaI)
+   
+   //console.log(kunnantoimialat)
+ }
+ 
+        return (
+ // Bootstrapin pääcontainer
+ <div className="container">   
+ 
+ 
+ 
+     <div className="row">
+       <div className="col-sm">
+ 
+         <div>
+     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
+         </div>
+     
+         <select id="listaToimialoista"className="form-control" size="28" onChange={tulosta} >
+ 
+         {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
+         </select>
+ 
+       </div>
+   </div>
+   </div>
+       )
+ 
+ }
+ 
+ //HUOM PAIKKAKUNNAT
+ //KOMPONENTTI JOKA piirtää PAIKKAKUNNAT sivulle kaiken
+ const Paikkakunnat = () => {
+
+
+  // State joka pitää muistissa indeksiä 
+  const [ counter, setCounter ] = useState(1)
   const setToValue = (value) => setCounter(value)
 
 
+ //paikkakuntatiedot parsittuna omiin taulukkoihin
+ var kuntienAsLuvut = luoPKtaulukko(0);
+ var vlMuutokset = luoPKtaulukko(1);
+ var tyoAsteet = luoPKtaulukko(2);
+ var tpLukumaarat = luoPKtaulukko(3);
+ 
 
-    //paikkakuntatiedot parsittuna omiin taulukkoihin
-    var kuntienAsLuvut = luoPKtaulukko(0);
-    var vlMuutokset = luoPKtaulukko(1);
-    var tyoAsteet = luoPKtaulukko(2);
-    var tpLukumaarat = luoPKtaulukko(3);
-    
+ const vaakunat = datavaakunat.selection1
 
-    const vaakunat = datavaakunat.selection1
+
+
+ var nimiTaulukko = [];
+ var kuntienIit = [];
+ var vaakunaTaulukko = [];
+
 
  
-    var nimiTaulukko = [];
-    var kuntienIit = [];
-    //var vaakunaTaulukko = [];
+ 
+ // kuntien nimet taulukkoon
+ for (var x in kuntienNimet) {
+     nimiTaulukko.push(kuntienNimet[x]);
+ }
+
 
     
-    
-    // kuntien nimet taulukkoon
-    for (let x in kuntienNimet) {
-        nimiTaulukko.push(kuntienNimet[x]);
-    }
-
-    //console.log("kuntien lkm: " + nimiTaulukko.length)
-
-    // kuntien indeksit taulukkoon
-    for (let x in kuntienIndeksit) {
-        kuntienIit.push(kuntienIndeksit[x]);
-    }
-
-    var avain;
-    var arvo;
-    var nimetJaIndeksit = {};
-
-    // kuntien nimet ja indeksit mapitettuna yhteen objektilistaan
-    for (var i = 0; i < nimiTaulukko.length; i++){
-    	avain = kuntienIit[i];
-    	arvo = nimiTaulukko[i];
-    	nimetJaIndeksit[avain] = arvo;
-    }
-
-    const jarjestetty = {};
-    // objektilistan järjestys avainarvon eli indeksin mukaan
-    Object.keys(nimetJaIndeksit).sort().forEach(function(key) {
-  	jarjestetty[key] = nimetJaIndeksit[key];
-	});
-
-    // Kuntien nimien erotus järjestetystä objektilistasta taulukkoon
-	var nimetJarjestyksessa = [];
-	for (let x in jarjestetty) {
-        nimetJarjestyksessa.push(jarjestetty[x]);
-    }
-
-
-    // verotiedot parsittuna omiin taulukoihin
-    var tulonsaajat = luoVeroTaulukko(0);
-    var veronalaisetTulotKeskimaarin = luoVeroTaulukko(1);
-    var ansioTulotKeskimaarin = luoVeroTaulukko(2);
-    var verotYhteensaKeskimaarin = luoVeroTaulukko(3);
-    var valtionVeroKeskimaarin = luoVeroTaulukko(4);
-    var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
 
 
     var toimialojenNimet = []
@@ -221,41 +309,20 @@ const App = () => {
     // käyttäjän valitseman kunnan toimialatiedot taulukossa 
     var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
 
-    // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
-    // piilottaa valuet, jotka eivät vastaa hakusanaa
-    var select
-    var haettava 
-    const etsi = (hakusana) => {
-    	
-    	haettava = hakusana.target.value
-    	//console.log(haettava)
- 	  	select = document.getElementById("listaKunnista");
-    	for (var i = 0; i < select.length; i++){
-    		var txt = select[i].text
-    		var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-    		select.options[i].style.display = include ? 'item' : 'none';
-    	} 
+  
 
-    } 
+   
 
-    //var asukasLukuI;
-    var listaI;
-    //var kunnantoimialat = [];
-    // ottaa selectistä valuen ja tulostaa sen
-    const tulosta = (listaValittu) => {
-    	
-      listaI = listaValittu.target.value
-      //console.log(listaIndex)
-      setToValue(listaI)
-      //asetaMuutosArvo(listaI)
-      //console.log(counter)
-      //console.log(muutosIndeksi)
-      
-      //console.log(kunnantoimialat)
-    }
 
-    // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
-    var asukaslukuInd = 0;
+ // kuntien indeksit taulukkoon
+ for (let x in kuntienIndeksit) {
+     kuntienIit.push(kuntienIndeksit[x]);
+ }
+
+
+ var avain;
+ var arvo;
+ var nimetJaIndeksit = {};
 
     
     let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
@@ -272,75 +339,141 @@ const App = () => {
 
     
     // valintalista kunnista, indeksöi samalla 0->n
-    return (
-    // Bootstrapin pääcontainer
-    <div className="container">	
-
-      <div class="row justify-content-md-center">
-      
-      <div class="btn-group btn-group-lg">
-      <button type="button" class="btn btn-primary" aria-pressed="true">Toimialat</button>
-      <button type="button" class="btn btn-primary" aria-pressed="true">Paikkakunnat</button>
-      </div>
-      </div>
-
-        <div className="row">
-          <div className="col-sm">
-
-          	<div>
-        <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsi}/>
-            </div>
-        
-            <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
-
-            {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
-            </select>
-
-          </div>
-
-          <div className="col-10">
-
-        
-
-            
-
-            <br />
-            <div className="row">
-            <div class="col jumbotron">
-
-            <div className="tiedotheader">
-              <h5>{nimetJarjestyksessa[counter]}</h5> 
-              
-              <img src={vaakunat[counter].image} alt="new" align="right"/>
-            </div>
-
-            <ul class="list-group list-group-horizontal">
   
-            <ul class="list-group">
-
-            <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}</li>
-            <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}</li>
-            <li class="list-group-item"> <small class="text-muted">Työllisyysaste: </small> {tyoAsteet[counter] + "%"}</li>
-            <li class="list-group-item"> <small class="text-muted">Työpaikkojen lukumäärä: </small> {tpLukumaarat[counter]}</li>
-            <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}</li>
-            </ul>
-
-            <ul class="list-group">
-
-            <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter] + "€/vuosi"}</li>
-            <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]+ "€/vuosi"}</li>
-            <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> {verotYhteensaKeskimaarin[counter]+ "€/vuosi"}</li>
-            <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small> {valtionVeroKeskimaarin[counter]+ "€/vuosi"}</li>
-            <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]+ "€/vuosi"}</li>
-            </ul>
-
-            </ul>
-
-            </div>
-            </div>
 
 
-            <div class="row">
+ // kuntien nimet ja indeksit mapitettuna yhteen objektilistaan
+ for (var i = 0; i < nimiTaulukko.length; i++){
+   avain = kuntienIit[i];
+   arvo = nimiTaulukko[i];
+   nimetJaIndeksit[avain] = arvo;
+ }
+
+ const jarjestetty = {};
+ // objektilistan järjestys avainarvon eli indeksin mukaan
+ Object.keys(nimetJaIndeksit).sort().forEach(function(key) {
+ jarjestetty[key] = nimetJaIndeksit[key];
+});
+
+ // Kuntien nimien erotus järjestetystä objektilistasta taulukkoon
+var nimetJarjestyksessa = [];
+for (let x in jarjestetty) {
+     nimetJarjestyksessa.push(jarjestetty[x]);
+ }
+
+
+ // verotiedot parsittuna omiin taulukoihin
+ var tulonsaajat = luoVeroTaulukko(0);
+ var veronalaisetTulotKeskimaarin = luoVeroTaulukko(1);
+ var ansioTulotKeskimaarin = luoVeroTaulukko(2);
+ var verotYhteensaKeskimaarin = luoVeroTaulukko(3);
+ var valtionVeroKeskimaarin = luoVeroTaulukko(4);
+ var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
+
+
+ 
+
+ // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
+ // piilottaa valuet, jotka eivät vastaa hakusanaa
+ var select
+ var haettava 
+ const etsiPK = (hakusana) => {
+   
+   haettava = hakusana.target.value
+   console.log(haettava)
+    select = document.getElementById("listaKunnista");
+   for (var i = 0; i < select.length; i++){
+     var txt = select[i].text
+     var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
+     select.options[i].style.display = include ? 'list-item' : 'none';
+   } 
+
+ } 
+
+ var asukasLukuI;
+ var listaI;
+ //var kunnantoimialat = [];
+ // ottaa selectistä valuen ja tulostaa sen
+ const tulosta = (listaValittu) => {
+   
+   listaI = listaValittu.target.value
+   //console.log(listaIndex)
+   setToValue(listaI)
+   //asetaMuutosArvo(listaI)
+   console.log(counter)
+   //console.log(muutosIndeksi)
+   
+   //console.log(kunnantoimialat)
+ }
+
+ // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
+ var asukaslukuInd = 0;
+
+ // valintalista kunnista, indeksöi samalla 0->n
+ return (
+ // Bootstrapin pääcontainer
+ <div className="container">	
+
+
+
+
+     <div className="row">
+       <div className="col-sm">
+
+         <div>
+     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPK}/>
+         </div>
+     
+         <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
+
+         {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
+         </select>
+
+       </div>
+
+       <div className="col-10">
+
+     
+
+         
+
+         <br />
+         <div className="row">
+         <div class="col jumbotron">
+
+         <div className="tiedotheader">
+           <h5>{nimetJarjestyksessa[counter]}</h5> 
+           
+           <img src={vaakunat[counter].image} alt="new" align="right"/>
+         </div>
+
+         <ul class="list-group list-group-horizontal">
+
+         <ul class="list-group">
+
+         <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}</li>
+         <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}</li>
+         <li class="list-group-item"> <small class="text-muted">Työllisyysaste: </small> {tyoAsteet[counter] + "%"}</li>
+         <li class="list-group-item"> <small class="text-muted">Työpaikkojen lukumäärä: </small> {tpLukumaarat[counter]}</li>
+         <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}</li>
+         </ul>
+
+         <ul class="list-group">
+
+         <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter] + "€/vuosi"}</li>
+         <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]+ "€/vuosi"}</li>
+         <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> {verotYhteensaKeskimaarin[counter]+ "€/vuosi"}</li>
+         <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small> {valtionVeroKeskimaarin[counter]+ "€/vuosi"}</li>
+         <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]+ "€/vuosi"}</li>
+         </ul>
+
+         </ul>
+
+         </div>
+         </div>
+
+
+         <div class="row">
     <div class="col jumbotron">
       <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus}</li>
       <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus}</li>
@@ -351,16 +484,18 @@ const App = () => {
     
   </div>
 
-        </div>
+     </div>
 
-        
+     
 
 
-        </div>		
-      </div>
-    )
+     </div>		
+   </div>
+ )
 
-    
+ 
+
+  
  }
 
 ReactDOM.render(

@@ -102,6 +102,11 @@ const Toimialat = () => {
             </div>
 
             <div className="col-6">
+
+
+             
+
+
             <div className="row">
             <div className="col jumbotron">
 
@@ -116,8 +121,21 @@ const Toimialat = () => {
 
             <div className="row">
 
-            <div className="col jumbotron">
 
+
+
+            <div className="col jumbotron">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+                </label>
+            </div>
             <p>JOOOOO</p>
 
             </div>

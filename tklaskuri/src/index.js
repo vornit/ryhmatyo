@@ -371,23 +371,19 @@ for (let x in jarjestetty) {
 
  var asukasLukuI;
  var listaI;
- //var kunnantoimialat = [];
- // ottaa selectistä valuen ja tulostaa sen
+
+ // ottaa selectistä valuen ja asettaa sen countteriin
  const tulosta = (listaValittu) => {
    
    listaI = listaValittu.target.value
-   //console.log(listaIndex)
    setToValue(listaI)
-   //asetaMuutosArvo(listaI)
-   //console.log(muutosIndeksi)
-   
-   //console.log(kunnantoimialat)
+  
  }
 
  // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
  var asukaslukuInd = 0;
 
- // valintalista kunnista, indeksöi samalla 0->n
+
  return (
  // Bootstrapin pääcontainer
  <div className="container">	

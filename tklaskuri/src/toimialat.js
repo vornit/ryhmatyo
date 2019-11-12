@@ -13,8 +13,12 @@ const Toimialat = () => {
     function luoToimialaTaulukko() {
       var taulukko = [];
         for (let key in toimialalista){
+          if(key > 0 && key <100){
+
           taulukko.push(toimialalista[key])
-        }
+          }
+          continue;
+        } 
         return taulukko;
     }
     

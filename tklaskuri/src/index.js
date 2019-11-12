@@ -205,7 +205,7 @@ const App = () => {
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
      var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? 'list-item' : 'none';
+     select.options[i].style.display = include ? '' : 'none';
      
    }
  }
@@ -388,7 +388,7 @@ for (let x in jarjestetty) {
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
      var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? 'list-item' : 'none';
+     select.options[i].style.display = include ? '' : 'none';
    } 
 
  } 

@@ -9,7 +9,7 @@ const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.cat
 const Toimialat = () => {
 
     // State joka pitää muistissa indeksiä 
-  const [ counter, setCounter ] = useState(1)
+  const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
   function luoToimialaTaulukko() {
@@ -83,7 +83,7 @@ const Toimialat = () => {
               
             <div className="col jumbotron">
 
-            <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
+            <p>Tietoja toimialasta</p>
             
             <p>JOOOOOOO</p>
             
@@ -122,6 +122,7 @@ const Toimialat = () => {
             <div className="row">
 
 
+<<<<<<< HEAD
 
 
             <div className="col jumbotron">
@@ -137,6 +138,9 @@ const Toimialat = () => {
                 </label>
             </div>
             <p>JOOOOO</p>
+=======
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+>>>>>>> ecf66c5270da6cd4951f9486836b800cf69058cb
 
             </div>
             </div>

@@ -31,12 +31,7 @@ import dataPaastot from "./paastotToimialoittain"
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
-    
-
-    
   
-
-
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
 */
@@ -208,10 +203,6 @@ const App = () => {
  for (var x in kuntienNimet) {
      nimiTaulukko.push(kuntienNimet[x]);
  }
-
-
-    
-
 
     var toimialojenNimet = []
     for (let x in toimialatJaIndeksit.label){

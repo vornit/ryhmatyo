@@ -5,7 +5,7 @@ import './App.css';
 import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
-import Auto from './paikkakunnat'
+import ToimialatValilehti from './toimialat'
 
 
 
@@ -137,7 +137,7 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
 
 const App = () => {
 
-  const [page, setPage] = useState('home')
+  const [page, setPage] = useState('paikkakunnat')
 
   const  toPage = (page) => (event) => {
     event.preventDefault()
@@ -150,7 +150,7 @@ const App = () => {
     if (page === 'paikkakunnat') {
       return <Paikkakunnat />
     } else if (page === 'toimialat') {
-      return <Toimialat />
+      return <ToimialatValilehti />
     }
   }
 
@@ -177,72 +177,7 @@ const App = () => {
 
   }
 
-   // HUOM TOIMIALAT
-  //TOIMIALAKOMPONENTTI joka piirtää toimialat omalle välilehdelleen
-  const Toimialat = () => {
-
-    function luoToimialaTaulukko() {
-      var taulukko = [];
-        for (let key in toimialalista){
-          taulukko.push(toimialalista[key])
-        }
-        return taulukko;
-    }
- 
-    var toimialaInd = 0;
-    var haettava;
-    var taulukkoToimialoista = luoToimialaTaulukko();
-    console.log(taulukkoToimialoista)
-    const etsi = (hakusana) => {
    
-   haettava = hakusana.target.value
-   console.log(haettava)
- /*   select = document.getElementById("listaKunnista");
-   for (var i = 0; i < select.length; i++){
-     var txt = select[i].text
-     var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? 'list-item' : 'none';
-     */
-   }
- 
- 
-   var listaI;
-   const tulosta = (listaValittu) => {
-   
-   listaI = listaValittu.target.value
-   //console.log(listaIndex)
-   
-   //asetaMuutosArvo(listaI)
-   
-   console.log(listaI)
-   
-   //console.log(kunnantoimialat)
- }
- 
-        return (
- // Bootstrapin pääcontainer
- <div className="container">   
- 
- 
- 
-     <div className="row">
-       <div className="col-sm">
- 
-         <div>
-     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsi}/>
-         </div>
-     
-         <select id="listaToimialoista"className="form-control" size="28" onChange={tulosta} >
- 
-         {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
-         </select>
- 
-       </div>
-   </div>
-   </div>
-       )
- 
- }
  
  //HUOM PAIKKAKUNNAT
  //KOMPONENTTI JOKA piirtää PAIKKAKUNNAT sivulle kaiken
@@ -377,7 +312,7 @@ for (let x in jarjestetty) {
  // piilottaa valuet, jotka eivät vastaa hakusanaa
  var select
  var haettava 
- const etsi = (hakusana) => {
+ const etsiPaikkakunta = (hakusana) => {
    
    haettava = hakusana.target.value
    console.log(haettava)
@@ -385,7 +320,7 @@ for (let x in jarjestetty) {
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
      var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? 'list-item' : 'none';
+     select.options[i].style.display = include ? '' : 'none';
    } 
 
  } 
@@ -421,7 +356,7 @@ for (let x in jarjestetty) {
        <div className="col-sm">
 
          <div>
-     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsi}/>
+     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPaikkakunta}/>
          </div>
      
          <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >

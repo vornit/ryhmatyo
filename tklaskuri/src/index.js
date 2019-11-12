@@ -5,8 +5,10 @@ import './App.css';
 import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
+import ToimialatValilehti from './toimialat'
 import dataPaastot from "./paastotToimialoittain"
-import Auto from './paikkakunnat'
+
+
 
 console.log(dataPaastot)
 
@@ -137,7 +139,7 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
 
 const App = () => {
 
-  const [page, setPage] = useState('home')
+  const [page, setPage] = useState('paikkakunnat')
 
   const  toPage = (page) => (event) => {
     event.preventDefault()
@@ -150,7 +152,7 @@ const App = () => {
     if (page === 'paikkakunnat') {
       return <Paikkakunnat />
     } else if (page === 'toimialat') {
-      return <Toimialat />
+      return <ToimialatValilehti />
     }
   }
 
@@ -177,80 +179,6 @@ const App = () => {
 
   }
 
-  // HUOM TOIMIALAT
-  //TOIMIALAKOMPONENTTI joka piirtää toimialat omalle välilehdelleen
-  const Toimialat = () => {
-
-    function luoToimialaTaulukko() {
-      var taulukko = [];
-        for (let key in toimialalista){
-          taulukko.push(toimialalista[key])
-        }
-        return taulukko;
-    }
-
-    function parsiTaulukko(taulukko){
-      for(let x in taulukko){
-        taulukko[x] = taulukko[x].replace(/^[\s\d]+/, '');
-      }
-    }
- 
-    var toimialaInd = 0;
-    var haettava;
-    var select;
-    var taulukkoToimialoista = luoToimialaTaulukko();
-    parsiTaulukko(taulukkoToimialoista);
-    console.log(taulukkoToimialoista)
-    const etsiToimiala = (hakusana) => {
-   
-   haettava = hakusana.target.value
-   console.log(haettava)
-   select = document.getElementById("listaToimialoista");
-   for (var i = 0; i < select.length; i++){
-     var txt = select[i].text
-     var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? 'list-item' : 'none';
-     
-   }
- }
- 
-   var listaI;
-   const tulosta = (listaValittu) => {
-   
-   listaI = listaValittu.target.value
-   //console.log(listaIndex)
-   
-   //asetaMuutosArvo(listaI)
-   
-   
-   
-   //console.log(kunnantoimialat)
- }
- 
-        return (
- // Bootstrapin pääcontainer
- <div className="container">   
- 
- 
- 
-     <div className="row">
-       <div className="col-sm">
- 
-         <div>
-     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
-         </div>
-     
-         <select id="listaToimialoista"className="form-control" size="28" onChange={tulosta} >
- 
-         {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
-         </select>
- 
-       </div>
-   </div>
-   </div>
-       )
- 
- }
  
  //HUOM PAIKKAKUNNAT
  //KOMPONENTTI JOKA piirtää PAIKKAKUNNAT sivulle kaiken
@@ -386,6 +314,7 @@ for (let x in jarjestetty) {
  var select
  var haettava 
 
+
  const etsiPaikkakunta = (hakusana) => {
    
    haettava = hakusana.target.value
@@ -393,7 +322,7 @@ for (let x in jarjestetty) {
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
      var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? 'list-item' : 'none';
+     select.options[i].style.display = include ? '' : 'none';
    } 
 
  } 

@@ -12,7 +12,7 @@ class Toimialat extends React.Component {
     function luoToimialaTaulukko() {
       var taulukko = [];
         for (let key in toimialalista){
-          if(key > 0 && key <100){
+          if(key.length == 2){
 
           taulukko.push(toimialalista[key])
           }

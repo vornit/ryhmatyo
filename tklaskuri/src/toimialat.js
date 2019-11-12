@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 
 // lista eri toimialoista
@@ -7,15 +7,18 @@ const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.cat
 
 const Toimialat = () => {
 
-
+    // State joka pitää muistissa indeksiä 
+  const [ counter, setCounter ] = useState(0)
+  const setToValue = (value) => setCounter(value)
   
-    function luoToimialaTaulukko() {
-      var taulukko = [];
-        for (let key in toimialalista){
-          if(key.length == 2){
 
+  function luoToimialaTaulukko() {
+
+    var taulukko = [];
+      for (let key in toimialalista){
+        if(key.length == 2){
           taulukko.push(toimialalista[key])
-          }
+        }
           continue;
         } 
         return taulukko;
@@ -23,24 +26,23 @@ const Toimialat = () => {
     
 
     function parsiTaulukko(taulukko){
+
       for(let x in taulukko){
         taulukko[x] = taulukko[x].replace(/^[\s\d]+/, '');
       }
     }
  
     
-
-
     var toimialaInd = 0;
     var haettava;
     var select;
     var taulukkoToimialoista = luoToimialaTaulukko();
     parsiTaulukko(taulukkoToimialoista);
-    console.log(taulukkoToimialoista)
+    
+
     const etsiToimiala = (hakusana) => {
    
    haettava = hakusana.target.value
-   console.log(haettava)
    select = document.getElementById("listaToimialoista");
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
@@ -51,17 +53,12 @@ const Toimialat = () => {
  }
  
  
-   var listaI;
-   const tulosta = (listaValittu) => {
    
-   listaI = listaValittu.target.value
-   //console.log(listaIndex)
+   const tulostaToimiala = (listaValittu) => {
    
-   //asetaMuutosArvo(listaI)
+   setToValue(listaValittu.target.value)
+   console.log(listaValittu.target.value)
    
-   console.log(listaI)
-   
-   //console.log(kunnantoimialat)
  }
 
 
@@ -71,23 +68,91 @@ const Toimialat = () => {
   // Bootstrapin pääcontainer
   <div className="container">   
   
-  
-  
       <div className="row">
-        <div className="col-sm">
-           
-          <div>
-      <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
-          </div>
+            <div className="col-sm">
+              
+              <div>
+              <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
+              </div>
+          
+              <select id="listaToimialoista"className="form-control" size="20 " onChange={tulostaToimiala} >
+                
+              {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
+              </select>
+
+              
+            <div className="col jumbotron">
+
+            <p>Tietoja toimialasta</p>
+            
+            <p>JOOOOOOO</p>
+            
+            <p>JOOOOOOO</p>
+            
+            <p>JOOOOOOO</p>
+            
+            <p>JOOOOOOO</p>
+            
+
+            </div>
+
+
       
-          <select id="listaToimialoista"className="form-control" size="28" onChange={tulosta} >
+
+            </div>
+
+            <div className="col-6">
+
+
              
-          {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
-          </select>
-  
-        </div>
+
+
+            <div className="row">
+            <div className="col jumbotron">
+
+            <p>JAAAA</p>
+            <p>JAAAA</p>
+            <p>JAAAA</p>
+            <p>JAAAA</p>
+            <p>JAAAA</p>
+
+            </div>
+            </div>
+
+            <div className="row">
+
+
+
+
+            <div className="col jumbotron">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+                </label>
+            </div>
+            <p>JOOOOO</p>
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+
+            </div>
+            </div>
+
+            </div>
+
+
+
+            
+
     </div>
+
+
     </div>
+
         );
   }
 

@@ -33,12 +33,7 @@ console.log(dataPaastot)
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
 
-    
-
-    
   
-
-
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
 */
@@ -190,7 +185,7 @@ function etsiPaastot(toimiala, toimialojenPaastot){
 
 const App = () => {
 
-  const [page, setPage] = useState('paikkakunnat')
+  const [page, setPage] = useState('toimialat')
 
   const  toPage = (page) => (event) => {
     event.preventDefault()
@@ -263,10 +258,6 @@ const App = () => {
  for (var x in kuntienNimet) {
      nimiTaulukko.push(kuntienNimet[x]);
  }
-
-
-    
-
 
     var toimialojenNimet = []
     for (let x in toimialatJaIndeksit.label){

@@ -29,16 +29,12 @@ import Auto from './paikkakunnat'
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
-    console.log(toimialalista);
-
-    var toimialataulukko = [];
     
-    // kuntien nimet taulukkoon
- for (let x in toimialalista) {
-  toimialataulukko.push(toimialalista[x]);
-}
 
-console.log(toimialataulukko);
+    
+  
+
+
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
 */
@@ -188,23 +184,31 @@ const App = () => {
         }
         return taulukko;
     }
+
+    function parsiTaulukko(taulukko){
+      for(let x in taulukko){
+        taulukko[x] = taulukko[x].replace(/^[\s\d]+/, '');
+      }
+    }
  
     var toimialaInd = 0;
     var haettava;
+    var select;
     var taulukkoToimialoista = luoToimialaTaulukko();
+    parsiTaulukko(taulukkoToimialoista);
     console.log(taulukkoToimialoista)
     const etsiToimiala = (hakusana) => {
    
    haettava = hakusana.target.value
    console.log(haettava)
- /*   select = document.getElementById("listaKunnista");
+   select = document.getElementById("listaToimialoista");
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
      var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
      select.options[i].style.display = include ? 'list-item' : 'none';
-     */
+     
    }
- 
+ }
  
    var listaI;
    const tulosta = (listaValittu) => {
@@ -214,7 +218,7 @@ const App = () => {
    
    //asetaMuutosArvo(listaI)
    
-   console.log(listaI)
+   
    
    //console.log(kunnantoimialat)
  }
@@ -377,10 +381,10 @@ for (let x in jarjestetty) {
  // piilottaa valuet, jotka eivät vastaa hakusanaa
  var select
  var haettava 
- const etsiPK = (hakusana) => {
+
+ const etsiPaikkakunta = (hakusana) => {
    
    haettava = hakusana.target.value
-   console.log(haettava)
     select = document.getElementById("listaKunnista");
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
@@ -400,7 +404,6 @@ for (let x in jarjestetty) {
    //console.log(listaIndex)
    setToValue(listaI)
    //asetaMuutosArvo(listaI)
-   console.log(counter)
    //console.log(muutosIndeksi)
    
    //console.log(kunnantoimialat)
@@ -421,7 +424,8 @@ for (let x in jarjestetty) {
        <div className="col-sm">
 
          <div>
-     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPK}/>
+
+     <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPaikkakunta}/>
          </div>
      
          <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >

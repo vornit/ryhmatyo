@@ -6,6 +6,8 @@ import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
 import ToimialatValilehti from './toimialat'
+import dataPaastot from "./paastotToimialoittain"
+
 
 
 
@@ -29,16 +31,12 @@ import ToimialatValilehti from './toimialat'
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
-    console.log(toimialalista);
-
-    var toimialataulukko = [];
     
-    // kuntien nimet taulukkoon
- for (let x in toimialalista) {
-  toimialataulukko.push(toimialalista[x]);
-}
 
-console.log(toimialataulukko);
+    
+  
+
+
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
 */
@@ -105,7 +103,7 @@ function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohitaI){
       let alkutunnus = s.substr(0, s.indexOf(' ')).trim()
       //console.log(alkutunnus)
       //console.log(isNaN(parseInt(alkutunnus)))
-      if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
+      if (isNaN(parseInt(alkutunnus)) /*|| alkutunnus.length > 2*/) continue
       //console.log(alkutunnus)
       suurin = tAlaLkm[i]
       suurimmanI = i
@@ -177,7 +175,6 @@ const App = () => {
 
   }
 
-   
  
  //HUOM PAIKKAKUNNAT
  //KOMPONENTTI JOKA piirtää PAIKKAKUNNAT sivulle kaiken
@@ -312,10 +309,11 @@ for (let x in jarjestetty) {
  // piilottaa valuet, jotka eivät vastaa hakusanaa
  var select
  var haettava 
+
+
  const etsiPaikkakunta = (hakusana) => {
    
    haettava = hakusana.target.value
-   console.log(haettava)
     select = document.getElementById("listaKunnista");
    for (var i = 0; i < select.length; i++){
      var txt = select[i].text
@@ -335,7 +333,6 @@ for (let x in jarjestetty) {
    //console.log(listaIndex)
    setToValue(listaI)
    //asetaMuutosArvo(listaI)
-   console.log(counter)
    //console.log(muutosIndeksi)
    
    //console.log(kunnantoimialat)
@@ -356,6 +353,7 @@ for (let x in jarjestetty) {
        <div className="col-sm">
 
          <div>
+
      <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPaikkakunta}/>
          </div>
      

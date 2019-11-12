@@ -92,7 +92,9 @@ body {
   padding: 1rem;
 }
 
-
+ul {
+  list-style-type: none;
+ }
 
 
 

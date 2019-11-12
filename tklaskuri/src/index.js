@@ -135,7 +135,7 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
 
 const App = () => {
 
-  const [page, setPage] = useState('paikkakunnat')
+  const [page, setPage] = useState('toimialat')
 
   const  toPage = (page) => (event) => {
     event.preventDefault()

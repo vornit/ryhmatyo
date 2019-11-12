@@ -8,6 +8,7 @@ import datatoimialatKunnittain from "./toimialatKunnittain2"
 import dataPaastot from "./paastotToimialoittain"
 import Auto from './paikkakunnat'
 
+console.log(dataPaastot)
 
 
     //objektilista kuntien nimistä
@@ -59,6 +60,8 @@ function luoVeroTaulukko(sarakeNro){
   return taulukko;
 }
 
+//function luoPaastot
+
 /** Parsii sovelluksessa valitun kunnan toimialatiedot yhteen taulukkoon.
 * Parametreina ovat valitun kunnan indeksi ja toimialojen nimet järjestetyssä listassa.
 * Toimialojen määrät -datasetistä lasketaan oikea aloitusindeksi kunnan indeksin avulla.
@@ -101,7 +104,7 @@ function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohitaI){
       let alkutunnus = s.substr(0, s.indexOf(' ')).trim()
       //console.log(alkutunnus)
       //console.log(isNaN(parseInt(alkutunnus)))
-      if (isNaN(parseInt(alkutunnus)) /*|| alkutunnus.length > 2*/) continue
+      if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
       //console.log(alkutunnus)
       suurin = tAlaLkm[i]
       suurimmanI = i
@@ -128,7 +131,8 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
   //console.log(toiseksiSuurin)
   //console.log(kolmas)
   let s = toimialojenNimet[i] + " : " + toimialojenLkm[i]
-  return s.substr(s.indexOf(' ')+1).trim()
+  //return s.substr(s.indexOf(' ')+1).trim()
+  return toimialojenNimet[i] + " : " + toimialojenLkm[i]
 }
 
 const App = () => {

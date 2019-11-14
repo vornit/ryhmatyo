@@ -31,7 +31,7 @@ body {
 }
 
 .justify-content-md-center {
-  padding: 2em;
+  padding-top: 2em;
 }
 
 .col1{
@@ -102,6 +102,7 @@ body {
 
 .jumbotron {
   padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 ul {
@@ -113,15 +114,24 @@ ul {
    zoom: 0.8;
  }
 
+ .small, small {
+   font-size: 95%;
+ }
+
  #search {
   width:100%;
   height:100%;
+  margin-top: 1.4em;
  }
 
  .list-group-item {
   position: unset;
  }
 
+.btn-group-sm {
+  margin-top: -0.7em;
+
+}
  
 
 

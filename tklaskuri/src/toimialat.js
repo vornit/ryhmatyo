@@ -79,7 +79,9 @@ const Toimialat = () => {
  }
 
 
-
+ function lukupilkuilla(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
  return (
   // Bootstrapin pääcontainer
@@ -104,7 +106,7 @@ const Toimialat = () => {
             
             <p>LKM</p>
             
-            <p>Toimialan verot yhteensä: {verotaulukko[counter]}</p>
+            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])}</p>
             
             <p>JOOOOOOO</p>
             

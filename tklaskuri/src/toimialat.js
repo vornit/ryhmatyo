@@ -4,6 +4,8 @@ import dataToimialojenVerot from "./toimialojenVerot"
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
+const toimialojenMaarat = datatoimialatKunnittain.dataset.value
 
 const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
 const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
@@ -20,27 +22,28 @@ const Toimialat = () => {
 
   var verotaulukko = [];
   var alataulukko = [];
+  var maarataulukko = [];
 
 
-  function luoToimialaTaulukko() {
 
+  function luoTaulukot() {
     
-      for (let key in toimialalista){
-        if(key.length == 2){
-          
-          var x = nimiJaIndeksi[key]
-          alataulukko.push(toimialalista[key])
-          if (toimialojenVerot[nimiJaIndeksi[key]] == null){
-            verotaulukko.push("Ei tiedossa")
-          }
-          else verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+    for (let key in toimialalista){
+      if(key.length == 2){
+        alataulukko.push(toimialalista[key])
+        maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
+        if (toimialojenVerot[nimiJaIndeksi[key]] == null){
 
-        }
-          continue;
+          verotaulukko.push("Ei tiedossa")
         } 
+        else {
         
-        return alataulukko;
-    }
+         verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+        }
+      }    
+    }           
+    return alataulukko;
+  }
     
 
     function parsiTaulukko(taulukko){
@@ -54,7 +57,7 @@ const Toimialat = () => {
     var toimialaInd = 0;
     var haettava;
     var select;
-    var taulukkoToimialoista = luoToimialaTaulukko();
+    var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
     
 
@@ -79,7 +82,9 @@ const Toimialat = () => {
  }
 
 
-
+ function lukupilkuilla(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 
  return (
   // Bootstrapin pääcontainer
@@ -102,9 +107,11 @@ const Toimialat = () => {
 
             <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
             
-            <p>LKM</p>
+            <p>LKM: {maarataulukko[counter]}</p>
             
-            <p>Toimialan verot yhteensä: {verotaulukko[counter]}</p>
+
+            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
+
             
             <p>JOOOOOOO</p>
             
@@ -142,19 +149,20 @@ const Toimialat = () => {
 
 
             <div className="col jumbotron">
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <div className="btn-group btn-group-toggle" data-toggle="buttons">
              <label class="btn btn-secondary active">
-              <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt                  </label>
+              <input type="radio" name="options" id="option1" autoComplete="off" checked/> Päästöt                  </label>
               <label class="btn btn-secondary">
-              <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+              <input type="radio" name="options" id="option2" autoComplete="off"/> Suhdeluku
               </label>
               <label class="btn btn-secondary">
-              <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+              <input type="radio" name="options" id="option3" autoComplete="off"/> Jöö
               </label>
             </div>
             <p>JOOOOO</p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
+              VALITULLA TOIMIALALLA</p>
 
 
             </div>

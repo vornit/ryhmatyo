@@ -9,7 +9,6 @@ const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.i
 const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
 const toimialojenVerot = dataToimialojenVerot.dataset.value
 
-
 const Toimialat = () => {
 
 //console.log(verotaulukko)
@@ -17,8 +16,10 @@ const Toimialat = () => {
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
+
   var verotaulukko = [];
   var alataulukko = [];
+
 
   function luoToimialaTaulukko() {
 
@@ -118,6 +119,11 @@ const Toimialat = () => {
             </div>
 
             <div className="col-6">
+
+
+             
+
+
             <div className="row">
             <div className="col jumbotron">
 
@@ -132,8 +138,22 @@ const Toimialat = () => {
 
             <div className="row">
 
-            <div className="col jumbotron">
 
+
+
+            <div className="col jumbotron">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+                </label>
+                <label class="btn btn-secondary">
+                <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+                </label>
+            </div>
+            <p>JOOOOO</p>
             <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
 
             </div>

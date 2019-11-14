@@ -10,6 +10,7 @@ import dataPaastot from "./paastotToimialoittain"
 
 
 
+console.log(dataPaastot)
 
 
     //objektilista kuntien nimistä
@@ -30,6 +31,7 @@ import dataPaastot from "./paastotToimialoittain"
     const toimialojenMaarat = datatoimialatKunnittain.dataset.value
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
+
 
   
 
@@ -55,6 +57,8 @@ function luoVeroTaulukko(sarakeNro){
   }
   return taulukko;
 }
+
+//function luoPaastot
 
 /** Parsii sovelluksessa valitun kunnan toimialatiedot yhteen taulukkoon.
 * Parametreina ovat valitun kunnan indeksi ja toimialojen nimet järjestetyssä listassa.
@@ -85,20 +89,20 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat){
 * toiseksi suurimman etsintään (jne)
 * param1(tAlaNimet): toimialojen nimet järjestetyssä listassa
 * param2(tAlaLkm): valitun kunnan toimialojen lukumäärät taulukossa
-* param3(ohitaI): Alkion indeksi, joka ja jota suuremmat ohitetaan
+* param3(ohita): Alkion indeksi, joka ja jota suuremmat ohitetaan
 */
-function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohitaI){
+function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohita){
   //console.log(tAlaLkm)
   let suurin = 0
   let suurimmanI = 0
   for (let i = 0; i < tAlaLkm.length; i++){
-    if (tAlaLkm[i] >= ohitaI) continue;
+    if (tAlaLkm[i] >= ohita) continue;
     if (tAlaLkm[i] > suurin) {
       let s = tAlaNimet[i]
       let alkutunnus = s.substr(0, s.indexOf(' ')).trim()
       //console.log(alkutunnus)
       //console.log(isNaN(parseInt(alkutunnus)))
-      if (isNaN(parseInt(alkutunnus)) /*|| alkutunnus.length > 2*/) continue
+      if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
       //console.log(alkutunnus)
       suurin = tAlaLkm[i]
       suurimmanI = i
@@ -126,6 +130,57 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
   //console.log(kolmas)
   let s = toimialojenNimet[i] + " : " + toimialojenLkm[i]
   return s.substr(s.indexOf(' ')+1).trim()
+  //return toimialojenNimet[i] + " : " + toimialojenLkm[i] + " "
+}
+
+function jarjestaIndekseittain(datasetti){
+  var labelit = []
+    for (let x in datasetti.label){
+      labelit.push(datasetti.label[x])
+    }
+
+    var indeksit = []
+    for (let x in datasetti.index){
+      indeksit.push(datasetti.index[x])
+    }
+
+    var labelitJaIndeksit = {}
+    for (let i = 0; i < Object.keys(datasetti.label).length; i++){
+      let avain = indeksit[i];
+      let arvo = labelit[i];
+      labelitJaIndeksit[avain] = arvo;
+    }
+
+    //toimialat ja niiden indeksit avain-arvo pareina listassa
+    let jarjestetty = {};
+    // objektilistan järjestys avainarvon eli indeksin mukaan
+    Object.keys(labelitJaIndeksit).sort().forEach(function(key) {
+    jarjestetty[key] = labelitJaIndeksit[key];
+  });
+    return jarjestetty
+
+}
+
+function parsiPaastotVuodelta(vuodenIndeksi){
+  var paastoTaulukko = dataPaastot.dataset.value
+  let toimialojenLkm = Object.keys(dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.label).length
+  var vuodenPaastot = []
+  let alkuindeksi = vuodenIndeksi *  toimialojenLkm
+
+  for (let i = alkuindeksi; i < alkuindeksi + toimialojenLkm; i++){
+    vuodenPaastot.push(paastoTaulukko[i])
+  }
+  return vuodenPaastot
+
+}
+
+function etsiPaastot(toimiala, toimialojenPaastot){
+  let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
+  console.log(alkutunnus)
+  let toimialanPaastot = toimialojenPaastot[alkutunnus]
+  console.log(toimialanPaastot)
+  if (isNaN(toimialanPaastot)) return "Päästötietoja ei saatavilla"
+  return toimialanPaastot + " tuhatta kilogrammaa"
 }
 
 const App = () => {
@@ -177,7 +232,7 @@ const App = () => {
 
 
   // State joka pitää muistissa indeksiä 
-  const [ counter, setCounter ] = useState(1)
+  const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
 
 
@@ -231,7 +286,7 @@ const App = () => {
     //console.log(toimiAlatJarj)
     // käyttäjän valitseman kunnan toimialatiedot taulukossa 
     var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
-
+    console.log(toimialalista)
   
 
    
@@ -242,6 +297,22 @@ const App = () => {
      kuntienIit.push(kuntienIndeksit[x]);
  }
 
+ var paastotToimialat = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category
+ var toimialatJaTunnukset = paastotToimialat.label
+
+ var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
+
+ console.log(paastojenToimialatJarj)
+
+ var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
+ var TAtunnuksetJaPaastoarvot = {}
+ for (let i = 0; i < Object.keys(paastojenToimialatJarj).length; i++){
+  let s = paastojenToimialatJarj[i]
+  let avain = s.substr(0, s.indexOf(' ')).trim()
+  let arvo = paastotToimialoittain2008[i]
+  TAtunnuksetJaPaastoarvot[avain] = arvo
+ }
+console.log(TAtunnuksetJaPaastoarvot)
 
  var avain;
  var arvo;
@@ -249,10 +320,19 @@ const App = () => {
 
     
     let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
+    let enitenPaastot = etsiPaastot(toimiAlatJarj[enitenI], TAtunnuksetJaPaastoarvot)
+
     let toiseksiEnitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[enitenI])
+    let toiseksiPaastot = etsiPaastot(toimiAlatJarj[toiseksiEnitenI], TAtunnuksetJaPaastoarvot)
+
     let kolmasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[toiseksiEnitenI])
+    let kolmasPaastot = etsiPaastot(toimiAlatJarj[kolmasI], TAtunnuksetJaPaastoarvot)
+
     let neljasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[kolmasI])
+    let neljasPaastot = etsiPaastot(toimiAlatJarj[neljasI], TAtunnuksetJaPaastoarvot)
+
     let viidesI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[neljasI])
+    let viidesPaastot = etsiPaastot(toimiAlatJarj[viidesI], TAtunnuksetJaPaastoarvot)
     //let kolmas = etsiSuurin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
     let enitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, enitenI)
     let toiseksiEnitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
@@ -294,6 +374,10 @@ for (let x in jarjestetty) {
  var kunnallisVeroKeskimaarin = luoVeroTaulukko(5);
 
 
+
+
+
+
  
 
  // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
@@ -312,14 +396,16 @@ for (let x in jarjestetty) {
      select.options[i].style.display = include ? '' : 'none';
    } 
 
- } 
+ }
 
  var asukasLukuI;
+ var listaI;
 
  // ottaa selectistä valuen ja asettaa sen countteriin
- const tulostaPaikkakunta = (listaValittu) => {
+ const tulosta = (listaValittu) => {
    
-   setToValue(listaValittu.target.value)
+   listaI = listaValittu.target.value
+   setToValue(listaI)
   
  }
 
@@ -342,7 +428,7 @@ for (let x in jarjestetty) {
      <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiPaikkakunta}/>
          </div>
      
-         <select id="listaKunnista"className="form-control" size="28" onChange={tulostaPaikkakunta} >
+         <select id="listaKunnista"className="form-control" size="28" onChange={tulosta} >
 
          {nimetJarjestyksessa.map(s => (<option value={asukaslukuInd++}>{s}</option>))} 
          </select>
@@ -393,11 +479,16 @@ for (let x in jarjestetty) {
 
          <div class="row">
     <div class="col jumbotron">
-      <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus}</li>
-      <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus}</li>
-      <li class="list-group-item"><small class="text-muted">Toimialoja kolmanneksi eniten: </small> {kolmasTulostus}</li>
-      <li class="list-group-item"><small class="text-muted">Toimialoja neljänneksi eniten: </small> {neljasTulostus}</li>
-      <li class="list-group-item"><small class="text-muted">Toimialoja viidenneksi eniten: </small> {viidesTulostus}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus} 
+                                  <small class="text-muted">Toimialan päästöt: </small>{enitenPaastot} </li>
+      <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus} 
+                                  <small class="text-muted">Toimialan päästöt: </small> {toiseksiPaastot} </li>
+      <li class="list-group-item"><small class="text-muted">3: </small> {kolmasTulostus} 
+                                  <small class="text-muted">Toimialan päästöt: </small> {kolmasPaastot} </li>
+      <li class="list-group-item"><small class="text-muted">4: </small> {neljasTulostus} 
+                                  <small class="text-muted">Toimialan päästöt: </small> {neljasPaastot} </li>
+      <li class="list-group-item"><small class="text-muted">5: </small> {viidesTulostus} 
+                                  <small class="text-muted">Toimialan päästöt: </small> {viidesPaastot} </li>
     </div>
     
   </div>

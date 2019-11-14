@@ -12,7 +12,6 @@ const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.categor
 const toimialojenVerot = dataToimialojenVerot.dataset.value
 
 
-
 const Toimialat = () => {
 
 //console.log(verotaulukko)
@@ -79,7 +78,6 @@ const Toimialat = () => {
  }
  
  
-   
    const tulostaToimiala = (listaValittu) => {
    
    setToValue(listaValittu.target.value)
@@ -109,7 +107,7 @@ const Toimialat = () => {
               
             <div className="col jumbotron">
 
-            <p>Tietoja toimialasta</p>
+            <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
             
             <p>LKM: {maarataulukko[counter]}</p>
             
@@ -140,7 +138,7 @@ const Toimialat = () => {
             <p>JAAAA</p>
             <p>JAAAA</p>
             <p>JAAAA</p>
-            <p>JAAAA</p>
+            <p>JAAAA</p>head
 
             </div>
             </div>
@@ -151,19 +149,20 @@ const Toimialat = () => {
 
 
             <div className="col jumbotron">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
-                </label>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-secondary active">
+              <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt                  </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+              </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+              </label>
             </div>
             <p>JOOOOO</p>
+
             <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+
 
             </div>
             </div>

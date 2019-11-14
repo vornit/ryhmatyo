@@ -12,7 +12,7 @@ import dataToimialojenVerot from "./toimialojenVerot2"
 
 
 const lukupilkuilla = (x) => {
-  if (x == undefined) return "Ei tiedossa";
+  if (x === undefined) return "Ei tiedossa";
   else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
@@ -30,7 +30,7 @@ const lukupilkuilla = (x) => {
     // verotiedot taulukossa
     const verotiedot = dataverot.dataset.value
     // lista eri toimialoista
-    const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+    //const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
     // toimialojen määrät taulukossa
     const toimialojenMaarat = datatoimialatKunnittain.dataset.value
     // toimialat ja niitä vastaavat indeksit
@@ -208,7 +208,7 @@ function etsiVerot(toimialat, toimialojenLkmKunnalla, i){
   console.log(veroToimialat.index[alkutunnus])
   let valitunToimialanIndeksi = + aloitusindeksi2017 + veroToimialat.index[alkutunnus] * solujenLkmPerToimiala
   console.log(valitunToimialanIndeksi)
-  let toimialanVerotYhteensa = toimialojenVeroarvot[valitunToimialanIndeksi]
+  //let toimialanVerotYhteensa = toimialojenVeroarvot[valitunToimialanIndeksi]
   let toimialanVerotKM = toimialojenVeroarvot[valitunToimialanIndeksi + 1]
   let toimialanLkm = toimialojenLkmKunnalla[i]
   let toimialanVerotPerKunta = toimialanLkm * toimialanVerotKM
@@ -309,7 +309,7 @@ const App = () => {
 
  var nimiTaulukko = [];
  var kuntienIit = [];
- var vaakunaTaulukko = [];
+ //var vaakunaTaulukko = [];
 
 
  
@@ -362,7 +362,7 @@ const App = () => {
  }
 
  var paastotToimialat = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category
- var toimialatJaTunnukset = paastotToimialat.label
+ //var toimialatJaTunnukset = paastotToimialat.label
 
  var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
 
@@ -500,7 +500,7 @@ for (let x in jarjestetty) {
 
  }
 
- var asukasLukuI;
+ //var asukasLukuI;
  var listaI;
 
  // ottaa selectistä valuen ja asettaa sen countteriin

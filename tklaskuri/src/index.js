@@ -184,8 +184,7 @@ function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toim
   let toimialanPaastotKM = toimialanPaastot/toimialanLkmSuomessa
   let kokonaisPaastotKunnassa = toimialanPaastotKM * toimialanLkmKunnassa
   //console.log("asdf: " +  kokonaisPaastotKunnassa)
-  if (isNaN(toimialanPaastot)) return "Päästötietoja ei saatavilla"
-  return Math.ceil(kokonaisPaastotKunnassa) + " tonnia"
+  return kokonaisPaastotKunnassa
 }
 
 function etsiVerot(toimialat, toimialojenLkmKunnalla, i){
@@ -209,7 +208,7 @@ function etsiVerot(toimialat, toimialojenLkmKunnalla, i){
   let toimialanVerotKM = toimialojenVeroarvot[valitunToimialanIndeksi + 1]
   let toimialanLkm = toimialojenLkmKunnalla[i]
   let toimialanVerotPerKunta = toimialanLkm * toimialanVerotKM
-  return toimialanVerotPerKunta + "€"
+  return toimialanVerotPerKunta
   
 }
 
@@ -279,8 +278,7 @@ const App = () => {
     if (page === 'tietoja') {
       return <Tietoja />
     } else if (page === 'suhdeluku') {
-      //return <Suhdeluku />
-      return "jaa";
+      return <Suhdeluku />
     }
   }
 
@@ -383,22 +381,38 @@ const App = () => {
     let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
     let enitenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, enitenI)
     let enitenVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, enitenI)
+    let enitenSuhdeluku = -1 //jos suhdelukua ei voi laskea
+    if (!isNaN(enitenPaastot)) enitenSuhdeluku = enitenVerot/enitenPaastot
+    else enitenPaastot = "Päästötietoja ei saatavilla"
 
     let toiseksiEnitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[enitenI])
     let toinenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, toiseksiEnitenI)
     let toinenVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
+    let toinenSuhdeluku = -1 //jos suhdelukua ei voi laskea
+    if (!isNaN(toinenPaastot)) toinenSuhdeluku = toinenVerot/toinenPaastot
+    else toinenPaastot = "Päästötietoja ei saatavilla"
 
     let kolmasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[toiseksiEnitenI])
     let kolmasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, kolmasI)
     let kolmasVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, kolmasI)
+    let kolmasSuhdeluku = -1 //jos suhdelukua ei voi laskea
+    if (!isNaN(kolmasPaastot)) kolmasSuhdeluku = kolmasVerot/kolmasPaastot
+      else kolmasPaastot = "Päästötietoja ei saatavilla"
 
     let neljasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[kolmasI])
     let neljasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, neljasI)
     let neljasVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, neljasI)
+    let neljasSuhdeluku = -1 //jos suhdelukua ei voi laskea
+    if (!isNaN(neljasPaastot)) neljasSuhdeluku = neljasVerot/neljasPaastot
+      else neljasPaastot = "Päästötietoja ei saatavilla"
 
     let viidesI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[neljasI])
     let viidesPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, viidesI)
     let viidesVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, viidesI)
+    let viidesSuhdeluku = -1 //jos suhdelukua ei voi laskea
+    if (!isNaN(viidesPaastot)) viidesSuhdeluku = viidesVerot/viidesPaastot
+      else viidesPaastot = "Päästötietoja ei saatavilla"
+
     //let kolmas = etsiSuurin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
     let enitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, enitenI)
     let toiseksiEnitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
@@ -498,6 +512,24 @@ for (let x in jarjestetty) {
   )
  }
 
+const Suhdeluku = () => {
+  return (
+    <div>
+     <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus} 
+                                  <small class="text-muted">Suhdeluku: </small>{enitenSuhdeluku} </li>
+      <li class="list-group-item"><small class="text-muted">2: </small> {toiseksiEnitenTulostus} 
+                                  <small class="text-muted">Suhdeluku: </small>{toinenSuhdeluku} </li>
+      <li class="list-group-item"><small class="text-muted">3: </small> {kolmasTulostus} 
+                                  <small class="text-muted">Suhdeluku: </small>{kolmasSuhdeluku} </li>
+      <li class="list-group-item"><small class="text-muted">4: </small> {neljasTulostus} 
+                                  <small class="text-muted">Suhdeluku: </small>{neljasSuhdeluku} </li>
+      <li class="list-group-item"><small class="text-muted">5: </small> {viidesTulostus} 
+                                  <small class="text-muted">Suhdeluku: </small>{viidesSuhdeluku} </li>
+    </div>
+
+
+  )
+}
 
 
  return (

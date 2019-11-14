@@ -111,7 +111,7 @@ const Toimialat = () => {
             
             <p>LKM: {maarataulukko[counter]}</p>
             
-            <p>Toimialan verot yhteensä: {verotaulukko[counter]}</p>
+            <p>Toimialan verot yhteensä: {verotaulukko[counter]} €</p>
             
             <p>JOOOOOOO</p>
             
@@ -161,7 +161,8 @@ const Toimialat = () => {
             </div>
             <p>JOOOOO</p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
+              VALITULLA TOIMIALALLA</p>
 
 
             </div>

@@ -180,12 +180,9 @@ function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toim
   let toimiala = toimialat[i]
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
   let toimialanPaastot = toimialojenPaastot[alkutunnus]
-<<<<<<< HEAD
-=======
   let toimialanPaastotKM = toimialanPaastot/toimialanLkmSuomessa
   let kokonaisPaastotKunnassa = toimialanPaastotKM * toimialanLkmKunnassa
   console.log("asdf: " +  kokonaisPaastotKunnassa)
->>>>>>> a33959d46b3095f96d0ebfe7fed448446a88b0b5
   if (isNaN(toimialanPaastot)) return "Päästötietoja ei saatavilla"
   return kokonaisPaastotKunnassa + " tuhatta kilogrammaa"
 }
@@ -293,6 +290,11 @@ const App = () => {
     //console.log(toimiAlatJarj)
     // käyttäjän valitseman kunnan toimialatiedot taulukossa 
     var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
+    
+
+    
+    var kokoSuomenToimialojenLkmt = parsiKunnanToimialat(0, toimiAlatJarj)
+    //console.log(kokoSuomenToimialatLkm)
   
 
    

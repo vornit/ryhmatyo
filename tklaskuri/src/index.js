@@ -184,7 +184,7 @@ function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toim
   let kokonaisPaastotKunnassa = toimialanPaastotKM * toimialanLkmKunnassa
   console.log("asdf: " +  kokonaisPaastotKunnassa)
   if (isNaN(toimialanPaastot)) return "Päästötietoja ei saatavilla"
-  return Math.ceil(kokonaisPaastotKunnassa) + " tonnia"
+  return Math.ceil(kokonaisPaastotKunnassa) + " tonnia kasvihuonepäästöjä"
 }
 
 const App = () => {

@@ -362,9 +362,9 @@ for (let x in jarjestetty) {
          <div class="col jumbotron">
 
          <div className="tiedotheader">
-           <h5>{nimetJarjestyksessa[counter]}</h5> 
+           <h4 align="center">{nimetJarjestyksessa[counter]}</h4> 
            
-           <img src={vaakunat[counter].image} alt="new" align="right"/>
+           <img src={vaakunat[counter].image} alt="new" align="center"/>
          </div>
 
          <ul class="list-group list-group-horizontal">

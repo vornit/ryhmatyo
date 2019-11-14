@@ -3,15 +3,13 @@ import datatoimialatKunnittain from "./toimialatKunnittain2";
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
-
-
-
 const Toimialat = () => {
 
     // State joka pitää muistissa indeksiä 
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
+
   function luoToimialaTaulukko() {
 
     var taulukko = [];
@@ -53,7 +51,6 @@ const Toimialat = () => {
  }
  
  
-   
    const tulostaToimiala = (listaValittu) => {
    
    setToValue(listaValittu.target.value)
@@ -83,7 +80,7 @@ const Toimialat = () => {
               
             <div className="col jumbotron">
 
-            <p>Tietoja toimialasta</p>
+            <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
             
             <p>JOOOOOOO</p>
             
@@ -114,7 +111,7 @@ const Toimialat = () => {
             <p>JAAAA</p>
             <p>JAAAA</p>
             <p>JAAAA</p>
-            <p>JAAAA</p>
+            <p>JAAAA</p>head
 
             </div>
             </div>
@@ -122,25 +119,20 @@ const Toimialat = () => {
             <div className="row">
 
 
-<<<<<<< HEAD
 
 
             <div className="col jumbotron">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
-                </label>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-secondary active">
+              <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt                  </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+              </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+              </label>
             </div>
             <p>JOOOOO</p>
-=======
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
->>>>>>> ecf66c5270da6cd4951f9486836b800cf69058cb
 
             </div>
             </div>

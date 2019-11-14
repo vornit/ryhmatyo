@@ -118,6 +118,10 @@ ul {
   height:100%;
  }
 
+ .list-group-item {
+  position: unset;
+ }
+
  
 
 

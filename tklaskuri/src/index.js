@@ -185,12 +185,14 @@ function etsiPaastot(toimiala, toimialojenPaastot){
 
 const App = () => {
 
-  const [page, setPage] = useState('toimialat')
+  const [page, setPage] = useState('paikkakunnat')
 
   const  toPage = (page) => (event) => {
     event.preventDefault()
     setPage(page)
   }
+
+  
     
   
 
@@ -209,11 +211,11 @@ const App = () => {
 
       <div>
       
-      <div class="row justify-content-md-center">
+      <div className="row justify-content-md-center">
          
-        <div class="btn-group btn-group-lg">
-        <button type="button" class="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Toimialat</button>
-        <button type="button" class="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Paikkakunnat</button>
+        <div className="btn-group btn-group-lg">
+        <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Toimialat</button>
+        <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
         </div>
         
         
@@ -376,10 +378,6 @@ for (let x in jarjestetty) {
 
 
 
-
-
- 
-
  // Hakutoiminto, ottaa inputista valuen ja vertaa sitä selectin valueihin
  // piilottaa valuet, jotka eivät vastaa hakusanaa
  var select
@@ -413,10 +411,10 @@ for (let x in jarjestetty) {
  var asukaslukuInd = 0;
 
 
+
  return (
  // Bootstrapin pääcontainer
  <div className="container">	
-
 
 
 
@@ -479,6 +477,17 @@ for (let x in jarjestetty) {
 
          <div class="row">
     <div class="col jumbotron">
+
+             <div className="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-secondary active">
+              <input type="radio" name="options" id="option1" autoComplete="off" checked/> Päästöt                  </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option2" autoComplete="off"/> Suhdeluku
+              </label>
+            </div>  
+
+
+
       <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus} 
                                   <small class="text-muted"> Toimialan päästöt: </small>{enitenPaastot} </li>
       <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus} 

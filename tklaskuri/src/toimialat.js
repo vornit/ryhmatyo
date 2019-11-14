@@ -142,14 +142,14 @@ const Toimialat = () => {
 
 
             <div className="col jumbotron">
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <div className="btn-group btn-group-toggle" data-toggle="buttons">
              <label class="btn btn-secondary active">
-              <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt                  </label>
+              <input type="radio" name="options" id="option1" autoComplete="off" checked/> Päästöt                  </label>
               <label class="btn btn-secondary">
-              <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+              <input type="radio" name="options" id="option2" autoComplete="off"/> Suhdeluku
               </label>
               <label class="btn btn-secondary">
-              <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+              <input type="radio" name="options" id="option3" autoComplete="off"/> Jöö
               </label>
             </div>
             <p>JOOOOO</p>

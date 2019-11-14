@@ -35,7 +35,7 @@ const lukupilkuilla = (x) => {
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
-console.log(datatoimialatKunnittain)
+
   
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella

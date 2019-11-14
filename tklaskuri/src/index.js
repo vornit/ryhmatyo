@@ -284,8 +284,7 @@ const App = () => {
     if (page === 'tietoja') {
       return <Tietoja />
     } else if (page === 'suhdeluku') {
-      //return <Suhdeluku />
-      return "jaa";
+      return <Suhdeluku />
     }
   }
 
@@ -478,6 +477,10 @@ for (let x in jarjestetty) {
 
  // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
  var asukaslukuInd = 0;
+
+ const Suhdeluku = () => {
+   return "suhdelukuhommia"
+ }
 
  const Tietoja = () => {
 

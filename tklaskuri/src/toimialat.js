@@ -3,6 +3,7 @@ import datatoimialatKunnittain from "./toimialatKunnittain2";
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+
 const Toimialat = () => {
 
     // State joka pitää muistissa indeksiä 
@@ -133,6 +134,9 @@ const Toimialat = () => {
               </label>
             </div>
             <p>JOOOOO</p>
+
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+
 
             </div>
             </div>

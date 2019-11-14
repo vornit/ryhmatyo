@@ -7,10 +7,11 @@ import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
 import ToimialatValilehti from './toimialat'
 import dataPaastot from "./paastotToimialoittain"
+import dataToimialojenVerot from "./toimialojenVerot2"
 
 
 
-console.log(dataPaastot)
+console.log(dataToimialojenVerot)
 
 
     //objektilista kuntien nimistä
@@ -177,16 +178,41 @@ function parsiPaastotVuodelta(vuodenIndeksi){
 function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toimialojenLkmKunnalla, i){
   let toimialanLkmSuomessa = toimialojenLkmSuomessa[i]
   let toimialanLkmKunnassa = toimialojenLkmKunnalla[i]
-  console.log("asd: " +  toimialanLkmKunnassa)
+  //console.log("asd: " +  toimialanLkmKunnassa)
   let toimiala = toimialat[i]
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
-  console.log(alkutunnus)
+  //console.log(alkutunnus)
   let toimialanPaastot = toimialojenPaastot[alkutunnus]
   let toimialanPaastotKM = toimialanPaastot/toimialanLkmSuomessa
   let kokonaisPaastotKunnassa = toimialanPaastotKM * toimialanLkmKunnassa
-  console.log("asdf: " +  kokonaisPaastotKunnassa)
+  //console.log("asdf: " +  kokonaisPaastotKunnassa)
   if (isNaN(toimialanPaastot)) return "Päästötietoja ei saatavilla"
   return kokonaisPaastotKunnassa + " tuhatta kilogrammaa"
+}
+
+function etsiVerot(toimialat, toimialojenLkmKunnalla, i){
+  let toimiala = toimialat[i]
+  let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
+  const veroToimialat = dataToimialojenVerot.dataset.dimension.Toimiala.category
+  let toimialojenLkm = Object.keys(veroToimialat.label).length
+  let toimialojenVeroarvot = dataToimialojenVerot.dataset.value
+  let vuoden2017Indeksi = 3
+  let solujenLkmPerToimiala = 2
+  let aloitusindeksi2017 = toimialojenLkm * vuoden2017Indeksi * solujenLkmPerToimiala
+  let toimialojenVerot2017 = []
+  for (let j = aloitusindeksi2017; j < aloitusindeksi2017 + toimialojenLkm; j++){
+    toimialojenVerot2017.push(toimialojenVeroarvot[j])
+  }
+
+  console.log(veroToimialat.index[alkutunnus])
+  let valitunToimialanIndeksi = + aloitusindeksi2017 + veroToimialat.index[alkutunnus] * solujenLkmPerToimiala
+  console.log(valitunToimialanIndeksi)
+  let toimialanVerotYhteensa = toimialojenVeroarvot[valitunToimialanIndeksi]
+  let toimialanVerotKM = toimialojenVeroarvot[valitunToimialanIndeksi + 1]
+  let toimialanLkm = toimialojenLkmKunnalla[i]
+  let toimialanVerotPerKunta = toimialanLkm * toimialanVerotKM
+  return toimialanVerotPerKunta + "€"
+  
 }
 
 const App = () => {
@@ -309,7 +335,7 @@ const App = () => {
 
  var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
 
- console.log(paastojenToimialatJarj)
+ //console.log(paastojenToimialatJarj)
 
  var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
  var TAtunnuksetJaPaastoarvot = {}
@@ -319,7 +345,7 @@ const App = () => {
   let arvo = paastotToimialoittain2008[i]
   TAtunnuksetJaPaastoarvot[avain] = arvo
  }
-console.log(TAtunnuksetJaPaastoarvot)
+//console.log(TAtunnuksetJaPaastoarvot)
 
 
 
@@ -330,18 +356,23 @@ console.log(TAtunnuksetJaPaastoarvot)
     
     let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
     let enitenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, enitenI)
+    let enitenVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, enitenI)
 
     let toiseksiEnitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[enitenI])
     let toinenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, toiseksiEnitenI)
+    let toinenVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
 
     let kolmasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[toiseksiEnitenI])
     let kolmasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, kolmasI)
+    let kolmasVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, kolmasI)
 
     let neljasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[kolmasI])
     let neljasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, neljasI)
+    let neljasVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, neljasI)
 
     let viidesI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[neljasI])
     let viidesPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, viidesI)
+    let viidesVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, viidesI)
     //let kolmas = etsiSuurin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
     let enitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, enitenI)
     let toiseksiEnitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
@@ -489,15 +520,20 @@ for (let x in jarjestetty) {
          <div class="row">
     <div class="col jumbotron">
       <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus} 
-                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{enitenPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{enitenPaastot} 
+                                  <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{enitenVerot}</li>
       <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus} 
-                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {toinenPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {toinenPaastot}
+                                  <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{toinenVerot}</li>
       <li class="list-group-item"><small class="text-muted">3: </small> {kolmasTulostus} 
-                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {kolmasPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {kolmasPaastot}
+                                  <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{kolmasVerot}</li>
       <li class="list-group-item"><small class="text-muted">4: </small> {neljasTulostus} 
-                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {neljasPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {neljasPaastot}
+                                  <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{neljasVerot}</li>
       <li class="list-group-item"><small class="text-muted">5: </small> {viidesTulostus} 
-                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {viidesPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {viidesPaastot}
+                                  <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{viidesVerot}</li>
     </div>
     
   </div>

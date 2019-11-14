@@ -26,28 +26,24 @@ const Toimialat = () => {
 
 
 
-  function luoToimialaTaulukko() {
-
+  function luoTaulukot() {
     
-      for (let key in toimialalista){
-        if(key.length == 2){
-          
-          alataulukko.push(toimialalista[key])
-          maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
-          if (toimialojenVerot[nimiJaIndeksi[key]] == null){
-            verotaulukko.push("Ei tiedossa")
-          }
-          else verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+    for (let key in toimialalista){
+      if(key.length == 2){
+        alataulukko.push(toimialalista[key])
+        maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
+        if (toimialojenVerot[nimiJaIndeksi[key]] == null){
 
-        }
-          
-          continue;
-          
+          verotaulukko.push("Ei tiedossa")
         } 
-          
-        return alataulukko;
-
-    }
+        else {
+        
+         verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+        }
+      }    
+    }           
+    return alataulukko;
+  }
     
 
     function parsiTaulukko(taulukko){
@@ -61,7 +57,7 @@ const Toimialat = () => {
     var toimialaInd = 0;
     var haettava;
     var select;
-    var taulukkoToimialoista = luoToimialaTaulukko();
+    var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
     
 

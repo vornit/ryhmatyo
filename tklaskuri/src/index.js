@@ -10,7 +10,6 @@ import dataPaastot from "./paastotToimialoittain"
 
 
 
-console.log(dataPaastot)
 
 
     //objektilista kuntien nimistä
@@ -32,7 +31,7 @@ console.log(dataPaastot)
     // toimialat ja niitä vastaavat indeksit
     const toimialatJaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category
 
-
+console.log(datatoimialatKunnittain)
   
 
 /** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
@@ -57,7 +56,6 @@ function luoVeroTaulukko(sarakeNro){
   }
   return taulukko;
 }
-
 //function luoPaastot
 
 /** Parsii sovelluksessa valitun kunnan toimialatiedot yhteen taulukkoon.
@@ -75,6 +73,7 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat){
   //else if (kunnanIndeksi > 1  && kunnanIndeksi < 8 ) alkuindeksi2 = alkuindeksi - toimialojenLkm
   //else alkuindeksi2 = alkuindeksi
   //console.log("alkui: " + alkuindeksi2)
+
 
 
   for ( let i = alkuindeksi; i < (alkuindeksi + toimialojenLkm); i++){
@@ -180,7 +179,6 @@ function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toim
   console.log("asd: " +  toimialanLkmKunnassa)
   let toimiala = toimialat[i]
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
-  console.log(alkutunnus)
   let toimialanPaastot = toimialojenPaastot[alkutunnus]
   let toimialanPaastotKM = toimialanPaastot/toimialanLkmSuomessa
   let kokonaisPaastotKunnassa = toimialanPaastotKM * toimialanLkmKunnassa
@@ -318,6 +316,9 @@ const App = () => {
     //console.log(toimiAlatJarj)
     // käyttäjän valitseman kunnan toimialatiedot taulukossa 
     var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
+    
+
+    
     var kokoSuomenToimialojenLkmt = parsiKunnanToimialat(0, toimiAlatJarj)
     //console.log(kokoSuomenToimialatLkm)
   
@@ -335,8 +336,6 @@ const App = () => {
 
  var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
 
- console.log(paastojenToimialatJarj)
-
  var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
  var TAtunnuksetJaPaastoarvot = {}
  for (let i = 0; i < Object.keys(paastojenToimialatJarj).length; i++){
@@ -345,7 +344,6 @@ const App = () => {
   let arvo = paastotToimialoittain2008[i]
   TAtunnuksetJaPaastoarvot[avain] = arvo
  }
-console.log(TAtunnuksetJaPaastoarvot)
 
 
 

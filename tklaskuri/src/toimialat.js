@@ -4,6 +4,8 @@ import dataToimialojenVerot from "./toimialojenVerot"
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
+const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
+const toimialojenMaarat = datatoimialatKunnittain.dataset.value
 
 const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
 const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
@@ -20,6 +22,8 @@ const Toimialat = () => {
 
   var verotaulukko = [];
   var alataulukko = [];
+  var maarataulukko = [];
+
 
 
   function luoToimialaTaulukko() {
@@ -28,18 +32,21 @@ const Toimialat = () => {
       for (let key in toimialalista){
         if(key.length == 2){
           
-          var x = nimiJaIndeksi[key]
           alataulukko.push(toimialalista[key])
+          maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
           if (toimialojenVerot[nimiJaIndeksi[key]] == null){
             verotaulukko.push("Ei tiedossa")
           }
           else verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
 
         }
+          
           continue;
+          
         } 
-        
+          
         return alataulukko;
+
     }
     
 
@@ -104,9 +111,11 @@ const Toimialat = () => {
 
             <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
             
-            <p>LKM</p>
+            <p>LKM: {maarataulukko[counter]}</p>
             
-            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])}</p>
+
+            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
+
             
             <p>JOOOOOOO</p>
             
@@ -156,7 +165,8 @@ const Toimialat = () => {
             </div>
             <p>JOOOOO</p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
+              VALITULLA TOIMIALALLA</p>
 
 
             </div>

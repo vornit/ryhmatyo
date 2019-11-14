@@ -1,27 +1,43 @@
 import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
+import dataToimialojenVerot from "./toimialojenVerot"
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 
+const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
+const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
+const toimialojenVerot = dataToimialojenVerot.dataset.value
 
 
 const Toimialat = () => {
 
+//console.log(verotaulukko)
     // State joka pitää muistissa indeksiä 
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
+  var verotaulukko = [];
+  var alataulukko = [];
+
   function luoToimialaTaulukko() {
 
-    var taulukko = [];
+    
       for (let key in toimialalista){
         if(key.length == 2){
-          taulukko.push(toimialalista[key])
+          
+          var x = nimiJaIndeksi[key]
+          alataulukko.push(toimialalista[key])
+          if (toimialojenVerot[nimiJaIndeksi[key]] == null){
+            verotaulukko.push("Ei tiedossa")
+          }
+          else verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+
         }
           continue;
         } 
-        return taulukko;
+        
+        return alataulukko;
     }
     
 
@@ -57,7 +73,7 @@ const Toimialat = () => {
    const tulostaToimiala = (listaValittu) => {
    
    setToValue(listaValittu.target.value)
-   console.log(listaValittu.target.value)
+   
    
  }
 
@@ -85,9 +101,9 @@ const Toimialat = () => {
 
             <p>Tietoja toimialasta</p>
             
-            <p>JOOOOOOO</p>
+            <p>LKM</p>
             
-            <p>JOOOOOOO</p>
+            <p>Toimialan verot yhteensä: {verotaulukko[counter]}</p>
             
             <p>JOOOOOOO</p>
             

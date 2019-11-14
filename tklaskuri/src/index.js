@@ -12,7 +12,8 @@ import dataToimialojenVerot from "./toimialojenVerot2"
 
 
 const lukupilkuilla = (x) => {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  if (x == undefined) return "Ei tiedossa";
+  else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
 

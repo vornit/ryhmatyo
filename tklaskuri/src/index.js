@@ -39,7 +39,9 @@ const lukupilkuilla = (x) => {
 
   
 
-/** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella
+/** Parsii paikkakuntadataa omiin taulukoihin sarakenumeron perusteella.
+* @param {number} sarakeNro Paikkakuntadatan sarakenumero; kuntien as. luvut: 0, väkiluvunmuutokset: 1, työasteet: 2, työpaikkojen lkm: 3.
+* @returns Taulukko haluttua paikkakuntadataa
 */
 function luoPKtaulukko(sarakeNro){
   var taulukko = [];
@@ -50,6 +52,9 @@ function luoPKtaulukko(sarakeNro){
 }
 
 /** Parsii verotiedot omaan taulukkoon sarakenumeron perusteella
+* @param {number} sarakeNro Verodatan sarakenumero; tulonsaajat: 0, veronalaiset tulot keskimäär: 1, ansiotulot km: 2, verot yhteensä km: 3,
+*                                                   valtion vero km: 4, kunnallisvero km: 5.
+* @returns Taulukko haluttua verodataa
 */
 function luoVeroTaulukko(sarakeNro){
   var taulukko = [];
@@ -61,11 +66,12 @@ function luoVeroTaulukko(sarakeNro){
   }
   return taulukko;
 }
-//function luoPaastot
 
 /** Parsii sovelluksessa valitun kunnan toimialatiedot yhteen taulukkoon.
-* Parametreina ovat valitun kunnan indeksi ja toimialojen nimet järjestetyssä listassa.
 * Toimialojen määrät -datasetistä lasketaan oikea aloitusindeksi kunnan indeksin avulla.
+* @param {number} kunnanIndeksi Käyttäjän valitseman kunnan indeksi (koko maan toimialat indeksissä 0)
+* @param {list} toimialat Lista kaikista toimialoista
+* @returns Valitun kunnan toimialojen lukumäärät taulukossa
 */
 function parsiKunnanToimialat(kunnanIndeksi, toimialat){
   var toimialojenLkm = Object.keys(toimialat).length
@@ -88,12 +94,13 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat){
 
 }
 
-/** Etsii annetusta kunnan toimialojen lkm -taulukosta suurimman alkion indeksin.
+/** Etsii toimialan indeksin, jota löytyy eniten valitusta kunnasta.
 * Ohittaa parametrina annetun alkion ja sitä suuremmat, jotta funktiota voi käyttää myös
-* toiseksi suurimman etsintään (jne)
-* param1(tAlaNimet): toimialojen nimet järjestetyssä listassa
-* param2(tAlaLkm): valitun kunnan toimialojen lukumäärät taulukossa
-* param3(ohita): Alkion indeksi, joka ja jota suuremmat ohitetaan
+* toiseksi suurimman etsintään (jne).
+* @param {list} tAlaNimet Toimialojen nimet järjestetyssä listassa
+* @param {array} tAlaLkm Valitun kunnan toimialojen lukumäärät taulukossa
+* @param {number} ohita Alkion indeksi, joka ja jota suuremmat ohitetaan
+* @returns Suurimman alkion indeksi, pl. ohitetut alkiot
 */
 function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohita){
   //console.log(tAlaLkm)
@@ -118,7 +125,11 @@ function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohita){
 }
 
 /** Muotoilee ja palauttaa merkkijonona annettua indeksiä vastaavan toimialan 
-* nimen ja lukumäärän
+* nimen ja lukumäärän.
+* @param {list} toimialojenNimet Toimialat ja niiden indeksit listassa avain-arvo pareina.
+* @param {array} toimialojenLkm Valitun kunnan toimialojen lukumäärät taulukossa.
+* @param {number} i Toimialan indeksi
+* @returns Merkkijono muotoa "[toimialan nimi] : [toimialan lkm valitussa kunnassa]"
 */ 
 function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
   //console.log(eniten)
@@ -137,6 +148,10 @@ function tulostaToimialat(toimialojenNimet, toimialojenLkm, i){
   //return toimialojenNimet[i] + " : " + toimialojenLkm[i] + " "
 }
 
+/** Järjestää annetun datasetin indeksien perusteella suuruusjärjestykseen.
+* @param {list} datasetti Lista-pari labeleista ja indekseistä
+* @returns Avain-arvo lista indekseistä ja labeleista
+*/
 function jarjestaIndekseittain(datasetti){
   var labelit = []
     for (let x in datasetti.label){
@@ -165,6 +180,10 @@ function jarjestaIndekseittain(datasetti){
 
 }
 
+/** Parsii jokaisen toimialan päästöt tietyltä vuodelta.
+* @param {number} vuodenIndeksi Halutun vuoden indeksi, alkaen 0: 2008, 1: 2009, 2:2010 etc.
+* @returns Taulukko toimialojen päästöarvoista (pelkät arvot)
+*/
 function parsiPaastotVuodelta(vuodenIndeksi){
   var paastoTaulukko = dataPaastot.dataset.value
   let toimialojenLkm = Object.keys(dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.label).length
@@ -178,6 +197,15 @@ function parsiPaastotVuodelta(vuodenIndeksi){
 
 }
 
+/** Etsii indeksiä vastaavan toimialan päästöarvon, ja laskee toimialan keskimääräiset päästöt
+* valitussa kunnassa.
+* @param {list} toimialat Lista toimialoista ja niiden indekseistä avain-arvo pareina
+* @param {list} toimialojenPaastot Lista-pari toimialojen päästöistä ja niiden indekseistä
+* @param {array} toimialojenLkmSuomessa Taulukko toimialojen lukumääristä koko suomessa
+* @param {array} toimialojenLkmKunnalla Taulukko toimialojen lukumääristä käyttäjän valitsemassa kunnassa
+* @param {number} i Indeksi jolla valitaan haluttu toimiala
+* @returns Toimialan keskimääräiset päästöt kunnassa, NaN jos ei saatavilla
+*/
 function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toimialojenLkmKunnalla, i){
   let toimialanLkmSuomessa = toimialojenLkmSuomessa[i]
   let toimialanLkmKunnassa = toimialojenLkmKunnalla[i]
@@ -191,6 +219,13 @@ function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toim
   return kokonaisPaastotKunnassa
 }
 
+/** Etsii indeksiä vastaavan toimialan verotiedot, ja laskee toimialan keskimääräiset verotulot
+* valitussa kunnassa.
+* @param {list} toimialat Lista toimialoista ja niiden indekseistä avain-arvo pareina
+* @param {array} toimialojenLkmKunnalla Taulukko toimialojen lukumääristä käyttäjän valitsemassa kunnassa
+* @param {number} i Indeksi jolla valitaan haluttu toimiala
+* @returns Toimialan keskimääräiset veromaksut kunnassa, NaN jos ei saatavilla
+*/
 function etsiVerot(toimialat, toimialojenLkmKunnalla, i){
   let toimiala = toimialat[i]
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
@@ -383,7 +418,7 @@ const App = () => {
  var arvo;
  var nimetJaIndeksit = {};
 
-    
+    // TODO: alla spagettikoodia jota pitää siistiä funktioilla
     let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
     let enitenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, enitenI)
     let enitenVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, enitenI)
@@ -393,8 +428,10 @@ const App = () => {
       enitenPaastot = enitenPaastot + " tonnia kasvihuonekaasuja"
       enitenVerot = enitenVerot + "€"
     }
-    else enitenPaastot = "Päästötietoja ei saatavilla"
-
+    else {
+    	enitenPaastot = "Päästötietoja ei saatavilla"
+    	enitenVerot = enitenVerot + "€"
+    }
     let toiseksiEnitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[enitenI])
     let toinenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, toiseksiEnitenI)
     let toinenVerot   = etsiVerot(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
@@ -404,7 +441,10 @@ const App = () => {
       toinenPaastot = toinenPaastot + " tonnia kasvihuonekaasuja"
       toinenVerot = toinenVerot + "€"
     }
-    else toinenPaastot = "Päästötietoja ei saatavilla"
+    else {
+    	toinenPaastot = "Päästötietoja ei saatavilla"
+    	toinenVerot = toinenVerot + "€"
+    }
 
     let kolmasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[toiseksiEnitenI])
     let kolmasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, kolmasI)
@@ -415,7 +455,10 @@ const App = () => {
       kolmasPaastot = kolmasPaastot + " tonnia kasvihuonekaasuja"
       kolmasVerot = kolmasVerot + "€"
     }
-    else kolmasPaastot = "Päästötietoja ei saatavilla"
+    else {
+    	kolmasPaastot = "Päästötietoja ei saatavilla"
+    	kolmasVerot = kolmasVerot + "€"
+    }
 
     let neljasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[kolmasI])
     let neljasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, neljasI)
@@ -426,7 +469,10 @@ const App = () => {
       neljasPaastot = neljasPaastot + " tonnia kasvihuonekaasuja"
       neljasVerot = neljasVerot + "€"
     }
-    else neljasPaastot = "Päästötietoja ei saatavilla"
+    else {
+    	neljasPaastot = "Päästötietoja ei saatavilla"
+    	neljasVerot = neljasVerot + "€"
+    }
 
     let viidesI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[neljasI])
     let viidesPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, viidesI)
@@ -437,9 +483,11 @@ const App = () => {
       viidesPaastot = viidesPaastot + " tonnia kasvihuonekaasuja"
       viidesVerot = viidesVerot + "€"
     }
-    else viidesPaastot = "Päästötietoja ei saatavilla"
+    else {
+    	viidesPaastot = "Päästötietoja ei saatavilla"
+    	viidesVerot = viidesVerot + "€"
+    }
 
-    //let kolmas = etsiSuurin(toimiAlatJarj, kunnantoimialat, toiseksiEniten)
     let enitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, enitenI)
     let toiseksiEnitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
     let kolmasTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, kolmasI)

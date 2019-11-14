@@ -1,27 +1,45 @@
 import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
+import dataToimialojenVerot from "./toimialojenVerot"
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 
+const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
+const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
+const toimialojenVerot = dataToimialojenVerot.dataset.value
+
 
 const Toimialat = () => {
 
+//console.log(verotaulukko)
     // State joka pitää muistissa indeksiä 
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
 
+  var verotaulukko = [];
+  var alataulukko = [];
+
+
   function luoToimialaTaulukko() {
 
-    var taulukko = [];
+    
       for (let key in toimialalista){
         if(key.length == 2){
-          taulukko.push(toimialalista[key])
+          
+          var x = nimiJaIndeksi[key]
+          alataulukko.push(toimialalista[key])
+          if (toimialojenVerot[nimiJaIndeksi[key]] == null){
+            verotaulukko.push("Ei tiedossa")
+          }
+          else verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+
         }
           continue;
         } 
-        return taulukko;
+        
+        return alataulukko;
     }
     
 
@@ -53,11 +71,10 @@ const Toimialat = () => {
  }
  
  
-   
    const tulostaToimiala = (listaValittu) => {
    
    setToValue(listaValittu.target.value)
-   console.log(listaValittu.target.value)
+   
    
  }
 
@@ -83,11 +100,11 @@ const Toimialat = () => {
               
             <div className="col jumbotron">
 
-            <p>Tietoja toimialasta</p>
+            <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
             
-            <p>JOOOOOOO</p>
+            <p>LKM</p>
             
-            <p>JOOOOOOO</p>
+            <p>Toimialan verot yhteensä: {verotaulukko[counter]}</p>
             
             <p>JOOOOOOO</p>
             
@@ -114,7 +131,7 @@ const Toimialat = () => {
             <p>JAAAA</p>
             <p>JAAAA</p>
             <p>JAAAA</p>
-            <p>JAAAA</p>
+            <p>JAAAA</p>head
 
             </div>
             </div>
@@ -125,19 +142,20 @@ const Toimialat = () => {
 
 
             <div className="col jumbotron">
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-secondary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
-                </label>
-                <label class="btn btn-secondary">
-                <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
-                </label>
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+             <label class="btn btn-secondary active">
+              <input type="radio" name="options" id="option1" autocomplete="off" checked/> Päästöt                  </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option2" autocomplete="off"/> Suhdeluku
+              </label>
+              <label class="btn btn-secondary">
+              <input type="radio" name="options" id="option3" autocomplete="off"/> Jöö
+              </label>
             </div>
             <p>JOOOOO</p>
+
             <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VALITULLA TOIMIALALLA</p>
+
 
             </div>
             </div>

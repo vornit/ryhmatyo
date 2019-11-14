@@ -1,3 +1,7 @@
+body {
+  background-color: #FCFCFC;
+}
+
 .App {
   text-align: center;
 }
@@ -53,13 +57,19 @@
 }
 
 .tiedotheader {
-  
+  position: absolute;
+  z-index: 1;
  height: 30px;
   align-content: space-between;
 }
 
 col-sm {
   margin-bottom: 0rem;  
+}
+
+h4 {
+  margin-top: 1em;
+  margin-left: 25em;
 }
 
 h5 {
@@ -77,11 +87,13 @@ p {
 }
 
 img {
-  margin-right: 0.7em;
+  margin-top: 1.5em;
+  margin-left: 40em;
+  zoom: 1.2;
 }
 
 body {
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
 
 #listaKunnista {
@@ -105,6 +117,8 @@ ul {
   width:100%;
   height:100%;
  }
+
+ 
 
 
 

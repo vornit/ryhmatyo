@@ -455,9 +455,9 @@ for (let x in jarjestetty) {
          <div class="col jumbotron">
 
          <div className="tiedotheader">
-           <h5>{nimetJarjestyksessa[counter]}</h5> 
+           <h4 align="center">{nimetJarjestyksessa[counter]}</h4> 
            
-           <img src={vaakunat[counter].image} alt="new" align="right"/>
+           <img src={vaakunat[counter].image} alt="new" align="center"/>
          </div>
 
          <ul class="list-group list-group-horizontal">
@@ -491,13 +491,13 @@ for (let x in jarjestetty) {
       <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus} 
                                   <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{enitenPaastot} </li>
       <li class="list-group-item"><small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus} 
-                                  <small class="text-muted">Toimialan päästöt: </small> {toinenPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {toinenPaastot} </li>
       <li class="list-group-item"><small class="text-muted">3: </small> {kolmasTulostus} 
-                                  <small class="text-muted">Toimialan päästöt: </small> {kolmasPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {kolmasPaastot} </li>
       <li class="list-group-item"><small class="text-muted">4: </small> {neljasTulostus} 
-                                  <small class="text-muted">Toimialan päästöt: </small> {neljasPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {neljasPaastot} </li>
       <li class="list-group-item"><small class="text-muted">5: </small> {viidesTulostus} 
-                                  <small class="text-muted">Toimialan päästöt: </small> {viidesPaastot} </li>
+                                  <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {viidesPaastot} </li>
     </div>
     
   </div>

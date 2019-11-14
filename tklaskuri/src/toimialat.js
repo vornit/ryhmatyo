@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
-import dataToimialojenVerot from "./toimialojenVerot"
+import dataToimialojenVerot from "./toimialojenVerot";
+import dataPaastot from "./paastotToimialoittain";
 
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
@@ -10,6 +11,10 @@ const toimialojenMaarat = datatoimialatKunnittain.dataset.value
 const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
 const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
 const toimialojenVerot = dataToimialojenVerot.dataset.value
+
+const toimialojenPaastot = dataPaastot.dataset.value
+const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.index;
+
 
 
 const Toimialat = () => {
@@ -23,6 +28,8 @@ const Toimialat = () => {
   var verotaulukko = [];
   var alataulukko = [];
   var maarataulukko = [];
+  var paastotaulukko = [];
+
 
 
 
@@ -32,6 +39,7 @@ const Toimialat = () => {
       if(key.length == 2){
         alataulukko.push(toimialalista[key])
         maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
+        paastotaulukko.push(toimialojenPaastot[toimialojenPaastotIndeksit[key]])
         if (toimialojenVerot[nimiJaIndeksi[key]] == null){
 
           verotaulukko.push("Ei tiedossa")
@@ -40,11 +48,12 @@ const Toimialat = () => {
         
          verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
         }
-      }    
+      } 
+
     }           
     return alataulukko;
   }
-    
+
 
     function parsiTaulukko(taulukko){
 
@@ -83,7 +92,8 @@ const Toimialat = () => {
 
 
  function lukupilkuilla(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  if (x == undefined) return "Ei tiedossa";
+  else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 
  return (
@@ -105,9 +115,9 @@ const Toimialat = () => {
               
             <div className="col jumbotron">
 
-            <p>TÄNNE NIITÄ PÄÄSTÖJÄ VOIS TUNKEA?</p>
+            <p>Toimialan kokonaispäästöt: {lukupilkuilla(paastotaulukko[counter])}</p>
             
-            <p>LKM: {maarataulukko[counter]}</p>
+            <p>Toimialojen kokonaislukumäärä: {lukupilkuilla(maarataulukko[counter])}</p>
             
 
             <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>

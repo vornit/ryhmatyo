@@ -248,8 +248,8 @@ function etsiVerot(toimialat, toimialojenLkmKunnalla, i) {
   let toimialanLkm = toimialojenLkmKunnalla[i]
   let toimialanVerotPerKunta = toimialanLkm * toimialanVerotKM
   return toimialanVerotPerKunta
-
 }
+
 
 const App = () => {
 
@@ -412,87 +412,9 @@ const Paikkakunnat = () => {
   }
 
 
-
-
   var avain;
   var arvo;
   var nimetJaIndeksit = {};
-
-  // TODO: alla spagettikoodia jota pitää siistiä funktioilla
-  let enitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, 9999999)
-  let enitenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, enitenI)
-  let enitenVerot = etsiVerot(toimiAlatJarj, kunnantoimialat, enitenI)
-  let enitenSuhdeluku = -1 //jos suhdelukua ei voi laskea
-  if (!isNaN(enitenPaastot)) {
-    enitenSuhdeluku = enitenVerot / enitenPaastot
-    enitenPaastot = enitenPaastot + " tonnia kasvihuonekaasuja"
-    enitenVerot = enitenVerot + "€"
-  }
-  else {
-    enitenPaastot = "Päästötietoja ei saatavilla"
-    enitenVerot = enitenVerot + "€"
-  }
-  let toiseksiEnitenI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[enitenI])
-  let toinenPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, toiseksiEnitenI)
-  let toinenVerot = etsiVerot(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
-  let toinenSuhdeluku = -1 //jos suhdelukua ei voi laskea
-  if (!isNaN(toinenPaastot)) {
-    toinenSuhdeluku = toinenVerot / toinenPaastot
-    toinenPaastot = toinenPaastot + " tonnia kasvihuonekaasuja"
-    toinenVerot = toinenVerot + "€"
-  }
-  else {
-    toinenPaastot = "Päästötietoja ei saatavilla"
-    toinenVerot = toinenVerot + "€"
-  }
-
-  let kolmasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[toiseksiEnitenI])
-  let kolmasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, kolmasI)
-  let kolmasVerot = etsiVerot(toimiAlatJarj, kunnantoimialat, kolmasI)
-  let kolmasSuhdeluku = -1 //jos suhdelukua ei voi laskea
-  if (!isNaN(kolmasPaastot)) {
-    kolmasSuhdeluku = kolmasVerot / kolmasPaastot
-    kolmasPaastot = kolmasPaastot + " tonnia kasvihuonekaasuja"
-    kolmasVerot = kolmasVerot + "€"
-  }
-  else {
-    kolmasPaastot = "Päästötietoja ei saatavilla"
-    kolmasVerot = kolmasVerot + "€"
-  }
-
-  let neljasI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[kolmasI])
-  let neljasPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, neljasI)
-  let neljasVerot = etsiVerot(toimiAlatJarj, kunnantoimialat, neljasI)
-  let neljasSuhdeluku = -1 //jos suhdelukua ei voi laskea
-  if (!isNaN(neljasPaastot)) {
-    neljasSuhdeluku = neljasVerot / neljasPaastot
-    neljasPaastot = neljasPaastot + " tonnia kasvihuonekaasuja"
-    neljasVerot = neljasVerot + "€"
-  }
-  else {
-    neljasPaastot = "Päästötietoja ei saatavilla"
-    neljasVerot = neljasVerot + "€"
-  }
-
-  let viidesI = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, kunnantoimialat[neljasI])
-  let viidesPaastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, viidesI)
-  let viidesVerot = etsiVerot(toimiAlatJarj, kunnantoimialat, viidesI)
-  let viidesSuhdeluku = -1 //jos suhdelukua ei voi laskea
-  if (!isNaN(viidesPaastot)) {
-    viidesSuhdeluku = viidesVerot / viidesPaastot
-    viidesPaastot = viidesPaastot + " tonnia kasvihuonekaasuja"
-    viidesVerot = viidesVerot + "€"
-  }
-  else {
-    viidesPaastot = "Päästötietoja ei saatavilla"
-    viidesVerot = viidesVerot + "€"
-  }
-
-  let enitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, enitenI)
-  let toiseksiEnitenTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, toiseksiEnitenI)
-  let kolmasTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, kolmasI)
-  let neljasTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, neljasI)
-  let viidesTulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, viidesI)
 
 
   // valintalista kunnista, indeksöi samalla 0->n
@@ -562,62 +484,86 @@ const Paikkakunnat = () => {
   // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
   var asukaslukuInd = 0;
 
+  //alustetaan muuttujioen arvot 
+  var indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, Number.MAX_VALUE)
+  var paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+  var verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+  var ohita = Number.MAX_VALUE;
+  var monesko = ""
+  var monesko2 = 1
+  var lista = []
+  var tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+  
 
   const Tietoja = () => {
 
+    for (i = 0; i < 5; i++) {
+      indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
+      paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+      verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+      tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+
+      if (!isNaN(paastot)) {
+        paastot = paastot + " tonnia kasvihuonekaasuja"
+        verot = verot + "€"
+      }
+      else {
+        paastot = "Päästötietoja ei saatavilla"
+        verot = verot + "€"
+      }
+
+      lista.push (<li class="list-group-item">
+                  <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}
+                  <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastot}
+                  <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(verot)}
+        </li>)
+
+      monesko2++
+      monesko = monesko2 + "."
+        
+      ohita = kunnantoimialat[indeksi]
+    }
+  
     return (
-
       <div>
-        <li class="list-group-item">
-          <small class="text-muted">Toimialoja eniten: </small> {enitenTulostus}
-          <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{enitenPaastot}
-          <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(enitenVerot)}
-        </li>
-
-        <li class="list-group-item">
-          <small class="text-muted">Toimialoja toiseksi eniten: </small> {toiseksiEnitenTulostus}
-          <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {toinenPaastot}
-          <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(toinenVerot)}
-        </li>
-
-        <li class="list-group-item">
-          <small class="text-muted">Toimialoja 3. eniten: </small> {kolmasTulostus}
-          <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {kolmasPaastot}
-          <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(kolmasVerot)}
-        </li>
-
-        <li class="list-group-item">
-          <small class="text-muted">Toimialoja 4. eniten: </small> {neljasTulostus}
-          <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {neljasPaastot}
-          <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(neljasVerot)}
-        </li>
-
-        <li class="list-group-item">
-          <small class="text-muted">Toimialoja 5. eniten: </small> {viidesTulostus}
-          <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small> {viidesPaastot}
-          <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(viidesVerot)}
-        </li>
-
+        {lista}
       </div>
     )
   }
 
+
   const Suhdeluku = () => {
+  
+    for (i = 0; i < 5; i++) {
+      indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
+      paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+      verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+  
+      let suhdeluku = -1 //jos suhdelukua ei voi laskea
+      if (!isNaN(paastot)) {
+        suhdeluku = verot / paastot
+        paastot = paastot + " tonnia kasvihuonekaasuja"
+        verot = verot + "€"
+      }
+      else {
+        paastot = "Päästötietoja ei saatavilla"
+        verot = verot + "€"
+      }
+    
+      tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+      lista.push (<li class="list-group-item"><small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}
+                  <small class="text-muted"> Suhdeluku: </small>{suhdeluku} </li>)
+
+      monesko2++
+      monesko = monesko2 + "."
+
+      ohita = kunnantoimialat[indeksi]
+    }
+  
     return (
       <div>
-        <li class="list-group-item"><small class="text-muted">Toimialoja eniten: </small> {enitenTulostus}
-          <small class="text-muted">Suhdeluku: </small>{enitenSuhdeluku} </li>
-        <li class="list-group-item"><small class="text-muted">2: </small> {toiseksiEnitenTulostus}
-          <small class="text-muted">Suhdeluku: </small>{toinenSuhdeluku} </li>
-        <li class="list-group-item"><small class="text-muted">3: </small> {kolmasTulostus}
-          <small class="text-muted">Suhdeluku: </small>{kolmasSuhdeluku} </li>
-        <li class="list-group-item"><small class="text-muted">4: </small> {neljasTulostus}
-          <small class="text-muted">Suhdeluku: </small>{neljasSuhdeluku} </li>
-        <li class="list-group-item"><small class="text-muted">5: </small> {viidesTulostus}
-          <small class="text-muted">Suhdeluku: </small>{viidesSuhdeluku} </li>
+        {lista}
       </div>
-
-
     )
   }
 

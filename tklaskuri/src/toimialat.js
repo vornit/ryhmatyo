@@ -101,7 +101,7 @@ const Toimialat = () => {
             <div className="col-sm">
               
               <div>
-              <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
+              <input type="text" id="search" className="form-control" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
               </div>
           
               <select id="listaToimialoista"className="form-control" size="20 " onChange={tulostaToimiala} >

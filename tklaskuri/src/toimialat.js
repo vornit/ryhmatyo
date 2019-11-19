@@ -3,6 +3,7 @@ import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 
+
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
@@ -16,11 +17,13 @@ const toimialojenPaastot = dataPaastot.dataset.value
 const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.index;
 
 
+
 console.log(datatoimialatKunnittain)
+
 const Toimialat = () => {
 
-//console.log(verotaulukko)
-    // State joka pitää muistissa indeksiä 
+console.log(datatoimialatKunnittain)
+    
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
@@ -159,7 +162,7 @@ const Toimialat = () => {
             <div className="col-sm">
               
               <div>
-              <input type="text" id="search" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
+              <input type="text" id="search" className="form-control" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
               </div>
           
               <select id="listaToimialoista"className="form-control" size="20 " onChange={tulostaToimiala} >
@@ -198,16 +201,12 @@ const Toimialat = () => {
 
 
             <div className="col jumbotron">
-              <div className="btn-group btn-group-toggle" data-toggle="buttons">
-             <label class="btn btn-secondary active">
-              <input type="radio" name="options" id="option1" autoComplete="off" checked/> Päästöt                  </label>
-              <label class="btn btn-secondary">
-              <input type="radio" name="options" id="option2" autoComplete="off"/> Suhdeluku
-              </label>
-              <label class="btn btn-secondary">
-              <input type="radio" name="options" id="option3" autoComplete="off"/> Jöö
-              </label>
-            </div>
+
+            <div className="btn-group btn-group-sm">
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Tietoja</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('suhdeluku')}>Suhdeluku</button>
+              </div>
+
             <p>JOOOOO</p>
 
             <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 

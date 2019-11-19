@@ -17,13 +17,13 @@ const lukupilkuilla = (x) => {
 }
 
 
-//objektilista kuntien nimistä
+// objektilista kuntien nimistä
 const kuntienNimet = data.dataset.dimension["Alue 2019"].category.label
-//objektilista asukasluvuista
+// objektilista asukasluvuista
 const pktiedot = data.dataset.value
-//objektilista kuntien indekseistä
+// objektilista kuntien indekseistä
 const kuntienIndeksit = data.dataset.dimension["Alue 2019"].category.index
-//vuodet 2005-2017 taulukossa indeksistä 0 alkaen
+// vuodet 2005-2017 taulukossa indeksistä 0 alkaen
 const veroTietojenVuodet = Object.keys(dataverot.dataset.dimension.Vuosi.category.label)
 // objektilista verotietoihin koskevista kategorioista
 const verokategoriat = dataverot.dataset.dimension.Tiedot.category.label
@@ -659,7 +659,7 @@ const Paikkakunnat = () => {
 
 
 
-          <br />
+          
           <div className="row">
             <div class="col jumbotron">
 
@@ -669,7 +669,7 @@ const Paikkakunnat = () => {
                 <img src={vaakunat[counter].image} alt="new" align="center" />
               </div>
 
-              <ul class="list-group list-group-horizontal">
+              <ul class="list-group list-group-horizontal list-group-flush">
 
                 <ul class="list-group">
 

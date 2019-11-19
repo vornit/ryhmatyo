@@ -484,20 +484,36 @@ const Paikkakunnat = () => {
   // asukasluvut löytyvät taulukosta neljän indeksin välein ([0,4,8,...])
   var asukaslukuInd = 0;
 
-  //alustetaan muuttujioen arvot 
-  var indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, Number.MAX_VALUE)
-  var paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
-  var verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-  var ohita = Number.MAX_VALUE;
-  var monesko = ""
-  var monesko2 = 1
-  var lista = []
-  var tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+  //alustetaan muuttujat
+  var indeksi
+  var paastot
+  var verot 
+  var ohita 
+  var monesko 
+  var monesko2
+  var lista
+  var tulostus
+  var suhdeluvut
+  var suhdeluku
+
+  function alustaMuuttujat() {
+    indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, Number.MAX_VALUE)
+    paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+    verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+    ohita = Number.MAX_VALUE;
+    monesko = ""
+    monesko2 = 1
+    lista = []
+    tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+    suhdeluvut = []
+    suhdeluku = -1 //jos suhdelukua ei voi laskea
+  }
   
 
   const Tietoja = () => {
+    alustaMuuttujat();
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 10; i++) {
       indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
       paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
       verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
@@ -534,12 +550,13 @@ const Paikkakunnat = () => {
 
   const Suhdeluku = () => {
   
-    for (i = 0; i < 5; i++) {
+    alustaMuuttujat();
+
+    for (i = 0; i < Object.keys(toimiAlatJarj).length; i++) {
       indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
       paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
       verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-  
-      let suhdeluku = -1 //jos suhdelukua ei voi laskea
+      
       if (!isNaN(paastot)) {
         suhdeluku = verot / paastot
         paastot = paastot + " tonnia kasvihuonekaasuja"
@@ -549,16 +566,38 @@ const Paikkakunnat = () => {
         paastot = "Päästötietoja ei saatavilla"
         verot = verot + "€"
       }
-    
-      tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+      suhdeluvut.push([suhdeluku, indeksi])
+
+      ohita = kunnantoimialat[indeksi]
+    }
+
+    let suhdeluvutJarj = suhdeluvut.sort(function(a, b) {
+      return b[0] - a[0];
+    });
+    console.log(suhdeluvutJarj)
+
+    alustaMuuttujat();
+
+    for (let i = 0; i < 10; i++){
+      
+
+      paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, suhdeluvutJarj[i][1])
+      verot = etsiVerot(toimiAlatJarj, kunnantoimialat, suhdeluvutJarj[i][1])
+      paastot = paastot + " tonnia kasvihuonekaasuja"
+      verot = verot + "€"
+
+      tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, suhdeluvutJarj[i][1])
       lista.push (<li class="list-group-item"><small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}
-                  <small class="text-muted"> Suhdeluku: </small>{suhdeluku} </li>)
+                  <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i][0]} </li>)
 
       monesko2++
       monesko = monesko2 + "."
 
-      ohita = kunnantoimialat[indeksi]
+      //ohita = kunnantoimialat[indeksi]
+
     }
+    console.log(lista)
+
   
     return (
       <div>

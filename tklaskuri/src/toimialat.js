@@ -30,9 +30,6 @@ const Toimialat = () => {
   var maarataulukko = [];
   var paastotaulukko = [];
 
-
-
-
   function luoTaulukot() {
     
     for (let key in toimialalista){
@@ -113,22 +110,7 @@ const Toimialat = () => {
               </select>
 
               
-            <div className="col jumbotron">
-
-            <p>Toimialan kokonaispäästöt: {lukupilkuilla(paastotaulukko[counter])}</p>
-            
-            <p>Toimialojen kokonaislukumäärä: {lukupilkuilla(maarataulukko[counter])}</p>
-            
-
-            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
-
-            
-            <p>JOOOOOOO</p>
-            
-            <p>JOOOOOOO</p>
-            
-
-            </div>
+           
 
 
       
@@ -144,12 +126,10 @@ const Toimialat = () => {
             <div className="row">
             <div className="col jumbotron">
 
-            <p>JAAAA</p>
-            <p>JAAAA</p>
-            <p>JAAAA</p>
-            <p>JAAAA</p>
-            <p>JAAAA</p>head
-
+            <p>Toimialan kokonaispäästöt: {lukupilkuilla(paastotaulukko[counter])}</p>
+            <p>Toimialojen kokonaislukumäärä: {lukupilkuilla(maarataulukko[counter])}</p>
+            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
+            
             </div>
             </div>
 

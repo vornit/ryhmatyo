@@ -4,10 +4,13 @@ import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 
 
+
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
 const toimialojenMaarat = datatoimialatKunnittain.dataset.value
+const kuntienIndeksit = datatoimialatKunnittain.dataset.dimension.Kunta.category.index
+const kuntienNimet = datatoimialatKunnittain.dataset.dimension.Kunta.category.label
 
 const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
 const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
@@ -19,15 +22,17 @@ const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL
 
 
 console.log(datatoimialatKunnittain)
+console.log(kuntienIndeksit)
 
 const Toimialat = () => {
 
-console.log(datatoimialatKunnittain)
     
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
-
+  var enitenKunnassa = [];
+  var kuntienNimetTop = [];
+  var kunnanAvain = [];
   var verotaulukko = [];
   var alataulukko = [];
   var maarataulukko = [];
@@ -46,51 +51,39 @@ console.log(datatoimialatKunnittain)
     
   }
 
+  function haeAvain(lista, value){
+  	return Object.keys(lista).find(key => lista[key] === value);
+  }
+
   function etsiIsoin(){
-    var enitenKunnassa = [];
-    var kunnanAvain = [];
+    
     var suurin = 0;
     var maxIndex = 0;
 
-    for(let i = 1; i < value.length; i++){
-      if(value[i] > suurin){
-        maxIndex = i;
-        suurin = value[i];
-        if(enitenKunnassa.length < 5){
-          enitenKunnassa.push(suurin)
-          kunnanAvain.push(maxIndex)
-        }
-        if(enitenKunnassa.length == 5){
-          enitenKunnassa[4] = enitenKunnassa[3]
-          enitenKunnassa[3] = enitenKunnassa[2]
-          enitenKunnassa[2] = enitenKunnassa[1]
-          enitenKunnassa[1] = enitenKunnassa[0]
-          enitenKunnassa[0] = suurin
-
-          kunnanAvain[4] = kunnanAvain[3]
-          kunnanAvain[3] = kunnanAvain[2]
-          kunnanAvain[2] = kunnanAvain[1]
-          kunnanAvain[1] = kunnanAvain[0]
-          kunnanAvain[0] = maxIndex
-
-        }
-        
-      }
-      
-      console.log("eniten kunnassa " + enitenKunnassa)
-      console.log("kunnan avain " + kunnanAvain)
+    for (let i = 0; i < value.length; i++){
+    	enitenKunnassa.push(i);
+    	if(enitenKunnassa.length > 5){
+    		enitenKunnassa.sort(function(a,b) { return value[b] - value[a];});
+    		enitenKunnassa.pop();
+    	}
     }
 
+    for (let i = 0; i < enitenKunnassa.length; i++){
+    	kuntienNimetTop.push(haeAvain(kuntienIndeksit, enitenKunnassa[i]))
+    	console.log("eniten kunnassa " + enitenKunnassa)
+        console.log("eniten kunnassa2 " + haeAvain(kuntienIndeksit, enitenKunnassa[i]) )
+        console.log("kunnan nimi " + kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])])
+        console.log("kuntienNimetTop " + kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[2])])
+    }  
+       
   }
-
+  
+      
   function luoTaulukot() {
    // var toimialojenLkm = Object.keys(toimialat).length
     for (let key in toimialalista){
       if(key.length == 2){
 
-     //   for (let i = key; i < toimialojenLkm; ()) {
-      //    value.push(toimialojenMaarat[i]);
-       // }
         toimialojenAvaimet.push(key)
         alataulukko.push(toimialalista[key])
         maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
@@ -109,20 +102,19 @@ console.log(datatoimialatKunnittain)
     return alataulukko;
   }
 
-
     function parsiTaulukko(taulukko){
 
       for(let x in taulukko){
         taulukko[x] = taulukko[x].replace(/^[\s\d]+/, '');
       }
     }
- 
-    
+
     var toimialaInd = 0;
     var haettava;
     var select;
     var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
+    
     
 
     const etsiToimiala = (hakusana) => {
@@ -140,10 +132,7 @@ console.log(datatoimialatKunnittain)
  
    const tulostaToimiala = (listaValittu) => {
    
-   setToValue(listaValittu.target.value)
-   toimialanPaikkakunnat(listaValittu.target.value)
-   etsiIsoin(listaValittu.target.value)
-   
+   setToValue(listaValittu.target.value) 
    
  }
 
@@ -152,8 +141,7 @@ console.log(datatoimialatKunnittain)
   if (x == undefined) return "Ei tiedossa";
   else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
-  console.log("maarataulukko 1 " + maarataulukko)
-
+ 
  return (
   // Bootstrapin pääcontainer
   <div className="container">   
@@ -190,7 +178,8 @@ console.log(datatoimialatKunnittain)
             <p>Toimialan kokonaispäästöt: {lukupilkuilla(paastotaulukko[counter])}</p>
             <p>Toimialojen kokonaislukumäärä: {lukupilkuilla(maarataulukko[counter])}</p>
             <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
-            <p>value[counter]</p>
+
+            <p>eniten paikkakunta: {lukupilkuilla(kuntienNimetTop[counter])}</p>
             
             </div>
             </div>
@@ -207,9 +196,9 @@ console.log(datatoimialatKunnittain)
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('suhdeluku')}>Suhdeluku</button>
               </div>
 
-            <p>JOOOOO</p>
+            <p></p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA, JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA  , JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
               VALITULLA TOIMIALALLA</p>
 
 

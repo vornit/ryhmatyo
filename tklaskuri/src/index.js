@@ -9,6 +9,9 @@ import ToimialatValilehti from './toimialat'
 import dataPaastot from "./paastotToimialoittain"
 import dataToimialojenVerot from "./toimialojenVerot2"
 
+console.log(dataPaastot)
+console.log(dataToimialojenVerot)
+
 
 
 const lukupilkuilla = (x) => {
@@ -105,8 +108,8 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat) {
 */
 function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohita) {
   //console.log(tAlaLkm)
-  let suurin = 0
-  let suurimmanI = 0
+  let suurin = -1
+  let suurimmanI = ohita
   for (let i = 0; i < tAlaLkm.length; i++) {
     if (tAlaLkm[i] >= tAlaLkm[ohita]) continue;
     if (tAlaLkm[i] > suurin) {
@@ -208,6 +211,7 @@ function parsiPaastotVuodelta(vuodenIndeksi) {
 * @returns Toimialan keskimääräiset päästöt kunnassa, NaN jos ei saatavilla
 */
 function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toimialojenLkmKunnalla, i) {
+  //console.log(toimialojenLkmKunnalla)
   let toimialanLkmSuomessa = toimialojenLkmSuomessa[i]
   let toimialanLkmKunnassa = toimialojenLkmKunnalla[i]
   //console.log("asd: " +  toimialanLkmKunnassa)
@@ -249,6 +253,50 @@ function etsiVerot(toimialat, toimialojenLkmKunnalla, i) {
   let toimialanLkm = toimialojenLkmKunnalla[i]
   let toimialanVerotPerKunta = toimialanLkm * toimialanVerotKM
   return toimialanVerotPerKunta
+}
+
+function laskeSuhdeluvut(toimialatYlaotsikot, kunnantoimialat, toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt){
+ var indeksi; //etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
+ var paastot //= etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+ var verot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+ var ohita = -1;
+ var suhdeluvut = []
+ var suhdeluku = -1 //jos suhdelukua ei voi laskea
+
+  for (let i = 0; i < toimialatYlaotsikot.length; i++) {
+
+    indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
+    //console.log(indeksi)
+    
+    paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+    console.log(paastot)
+    verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+    console.log(verot)
+    
+    if (!isNaN(paastot)) {
+      suhdeluku = verot / paastot
+    }
+    else {
+      suhdeluku = -1;
+    }
+    //console.log(suhdeluku)
+    /*if (suhdeluku < 0){
+      ohita = indeksi
+      continue;
+    }*/
+
+    suhdeluvut.push({suhde: suhdeluku, toimiala: indeksi})
+    
+
+    ohita = indeksi
+  }
+  console.log(suhdeluvut)
+
+  let suhdeluvutJarj = suhdeluvut.sort(function(a, b){
+    return b.suhde - a.suhde
+  });
+  console.log(suhdeluvutJarj)
+      return suhdeluvutJarj
 }
 
 
@@ -380,22 +428,46 @@ const Paikkakunnat = () => {
     toimiAlatJarj[key] = toimiAJaI[key];
   });
 
+  var toimialatYlaotsikot = []
+  for (let i = 0; i < Object.keys(toimiAlatJarj).length; i++){
+    let tAla = toimiAlatJarj[i]
+    let alkutunnus = tAla.substr(0, tAla.indexOf(' ')).trim()
+    if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
+    toimialatYlaotsikot.push(toimiAlatJarj[i])
+  }
+  //console.log(toimialatYlaotsikot)
+
+  var paastotToimialat = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category
+  //var toimialatJaTunnukset = paastotToimialat.label
+
+  var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
+
+  var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
+  var TAtunnuksetJaPaastoarvot = {}
+  for (let i = 0; i < Object.keys(paastojenToimialatJarj).length; i++) {
+    let s = paastojenToimialatJarj[i]
+    let avain = s.substr(0, s.indexOf(' ')).trim()
+    let arvo = paastotToimialoittain2008[i]
+    TAtunnuksetJaPaastoarvot[avain] = arvo
+  }
+
+  var kokoSuomenToimialojenLkmt = parsiKunnanToimialat(0, toimiAlatJarj)
+  //console.log(kokoSuomenToimialatLkm)
+
   //console.log(toimiAlatJarj)
   // käyttäjän valitseman kunnan toimialatiedot taulukossa 
   var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
-  
+  //console.log(kunnantoimialat)
+  var kunnanSuhdeluvut = laskeSuhdeluvut(toimialatYlaotsikot, kunnantoimialat, toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt);
+  //console.log(kunnanSuhdeluvut)
 
   var EriToimialojenLkmKunnassa;
 
   for (let i = 0; i < kunnantoimialat.length; i++){
     if (kunnantoimialat[i] <= 0) EriToimialojenLkmKunnassa++;
   }
-  console.log(kunnantoimialat)
+  //console.log(kunnantoimialat)
 
-
-
-  var kokoSuomenToimialojenLkmt = parsiKunnanToimialat(0, toimiAlatJarj)
-  //console.log(kokoSuomenToimialatLkm)
 
 
 
@@ -406,20 +478,10 @@ const Paikkakunnat = () => {
     kuntienIit.push(kuntienIndeksit[x]);
   }
 
-  var paastotToimialat = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category
-  //var toimialatJaTunnukset = paastotToimialat.label
-
-  var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
 
 
-  var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
-  var TAtunnuksetJaPaastoarvot = {}
-  for (let i = 0; i < Object.keys(paastojenToimialatJarj).length; i++) {
-    let s = paastojenToimialatJarj[i]
-    let avain = s.substr(0, s.indexOf(' ')).trim()
-    let arvo = paastotToimialoittain2008[i]
-    TAtunnuksetJaPaastoarvot[avain] = arvo
-  }
+  
+
 
 
   var avain;
@@ -508,24 +570,17 @@ const Paikkakunnat = () => {
   var suhdeluku
 
   //console.log(toimiAlatJarj)
-  var toimialatYlaotsikot = []
-  for (let i = 0; i < Object.keys(toimiAlatJarj).length; i++){
-    let tAla = toimiAlatJarj[i]
-    let alkutunnus = tAla.substr(0, tAla.indexOf(' ')).trim()
-    if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
-    toimialatYlaotsikot.push(toimiAlatJarj[i])
-  }
-  //console.log(toimialatYlaotsikot)
+  
 
   function alustaMuuttujat() {
-    indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, Number.MAX_VALUE)
-    paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
-    verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-    ohita = Number.MAX_VALUE;
+    //indeksi //= etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
+    //paastot //= etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+    //verot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+    ohita = -1;
     monesko = ""
     monesko2 = 1
     lista = []
-    tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
+    //tulostus = //tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
     suhdeluvut = []
     suhdeluku = -1 //jos suhdelukua ei voi laskea
   }
@@ -572,76 +627,34 @@ const Paikkakunnat = () => {
 
   const Suhdeluku = () => {
   
-    alustaMuuttujat();
+    lista = []
 
-    for (let i = 0; i < toimialatYlaotsikot.length; i++) {
-
-      indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
-      //console.log(toimiAlatJarj[indeksi])
+    for (let i = 0; i < kunnanSuhdeluvut.length; i++){
       
+      /*indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
       paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
-      //console.log(paastot)
-      verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-      //console.log(verot)
-      
-      if (!isNaN(paastot) && paastot > 0) {
-        suhdeluku = verot / paastot
-      }
-      else {
-        suhdeluku = -1;
-      }
-      console.log(suhdeluku)
-      if (paastot === 0) continue;
-      suhdeluvut.push({suhde: suhdeluku, toimiala: indeksi})
+      verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)*/
 
-      ohita = indeksi
-    }
+      tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, kunnanSuhdeluvut[i].toimiala)
 
-    console.log(suhdeluvut)
-    let suhdeluvutJarj = suhdeluvut.sort(function(a, b) {
-      return b.suhde - a.suhde;
-    });
-    //console.log(suhdeluvutJarj)
- 
-    alustaMuuttujat();
-
-    for (let i = 0; i < suhdeluvutJarj.length; i++){
-      
-
-      paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, suhdeluvutJarj[i].toimiala)
-      verot = etsiVerot(toimiAlatJarj, kunnantoimialat, suhdeluvutJarj[i].toimiala)
-
-      tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, suhdeluvutJarj[i].toimiala)
-
-      // Jos suhdelukua ei ole laskettu (eli on -1) ohitetaan listaan pushaus
-      if (suhdeluvutJarj[i].suhde != -1) {
 
       lista.push (<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
-                  <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)      
+                  <small class="text-muted"> Suhdeluku: </small>{kunnanSuhdeluvut[i].suhde} </li>)
 
-      }
-
-     
-
-      console.log(lista2)
 
       monesko2++
       monesko = monesko2 + "."
 
-      //ohita = kunnantoimialat[indeksi]
+      //ohita = indeksi
 
     }
+
+    //console.log(suhdeluvutJarj)
+ 
+    //alustaMuuttujat();
+
+    
     //console.log(lista)
-
-    var lista2 = [];
-    for (let i = 0; i < suhdeluvutJarj.length; i++){
-      
-      if (suhdeluvutJarj[i].suhde === -1) { continue;}
-      lista2.push(suhdeluvutJarj[i].suhde);
-
-    }
-
-    console.log("jaa", lista2)
 
   
     return (
@@ -689,9 +702,9 @@ const Paikkakunnat = () => {
                 <img src={vaakunat[counter].image} alt="new" align="center" />
               </div>
 
-              <ul className="list-group list-group-horizontal list-group-flush">
+              <ul class="list-group list-group-horizontal list-group-flush">
 
-                <ul className="list-group">
+                <ul class="list-group">
 
                   <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}</li>
                   <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}</li>
@@ -700,7 +713,7 @@ const Paikkakunnat = () => {
                   <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}</li>
                 </ul>
 
-                <ul className="list-group">
+                <ul class="list-group">
 
                   <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small> </li>
                   <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small></li>

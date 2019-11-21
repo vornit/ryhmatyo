@@ -74,6 +74,7 @@ function luoVeroTaulukko(sarakeNro) {
 * @returns Valitun kunnan toimialojen lukumäärät taulukossa
 */
 function parsiKunnanToimialat(kunnanIndeksi, toimialat) {
+
   var toimialojenLkm = Object.keys(toimialat).length
   var kunnanToimialojenLkmt = [];
   var alkuindeksi = kunnanIndeksi * toimialojenLkm;
@@ -381,6 +382,7 @@ const Paikkakunnat = () => {
   //console.log(toimiAlatJarj)
   // käyttäjän valitseman kunnan toimialatiedot taulukossa 
   var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
+  
 
   var EriToimialojenLkmKunnassa;
 

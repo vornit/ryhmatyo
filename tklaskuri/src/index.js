@@ -9,6 +9,9 @@ import ToimialatValilehti from './toimialat'
 import dataPaastot from "./paastotToimialoittain"
 import dataToimialojenVerot from "./toimialojenVerot2"
 
+console.log(dataPaastot)
+console.log(dataToimialojenVerot)
+
 
 
 const lukupilkuilla = (x) => {
@@ -105,8 +108,8 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat) {
 */
 function etsiSuurimmanI(tAlaNimet, tAlaLkm, ohita) {
   //console.log(tAlaLkm)
-  let suurin = 0
-  let suurimmanI = 0
+  let suurin = -1
+  let suurimmanI = ohita
   for (let i = 0; i < tAlaLkm.length; i++) {
     if (tAlaLkm[i] >= tAlaLkm[ohita]) continue;
     if (tAlaLkm[i] > suurin) {
@@ -516,10 +519,10 @@ const Paikkakunnat = () => {
   //console.log(toimialatYlaotsikot)
 
   function alustaMuuttujat() {
-    indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, Number.MAX_VALUE)
+    indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
     paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
     verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-    ohita = Number.MAX_VALUE;
+    ohita = -1;
     monesko = ""
     monesko2 = 1
     lista = []
@@ -589,8 +592,13 @@ const Paikkakunnat = () => {
         suhdeluku = -1;
       }
       console.log(suhdeluku)
-      if (paastot == 0) continue;
+      if (suhdeluku < 0){
+        ohita = indeksi
+        continue;
+      }
+
       suhdeluvut.push({suhde: suhdeluku, toimiala: indeksi})
+
 
       ohita = indeksi
     }

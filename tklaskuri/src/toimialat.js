@@ -40,14 +40,21 @@ const Toimialat = () => {
   var paastotaulukko = [];
   var toimialojenAvaimet = [];
 
-  function toimialanPaikkakunnat(toimiala) {
+  function toimialanPaikkakunnat(counter) {
 
-    var toimialaInt = parseInt(toimiala)
+    var toimialaInt = parseInt(counter)
+    console.log("toimialaInt " + toimialaInt)
     var toimialojenLkm = Object.keys(toimialalista).length
     console.log(toimialojenLkm)
+    console.log("toimialojen maarat " + toimialojenMaarat)
     for (let i = toimialaInt; i < toimialojenMaarat.length; i = (i+toimialojenLkm)){
+      console.log("value = " + value)
+            console.log("i = " + i)
+
       value.push(toimialojenMaarat[i]);
     }
+    etsiIsoin();
+    console.log("value lista " + value)
     
   }
 
@@ -132,7 +139,11 @@ const Toimialat = () => {
  
    const tulostaToimiala = (listaValittu) => {
    
-   setToValue(listaValittu.target.value) 
+   setToValue(listaValittu.target.value)
+   toimialanPaikkakunnat(counter)
+   console.log(kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])])
+
+
    
  }
 
@@ -198,7 +209,7 @@ const Toimialat = () => {
 
             <p></p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA  , JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA {console.log(haeAvain(kuntienIndeksit, enitenKunnassa[1]))} , JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
               VALITULLA TOIMIALALLA</p>
 
 

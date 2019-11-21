@@ -473,6 +473,7 @@ const Paikkakunnat = () => {
   const etsiPaikkakunta = (hakusana) => {
 
     haettava = hakusana.target.value
+    
     select = document.getElementById("listaKunnista");
     for (var i = 0; i < select.length; i++) {
       var txt = select[i].text
@@ -619,9 +620,13 @@ const Paikkakunnat = () => {
 
       tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, suhdeluvutJarj[i].toimiala)
 
+      // Jos suhdelukua ei ole laskettu (eli on -1) ohitetaan listaan pushaus
+      if (suhdeluvutJarj[i].suhde != -1) {
 
       lista.push (<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
                   <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
+
+      }
 
       monesko2++
       monesko = monesko2 + "."
@@ -707,12 +712,14 @@ const Paikkakunnat = () => {
             <div class="col jumbotron">
 
 
-              <div className="btn-group btn-group-sm">
+              <div className="btn-group btn-group-sm pikkunapit">
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Tietoja</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
               </div>
 
-              {content()}
+              <div class="oikeala">
+               {content()}
+               </div>
 
 
             </div>

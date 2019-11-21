@@ -5,7 +5,9 @@ import dataPaastot from "./paastotToimialoittain";
 
 
 
+
 // asetetaan dataa jsoneista muuttujiin
+
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
 const toimialojenMaarat = datatoimialatKunnittain.dataset.value
@@ -89,7 +91,7 @@ const Toimialat = () => {
   function luoTaulukot() {
     
     for (let key in toimialalista){
-      if(key.length == 2){
+      if(key.length === 2){
 
         toimialojenAvaimet.push(key)
         alataulukko.push(toimialalista[key])
@@ -145,6 +147,7 @@ const Toimialat = () => {
 
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
+
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
@@ -205,7 +208,7 @@ const Toimialat = () => {
             <div className="col jumbotron">
 
             <div className="btn-group btn-group-sm">
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Tietoja</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Katotaan myöhemmin onko nämä napit tarpeellisia</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('suhdeluku')}>Suhdeluku</button>
               </div>
 
@@ -219,11 +222,6 @@ const Toimialat = () => {
             </div>
 
             </div>
-
-
-
-            
-
     </div>
 
 

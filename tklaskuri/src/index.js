@@ -700,18 +700,18 @@ const Paikkakunnat = () => {
           </div>
 
 
-          <div class="row oikeala">
+          <div class="row">
             <div class="col jumbotron">
 
 
-              <div className="btn-group btn-group-sm">
+              <div className="btn-group btn-group-sm pikkunapit">
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Tietoja</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
               </div>
 
-              
+              <div class="oikeala">
                {content()}
-              
+               </div>
 
 
             </div>

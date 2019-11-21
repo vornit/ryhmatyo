@@ -209,7 +209,7 @@ const Toimialat = () => {
 
             <p></p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA {kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])]} , JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA {console.log(haeAvain(kuntienIndeksit, enitenKunnassa[1]))} , JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
               VALITULLA TOIMIALALLA</p>
 
 

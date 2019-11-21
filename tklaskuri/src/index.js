@@ -252,6 +252,7 @@ function etsiVerot(toimialat, toimialojenLkmKunnalla, i) {
   let toimialanVerotKM = toimialojenVeroarvot[valitunToimialanIndeksi + 1]
   let toimialanLkm = toimialojenLkmKunnalla[i]
   let toimialanVerotPerKunta = toimialanLkm * toimialanVerotKM
+  console.log(toimialanVerotPerKunta)
   return toimialanVerotPerKunta
 }
 
@@ -266,14 +267,14 @@ function laskeSuhdeluvut(toimialatYlaotsikot, kunnantoimialat, toimiAlatJarj, TA
   for (let i = 0; i < toimialatYlaotsikot.length; i++) {
 
     indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
-    //console.log(indeksi)
+    console.log("indeksi" + indeksi)
     
     paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
     console.log(paastot)
     verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
     console.log(verot)
     
-    if (!isNaN(paastot)) {
+    if ((!isNaN(paastot) && !isNaN(verot)) && (paastot > 0)) {
       suhdeluku = verot / paastot
     }
     else {
@@ -285,7 +286,7 @@ function laskeSuhdeluvut(toimialatYlaotsikot, kunnantoimialat, toimiAlatJarj, TA
       continue;
     }*/
 
-    suhdeluvut.push({suhde: suhdeluku, toimiala: indeksi})
+    suhdeluvut.push({toimiala: indeksi, suhde: suhdeluku})
     
 
     ohita = indeksi
@@ -459,7 +460,7 @@ const Paikkakunnat = () => {
   var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
   //console.log(kunnantoimialat)
   var kunnanSuhdeluvut = laskeSuhdeluvut(toimialatYlaotsikot, kunnantoimialat, toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt);
-  //console.log(kunnanSuhdeluvut)
+  console.log(kunnanSuhdeluvut)
 
   var EriToimialojenLkmKunnassa;
 
@@ -626,6 +627,9 @@ const Paikkakunnat = () => {
 
 
   const Suhdeluku = () => {
+
+    monesko = ""
+    monesko2 = 1
   
     lista = []
 

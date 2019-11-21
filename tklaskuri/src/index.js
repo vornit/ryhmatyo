@@ -591,7 +591,7 @@ const Paikkakunnat = () => {
         suhdeluku = -1;
       }
       console.log(suhdeluku)
-      if (paastot == 0) continue;
+      if (paastot === 0) continue;
       suhdeluvut.push({suhde: suhdeluku, toimiala: indeksi})
 
       ohita = indeksi
@@ -617,9 +617,13 @@ const Paikkakunnat = () => {
       if (suhdeluvutJarj[i].suhde != -1) {
 
       lista.push (<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
-                  <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
+                  <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)      
 
       }
+
+     
+
+      console.log(lista2)
 
       monesko2++
       monesko = monesko2 + "."
@@ -628,6 +632,16 @@ const Paikkakunnat = () => {
 
     }
     //console.log(lista)
+
+    var lista2 = [];
+    for (let i = 0; i < suhdeluvutJarj.length; i++){
+      
+      if (suhdeluvutJarj[i].suhde === -1) { continue;}
+      lista2.push(suhdeluvutJarj[i].suhde);
+
+    }
+
+    console.log("jaa", lista2)
 
   
     return (
@@ -675,9 +689,9 @@ const Paikkakunnat = () => {
                 <img src={vaakunat[counter].image} alt="new" align="center" />
               </div>
 
-              <ul class="list-group list-group-horizontal list-group-flush">
+              <ul className="list-group list-group-horizontal list-group-flush">
 
-                <ul class="list-group">
+                <ul className="list-group">
 
                   <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}</li>
                   <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}</li>
@@ -686,7 +700,7 @@ const Paikkakunnat = () => {
                   <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}</li>
                 </ul>
 
-                <ul class="list-group">
+                <ul className="list-group">
 
                   <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small> </li>
                   <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small></li>

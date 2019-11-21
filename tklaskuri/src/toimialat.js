@@ -4,7 +4,6 @@ import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 
 
-
 // lista eri toimialoista
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
@@ -89,7 +88,7 @@ const Toimialat = () => {
   function luoTaulukot() {
    // var toimialojenLkm = Object.keys(toimialat).length
     for (let key in toimialalista){
-      if(key.length == 2){
+      if(key.length === 2){
 
         toimialojenAvaimet.push(key)
         alataulukko.push(toimialalista[key])
@@ -149,7 +148,7 @@ const Toimialat = () => {
 
 
  function lukupilkuilla(x) {
-  if (x == undefined) return "Ei tiedossa";
+  if (x === undefined) return "Ei tiedossa";
   else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
  
@@ -202,7 +201,7 @@ const Toimialat = () => {
             <div className="col jumbotron">
 
             <div className="btn-group btn-group-sm">
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Tietoja</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Katotaan myöhemmin onko nämä napit tarpeellisia</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('suhdeluku')}>Suhdeluku</button>
               </div>
 
@@ -216,11 +215,6 @@ const Toimialat = () => {
             </div>
 
             </div>
-
-
-
-            
-
     </div>
 
 

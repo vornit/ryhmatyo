@@ -5,7 +5,7 @@ import dataPaastot from "./paastotToimialoittain";
 
 
 
-// lista eri toimialoista
+// asetetaan dataa jsoneista muuttujiin
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
 const toimialojenMaarat = datatoimialatKunnittain.dataset.value
@@ -22,14 +22,15 @@ const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL
 
 
 console.log(datatoimialatKunnittain)
-console.log(kuntienIndeksit)
 
+//Pääkomponentti toimialoille
 const Toimialat = () => {
 
-    
+  // Counter pitää tiedossa valitun toimialan indeksin
   const [ counter, setCounter ] = useState(0)
   const setToValue = (value) => setCounter(value)
   
+  //iso läjä listoja
   var enitenKunnassa = [];
   var kuntienNimetTop = [];
   var kunnanAvain = [];
@@ -41,25 +42,33 @@ const Toimialat = () => {
   var toimialojenAvaimet = [];
   var kunnanNimiIndeksi;
 
+  /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
+  (n kpl koko suomen toimialoja, n kpl seuraavan kunnan toimialoja...)
+  Saadakseso kunnan x kaikki toimialat, aloita ensimmäisestä kyseisen toimialan indeksistä
+  ja hyppää toimialojen lukumäärän verran eteenpäin. 
+  */
   function toimialanPaikkakunnat(counter) {
-    var haettavaIndeksi = parseInt(toimialojenAvaimet[counter])
+    var haettavaIndeksi = toimialojenAvaimet[counter]
     var ekaToimialanArvo = toimialaIndeksit[haettavaIndeksi]
-
     var toimialojenLkm = Object.keys(toimialalista).length
-    
+
     for (let i = ekaToimialanArvo; i < toimialojenMaarat.length; i = (i+toimialojenLkm)){
       
-      kuntienToimialaLkm.push(toimialojenMaarat[i]);
+      kuntienToimialaLkm.push(toimialojenMaarat[i])
     }
+
     etsiIsoin();
     kunnanNimiIndeksi = haeAvain(kuntienIndeksit, enitenKunnassa[1])
     
   }
 
+  //Annetaan value, jolle etsitään ja palautetaan sitä vastaava key
   function haeAvain(lista, value){
+
   	return Object.keys(lista).find(key => lista[key] === value);
   }
 
+  //pitää 5:n alkion mittaista järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
   function etsiIsoin(){
     
     var suurin = 0;
@@ -75,7 +84,8 @@ const Toimialat = () => {
        
   }
   
-      
+  //Luo ison läjän keyn mukaan indeksöityjä listoja
+  //listasta valittaessa saadaan samalla indeksillä muista listoista oikeita arvoja
   function luoTaulukot() {
     
     for (let key in toimialalista){
@@ -99,7 +109,7 @@ const Toimialat = () => {
     
     return alataulukko;
   }
-
+    //Korvaa toimialojen nimissä olevat numerot ja alun välit tyhjällä
     function parsiTaulukko(taulukko){
 
       for(let x in taulukko){
@@ -113,8 +123,7 @@ const Toimialat = () => {
     var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
     
-    
-
+    //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
     const etsiToimiala = (hakusana) => {
    
    haettava = hakusana.target.value
@@ -127,19 +136,21 @@ const Toimialat = () => {
    }
  }
  
- 
+  //asettaa countteriin valitun indeksin, josta sitä voi sitten käyttää kaikkialla
    const tulostaToimiala = (listaValittu) => {
    
    setToValue(listaValittu.target.value)
  
  }
 
+  //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
 
- function lukupilkuilla(x) {
-  if (x == undefined) return "Ei tiedossa";
-  else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-}
+  // jakaa hienosti regexillä luvut kolmen sarjoihin
+  function lukupilkuilla(x) {
+    if (x == undefined) return "Ei tiedossa";
+    else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
  
  return (
   // Bootstrapin pääcontainer
@@ -177,7 +188,7 @@ const Toimialat = () => {
       <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
       <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])}</li>
       <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {lukupilkuilla(verotaulukko[counter])}%</li>
-      <li class="list-group-item"> <small class="text-muted">eniten paikkakunta: </small> {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]}</li>    
+      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]} kpl</li>    
             </ul>
 
             

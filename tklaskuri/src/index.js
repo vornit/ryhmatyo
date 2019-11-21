@@ -333,8 +333,9 @@ const App = () => {
       <div className="row justify-content-md-center">
 
         <div className="btn-group btn-group-lg">
+        <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
           <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Toimialat</button>
-          <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
+          
         </div>
 
 
@@ -595,7 +596,7 @@ const Paikkakunnat = () => {
       tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
 
       if (!isNaN(paastot)) {
-        paastot = paastot + " tonnia kasvihuonekaasuja"
+        paastot = paastot.toFixed(0) + " tonnia kasvihuonekaasuja"
         verot = verot + "€"
       }
       else {
@@ -605,7 +606,7 @@ const Paikkakunnat = () => {
       ohita = indeksi
 
       lista.push (<li class="list-group-item">
-                  <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}
+                  <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}<small class="text-muted"> kpl</small>
                   <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastot}
                   <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(verot)}
         </li>)

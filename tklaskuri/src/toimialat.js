@@ -152,33 +152,36 @@ const Toimialat = () => {
               <input type="text" id="search" className="form-control" name="search" placeholder="Hae..." onKeyUp={etsiToimiala}/>
               </div>
           
-              <select id="listaToimialoista"className="form-control" size="20 " onChange={tulostaToimiala} >
+              <select id="listaToimialoista"className="form-control" size="30" onChange={tulostaToimiala} >
                 
               {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
               </select>
 
-              
-           
-
-
-      
 
             </div>
 
             <div className="col-6">
 
 
-             
-
-
             <div className="row">
             <div className="col jumbotron">
 
-            <p>Toimialan kokonaispäästöt: {lukupilkuilla(paastotaulukko[counter])}</p>
-            <p>Toimialojen kokonaislukumäärä: {lukupilkuilla(maarataulukko[counter])}</p>
-            <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
+
 
             <p>eniten paikkakunta: {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]}</p>
+
+
+
+            <ul class="list-group">
+
+      <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])}</li>
+      <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {lukupilkuilla(verotaulukko[counter])}%</li>
+      <li class="list-group-item"> <small class="text-muted">eniten paikkakunta: </small> {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]}</li>    
+            </ul>
+
+            
+
             
             </div>
             </div>

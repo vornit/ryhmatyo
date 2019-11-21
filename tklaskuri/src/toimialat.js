@@ -36,25 +36,23 @@ const Toimialat = () => {
   var verotaulukko = [];
   var alataulukko = [];
   var maarataulukko = [];
-  var value = [];
+  var kuntienToimialaLkm = [];
   var paastotaulukko = [];
   var toimialojenAvaimet = [];
+  var kunnanNimiIndeksi;
 
   function toimialanPaikkakunnat(counter) {
+    var haettavaIndeksi = parseInt(toimialojenAvaimet[counter])
+    var ekaToimialanArvo = toimialaIndeksit[haettavaIndeksi]
 
-    var toimialaInt = parseInt(counter)
-    console.log("toimialaInt " + toimialaInt)
     var toimialojenLkm = Object.keys(toimialalista).length
-    console.log(toimialojenLkm)
-    console.log("toimialojen maarat " + toimialojenMaarat)
-    for (let i = toimialaInt; i < toimialojenMaarat.length; i = (i+toimialojenLkm)){
-      console.log("value = " + value)
-            console.log("i = " + i)
-
-      value.push(toimialojenMaarat[i]);
+    
+    for (let i = ekaToimialanArvo; i < toimialojenMaarat.length; i = (i+toimialojenLkm)){
+      
+      kuntienToimialaLkm.push(toimialojenMaarat[i]);
     }
     etsiIsoin();
-    console.log("value lista " + value)
+    kunnanNimiIndeksi = haeAvain(kuntienIndeksit, enitenKunnassa[1])
     
   }
 
@@ -67,27 +65,19 @@ const Toimialat = () => {
     var suurin = 0;
     var maxIndex = 0;
 
-    for (let i = 0; i < value.length; i++){
+    for (let i = 0; i < kuntienToimialaLkm.length; i++){
     	enitenKunnassa.push(i);
     	if(enitenKunnassa.length > 5){
-    		enitenKunnassa.sort(function(a,b) { return value[b] - value[a];});
+    		enitenKunnassa.sort(function(a,b) { return kuntienToimialaLkm[b] - kuntienToimialaLkm[a];});
     		enitenKunnassa.pop();
     	}
     }
-
-    for (let i = 0; i < enitenKunnassa.length; i++){
-    	kuntienNimetTop.push(haeAvain(kuntienIndeksit, enitenKunnassa[i]))
-    	console.log("eniten kunnassa " + enitenKunnassa)
-        console.log("eniten kunnassa2 " + haeAvain(kuntienIndeksit, enitenKunnassa[i]) )
-        console.log("kunnan nimi " + kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])])
-        console.log("kuntienNimetTop " + kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[2])])
-    }  
        
   }
   
       
   function luoTaulukot() {
-   // var toimialojenLkm = Object.keys(toimialat).length
+    
     for (let key in toimialalista){
       if(key.length == 2){
 
@@ -106,6 +96,7 @@ const Toimialat = () => {
       } 
 
     }           
+    
     return alataulukko;
   }
 
@@ -140,13 +131,10 @@ const Toimialat = () => {
    const tulostaToimiala = (listaValittu) => {
    
    setToValue(listaValittu.target.value)
-   toimialanPaikkakunnat(counter)
-   console.log(kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])])
-
-
-   
+ 
  }
 
+  toimialanPaikkakunnat(counter)
 
  function lukupilkuilla(x) {
   if (x == undefined) return "Ei tiedossa";
@@ -190,7 +178,7 @@ const Toimialat = () => {
             <p>Toimialojen kokonaislukumäärä: {lukupilkuilla(maarataulukko[counter])}</p>
             <p>Toimialan verot yhteensä: {lukupilkuilla(verotaulukko[counter])} €</p>
 
-            <p>eniten paikkakunta: {lukupilkuilla(kuntienNimetTop[counter])}</p>
+            <p>eniten paikkakunta: {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]}</p>
             
             </div>
             </div>

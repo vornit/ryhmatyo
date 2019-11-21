@@ -139,6 +139,15 @@ ul {
   margin-top: -0.7em;
 
 }
+
+input[type=search]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
+}
+
+.oikeala {
+  height: 400px;
+  overflow: auto;
+}
  
 
 

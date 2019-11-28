@@ -42,11 +42,16 @@ const Toimialat = () => {
   var kuntienToimialaLkm = [];
   var paastotaulukko = [];
   var toimialojenAvaimet = [];
+  var toimialojenVerotuloKA = [];
+  var toimialojenPaastotKA = [];
+  var kuntienToimialaSL = [];
+  var toimialaSL = [];
   var kunnanNimiIndeksi;
 
+  var keskiArvoValue;
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
   (n kpl koko suomen toimialoja, n kpl seuraavan kunnan toimialoja...)
-  Saadakseso kunnan x kaikki toimialat, aloita ensimmäisestä kyseisen toimialan indeksistä
+  Saadaksesi kunnan x kaikki toimialat, aloita ensimmäisestä kyseisen toimialan indeksistä
   ja hyppää toimialojen lukumäärän verran eteenpäin. 
   */
   function toimialanPaikkakunnat(counter) {
@@ -60,14 +65,28 @@ const Toimialat = () => {
     }
 
     etsiIsoin();
+    keskiArvoValue = keskiArvo(verotaulukko[counter], paastotaulukko[counter])
+    console.log("jaettava " , verotaulukko[counter])
+    console.log("jakaja " , paastotaulukko[counter])
     kunnanNimiIndeksi = haeAvain(kuntienIndeksit, enitenKunnassa[1])
-    
+    console.log("keskiarvo ", keskiArvoValue)
+  }
+
+  function laskeToimialojenSL(){
+
+    for (let i = 0; i < verotaulukko.length ;i++){
+
+      toimialaSL[i] = keskiArvo(verotaulukko[i], paastotaulukko[i])
+
+    }
+
   }
 
   //Annetaan value, jolle etsitään ja palautetaan sitä vastaava key
   function haeAvain(lista, value){
 
   	return Object.keys(lista).find(key => lista[key] === value);
+
   }
 
   //pitää 5:n alkion mittaista järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
@@ -83,7 +102,27 @@ const Toimialat = () => {
     		enitenKunnassa.pop();
     	}
     }
+    for(let i = 0; i < 5; i++){
+
+      kuntienToimialaSL[i] = (toimialaSL[counter] * kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])])
+      console.log("kuntiennimet " , kuntienNimet)
+      console.log("kuntienIndeksit " , kuntienIndeksit)
+      console.log("enitenKunnassa " , enitenKunnassa)
+
+    }
+    console.log("enitenkunnassa " , enitenKunnassa)
+    console.log("kutnientoimialasl " , kuntienToimialaSL)
        
+  }
+
+  // laskee keskiarvon, mikäli mahdollista
+  function keskiArvo(jaettava, jakaja){
+
+    if(jaettava == undefined || jakaja == undefined || jakaja == 0)
+      return "Ei tiedossa"
+    var keskiArvo = (jaettava/jakaja);
+    return keskiArvo;
+
   }
   
   //Luo ison läjän keyn mukaan indeksöityjä listoja
@@ -106,7 +145,6 @@ const Toimialat = () => {
          verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
         }
       } 
-
     }           
     
     return alataulukko;
@@ -124,6 +162,8 @@ const Toimialat = () => {
     var select;
     var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
+    laskeToimialojenSL();
+
     
     //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
     const etsiToimiala = (hakusana) => {
@@ -153,7 +193,7 @@ const Toimialat = () => {
     if (x == undefined) return "Ei tiedossa";
     else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
- 
+ console.log(kuntienToimialaLkm)
  return (
   // Bootstrapin pääcontainer
   <div className="container">   
@@ -179,12 +219,6 @@ const Toimialat = () => {
             <div className="row">
             <div className="col jumbotron">
 
-
-
-            <p>eniten paikkakunta: {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]}</p>
-
-
-
             <ul class="list-group">
 
       <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
@@ -193,16 +227,10 @@ const Toimialat = () => {
       <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]} kpl</li>    
             </ul>
 
-            
-
-            
             </div>
             </div>
 
             <div className="row">
-
-
-
 
             <div className="col jumbotron">
 
@@ -217,12 +245,12 @@ const Toimialat = () => {
               VALITULLA TOIMIALALLA</p>
 
 
+
             </div>
             </div>
 
             </div>
     </div>
-
 
     </div>
 

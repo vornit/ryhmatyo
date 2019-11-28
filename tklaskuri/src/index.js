@@ -211,8 +211,10 @@ function parsiPaastotVuodelta(vuodenIndeksi) {
 */
 function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm) {
   //console.log(toimialojenLkmKunnalla)
+
   let toimialanLkmSuomessa;
   //let toimialanLkmKunnassa = toimialanLkmKunnalla[i]
+
   //console.log("asd: " +  toimialanLkmKunnassa)
   let toimiala = toimialaJaLkm.toimiala
   //console.log(toimiala)
@@ -242,9 +244,11 @@ function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm)
 * @param {number} i Indeksi jolla valitaan haluttu toimiala
 * @returns Toimialan keskimääräiset veromaksut kunnassa, NaN jos ei saatavilla
 */
+
 function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   let toimialanLkmSuomessa;
   let toimiala = toimialaJaLkmKunnalla.toimiala
+
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
   for (let i = 0; i < kokoSuomenToimialatJaLkmt.length; i++) {
     let tAla = kokoSuomenToimialatJaLkmt[i].toimiala
@@ -286,6 +290,7 @@ function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta,
   //let toimialatYhteensaKunnassa = kunnantoimialat[0]
 
   //console.log(kunnantoimialat)
+
 
   for (let i = 0; i < toimialatJaLkmPerKunta.length; i++) {
     let suhdelukuKunta = -1
@@ -648,7 +653,7 @@ const Paikkakunnat = () => {
       lista.push(<li class="list-group-item">
         <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}<small class="text-muted"> kpl</small>
         <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastotTulostus}
-        <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(lkmJarj[i].verot) + "€/vuosi"}
+        <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(lkmJarj[i].verot.toFixed(0)) + "€/vuosi"}
       </li>)
 
       monesko2++
@@ -689,6 +694,7 @@ const Paikkakunnat = () => {
       let s = suhdeluvutJarj[i].toimiala
       tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
+      
 
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
         <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
@@ -698,6 +704,8 @@ const Paikkakunnat = () => {
       monesko = monesko2 + "."
 
     }
+
+    //console.log("jaa", kunnanSuhdeluvut)
 
     //console.log(suhdeluvutJarj)
 
@@ -828,13 +836,10 @@ const Paikkakunnat = () => {
           <div className="row">
             <div class="col jumbotron">
 
-              <div className="tiedotheader">
-                <h4 align="center">{nimetJarjestyksessa[counter]}</h4>
+            <div className="row">
 
-                <img src={vaakunat[counter].image} alt="new" align="center" />
-
-              </div>
-
+              
+              <div className="col-md-auto jumboton">
               <ul class="list-group list-group-horizontal list-group-flush">
 
                 <ul class="list-group">
@@ -856,6 +861,16 @@ const Paikkakunnat = () => {
                 </ul>
 
               </ul>
+              </div>
+
+              <div className="col jumbotron tiedotheader">
+                <h4>{nimetJarjestyksessa[counter]}</h4>
+                <br></br>
+                <img src={vaakunat[counter].image} alt="new" />
+                
+              </div>
+
+              </div>
 
             </div>
           </div>

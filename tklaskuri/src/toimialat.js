@@ -48,8 +48,8 @@ const Toimialat = () => {
   var toimialaSL = [];
   var kunnanNimiIndeksi;
   var kunnanKaikkiToimialat = [];
-
   var keskiArvoValue;
+
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
   (n kpl koko suomen toimialoja, n kpl seuraavan kunnan toimialoja...)
   Saadaksesi kunnan x kaikki toimialat, aloita ensimmäisestä kyseisen toimialan indeksistä
@@ -92,10 +92,11 @@ const Toimialat = () => {
 
   function KunnanKaikkiToimialatLkm(){
 
-    var alkuindeksi;
-    for (let i = alkuindeksi; i < (alkuindeksi + toimialojenLkm); i++) {
-      kunnanToimialojenLkmt.push(toimialojenMaarat[i]);
-  }
+
+    for (let i = 0; i < enitenKunnassa.length; i++){
+      
+      kunnanKaikkiToimialat[i] = toimialalista[enitenKunnassa[i]]
+    }
 
   }
 
@@ -199,14 +200,14 @@ const Toimialat = () => {
 
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
-  console.log("kuntien lkm " , kuntienToimialaLkm)
+  
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
     if (x == undefined) return "Ei tiedossa";
     else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
- console.log(kuntienToimialaLkm)
+ 
  return (
   // Bootstrapin pääcontainer
   <div className="container">   

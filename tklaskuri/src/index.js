@@ -217,7 +217,7 @@ function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm)
   let toimiala = toimialaJaLkm.toimiala
   //console.log(toimiala)
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
-  for (let i = 0; i < toimialatJaLkmtSuomessa.length; i++){
+  for (let i = 0; i < toimialatJaLkmtSuomessa.length; i++) {
     let tAla = toimialatJaLkmtSuomessa[i].toimiala
     let s = tAla.substr(0, tAla.indexOf(' ')).trim()
     if (alkutunnus === s) toimialanLkmSuomessa = toimialatJaLkmtSuomessa[i].lkm
@@ -231,6 +231,7 @@ function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm)
   //console.log(alkutunnus + " : " + kokonaisPaastotKunnassa)
   //console.log(kokonaisPaastotKunnassa)
   //console.log("asdf: " +  kokonaisPaastotKunnassa)
+  if (isNaN(kokonaisPaastotKunnassa)) return -1
   return kokonaisPaastotKunnassa
 }
 
@@ -245,7 +246,7 @@ function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   let toimialanLkmSuomessa;
   let toimiala = toimialaJaLkmKunnalla.toimiala
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
-  for (let i = 0; i < kokoSuomenToimialatJaLkmt.length; i++){
+  for (let i = 0; i < kokoSuomenToimialatJaLkmt.length; i++) {
     let tAla = kokoSuomenToimialatJaLkmt[i].toimiala
     let s = tAla.substr(0, tAla.indexOf(' ')).trim()
     if (alkutunnus === s) toimialanLkmSuomessa = kokoSuomenToimialatJaLkmt[i].lkm
@@ -265,7 +266,7 @@ function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   let valitunToimialanIndeksi = aloitusindeksi2017 + veroToimialat.index[alkutunnus] * solujenLkmPerToimiala
   //console.log(valitunToimialanIndeksi)
   let toimialanVerotYhteensa = toimialojenVeroarvot[valitunToimialanIndeksi]
-  let toimialanVerotKM = toimialanVerotYhteensa/toimialanLkmSuomessa
+  let toimialanVerotKM = toimialanVerotYhteensa / toimialanLkmSuomessa
   //console.log(alkutunnus + " : " + toimialanVerotKM)
   let toimialanLkm = toimialaJaLkmKunnalla.lkm
   //console.log(alkutunnus + " : " + toimialanLkm)
@@ -274,17 +275,17 @@ function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   return toimialanVerotPerKunta
 }
 
-function laskeSuhdeluvut(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt){
- //var indeksi; //etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
- var paastot //= etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
- var verot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-// var ohita = -1;
- var suhdeluvut = []
- var suhdelukuKokoSuomi = -1 //jos suhdelukua ei voi laskea
+function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt) {
+  //var indeksi; //etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
+  var toimialanPaastot //= etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
+  var toimialanVerot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
+  // var ohita = -1;
+  var toimialaTiedot = []
+  var suhdelukuKokoSuomi = -1 //jos suhdelukua ei voi laskea
 
- //let toimialatYhteensaKunnassa = kunnantoimialat[0]
+  //let toimialatYhteensaKunnassa = kunnantoimialat[0]
 
- //console.log(kunnantoimialat)
+  //console.log(kunnantoimialat)
 
   for (let i = 0; i < toimialatJaLkmPerKunta.length; i++) {
     let suhdelukuKunta = -1
@@ -296,14 +297,14 @@ function laskeSuhdeluvut(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, toim
 
 
     //console.log("indeksi" + indeksi)
-    
-    paastot = etsiPaastot(TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, toimialatJaLkmPerKunta[i])
+
+    toimialanPaastot = etsiPaastot(TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, toimialatJaLkmPerKunta[i])
     //console.log(toimialatJaLkmPerKunta)
-    verot = etsiVerot(toimialatJaLkmPerKunta[i], kokoSuomenToimialatJaLkmt)
+    toimialanVerot = etsiVerot(toimialatJaLkmPerKunta[i], kokoSuomenToimialatJaLkmt)
     //console.log(verot)
-    
-    if ((!isNaN(paastot) && !isNaN(verot)) && (paastot > 0)) {
-      suhdelukuKokoSuomi = verot / paastot
+
+    if ((!isNaN(toimialanPaastot) && !isNaN(toimialanVerot)) && (toimialanPaastot > 0)) {
+      suhdelukuKokoSuomi = toimialanVerot / toimialanPaastot
       suhdelukuKunta = suhdelukuKokoSuomi * toimialanOsuusPerKunta
     }
 
@@ -313,40 +314,43 @@ function laskeSuhdeluvut(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, toim
       continue;
     }*/
 
-    suhdeluvut.push({toimiala: toimialatJaLkmPerKunta[i].toimiala, suhde: suhdelukuKunta})
-    
+    toimialaTiedot.push({
+      toimiala: toimialatJaLkmPerKunta[i].toimiala,
+      suhde: suhdelukuKunta,
+      lkm: toimialanLkmKunnassa,
+      verot: toimialanVerot,
+      paastot: toimialanPaastot
+    })
+
 
     //ohita = indeksi
   }
   //console.log(suhdeluvut)
 
-  let suhdeluvutJarj = suhdeluvut.sort(function(a, b){
-    return b.suhde - a.suhde
-  });
-  //console.log(suhdeluvutJarj)
-  return suhdeluvutJarj
+  return toimialaTiedot
 }
 
-function luoToimialatJaLkmt(toimialojenNimet, toimialojenLkmt){
+
+function luoToimialatJaLkmt(toimialojenNimet, toimialojenLkmt) {
   //console.log(toimialojenNimet)
   //console.log(toimialojenLkmt)
   let toimialatJaLkmt = []
 
-  for (let i = 0; i < toimialojenLkmt.length; i++){
+  for (let i = 0; i < toimialojenLkmt.length; i++) {
     let s = toimialojenNimet[i]
     let alkutunnus = s.substr(0, s.indexOf(' ')).trim()
-      //console.log(alkutunnus)
-      //console.log(isNaN(parseInt(alkutunnus)))
+    //console.log(alkutunnus)
+    //console.log(isNaN(parseInt(alkutunnus)))
     if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
-    toimialatJaLkmt.push({toimiala: toimialojenNimet[i], lkm: toimialojenLkmt[i]})
+    toimialatJaLkmt.push({ toimiala: toimialojenNimet[i], lkm: toimialojenLkmt[i] })
   }
-  
-  let jarjestetty = toimialatJaLkmt.sort(function(a, b){
+
+  let jarjestetty = toimialatJaLkmt.sort(function (a, b) {
     return b.lkm - a.lkm;
   });
   //console.log(toimialatJaLkmt)
   return jarjestetty
-  
+
 }
 
 
@@ -383,9 +387,9 @@ const App = () => {
       <div className="row justify-content-md-center">
 
         <div className="btn-group btn-group-lg">
-        <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
+          <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
           <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Toimialat</button>
-          
+
         </div>
 
 
@@ -420,6 +424,12 @@ const Paikkakunnat = () => {
       return <Tietoja />
     } else if (page === 'suhdeluku') {
       return <Suhdeluku />
+    }
+    else if (page === 'verot') {
+      return <Verot />
+    }
+    else if (page === 'paastot') {
+      return <Paastot />
     }
   }
 
@@ -479,7 +489,7 @@ const Paikkakunnat = () => {
   });
 
   var toimialatYlaotsikot = []
-  for (let i = 0; i < Object.keys(toimiAlatJarj).length; i++){
+  for (let i = 0; i < Object.keys(toimiAlatJarj).length; i++) {
     let tAla = toimiAlatJarj[i]
     let alkutunnus = tAla.substr(0, tAla.indexOf(' ')).trim()
     if (isNaN(parseInt(alkutunnus)) || alkutunnus.length > 2) continue
@@ -513,9 +523,9 @@ const Paikkakunnat = () => {
 
   var toimialatJaLkmPerKunta = luoToimialatJaLkmt(toimiAlatJarj, kunnantoimialat)
   //console.log(kunnantoimialat)
-  var kunnanSuhdeluvut = laskeSuhdeluvut(kunnantoimialat[0], toimialatJaLkmPerKunta, toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt);
+  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt);
   //console.log(kunnanSuhdeluvut)
- 
+
 
 
 
@@ -526,7 +536,7 @@ const Paikkakunnat = () => {
 
 
 
-  
+
 
 
 
@@ -579,7 +589,7 @@ const Paikkakunnat = () => {
   const etsiPaikkakunta = (hakusana) => {
 
     haettava = hakusana.target.value
-    
+
     select = document.getElementById("listaKunnista");
     for (var i = 0; i < select.length; i++) {
       var txt = select[i].text
@@ -604,60 +614,53 @@ const Paikkakunnat = () => {
   var asukaslukuInd = 0;
 
   //alustetaan muuttujat
-  var paastot
-  var verot 
-  var monesko 
-  var monesko2
-  var lista
+  var monesko = ""
+  var monesko2 = 1
+  var lista = []
   var tulostus
 
   //console.log(toimiAlatJarj)
-  
 
-  function alustaMuuttujat() {
-    //indeksi //= etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
-    //paastot //= etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
-    //verot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-    monesko = ""
-    monesko2 = 1
-    lista = []
-    //tulostus = //tulostaToimialat(toimiAlatJarj, kunnantoimialat, indeksi)
-  }
-  
+
 
   const Tietoja = () => {
-    alustaMuuttujat();
+    monesko = ""
+    monesko2 = 1
 
-    for (i = 0; i < toimialatJaLkmPerKunta.length; i++) {
-      if (toimialatJaLkmPerKunta[i].lkm === 0) break;
-      //indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
-      paastot = etsiPaastot(TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, toimialatJaLkmPerKunta[i])
-      verot = etsiVerot(toimialatJaLkmPerKunta[i], kokoSuomenToimialatJaLkmt)
-      let s = toimialatJaLkmPerKunta[i].toimiala + " : " + toimialatJaLkmPerKunta[i].lkm
-      tulostus = s.substr(s.indexOf(' ') + 1).trim()
+    let lkmJarj = kaikkiTAtiedot.sort(function (a, b) {
+      return b.lkm - a.lkm
+    })
+    let paastotTulostus
 
-      if (!isNaN(paastot)) {
-        paastot = paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
-        verot = verot.toFixed(0) + "€/vuosi"
+    for (let i = 0; i < lkmJarj.length; i++) {
+
+      if (lkmJarj[i].paastot >= 0) {
+        paastotTulostus = lkmJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
       }
       else {
-        paastot = "Päästötietoja ei saatavilla"
-        verot = verot.toFixed(0) + "€/vuosi"
+        paastotTulostus = "Päästötietoja ei saatavilla"
       }
-      //ohita = indeksi
 
-      lista.push (<li class="list-group-item">
-                  <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}<small class="text-muted"> kpl</small>
-                  <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastot}
-                  <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(verot)}
-        </li>)
+      let s = lkmJarj[i].toimiala + " : " + lkmJarj[i].lkm
+      tulostus = s.substr(s.indexOf(' ') + 1).trim()
+
+
+      lista.push(<li class="list-group-item">
+        <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}<small class="text-muted"> kpl</small>
+        <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastotTulostus}
+        <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(lkmJarj[i].verot) + "€/vuosi"}
+      </li>)
 
       monesko2++
       monesko = monesko2 + "."
-        
-      
+
+
     }
-  
+
+
+
+
+
     return (
       <div>
         {lista}
@@ -670,39 +673,122 @@ const Paikkakunnat = () => {
 
     monesko = ""
     monesko2 = 1
-  
-    lista = []
 
-    for (let i = 0; i < kunnanSuhdeluvut.length; i++){
-      
-      if (kunnanSuhdeluvut[i].suhde < 0) break;
+    //lista = []
+    let suhdeluvutJarj = kaikkiTAtiedot.sort(function (a, b) {
+      return b.suhde - a.suhde
+    })
+
+    for (let i = 0; i < suhdeluvutJarj.length; i++) {
+
+      if (suhdeluvutJarj[i].suhde < 0) break;
       /*indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
       paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
       verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)*/
 
-      let s = kunnanSuhdeluvut[i].toimiala
+      let s = suhdeluvutJarj[i].toimiala
       tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
 
-      lista.push (<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
-                  <small class="text-muted"> Suhdeluku: </small>{kunnanSuhdeluvut[i].suhde} </li>)
+      lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
+        <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
 
 
       monesko2++
       monesko = monesko2 + "."
 
-      //ohita = indeksi
-
     }
 
     //console.log(suhdeluvutJarj)
- 
-    //alustaMuuttujat();
 
-    
     //console.log(lista)
 
-  
+
+    return (
+      <div>
+        {lista}
+      </div>
+    )
+  }
+
+  const Verot = () => {
+
+    monesko = ""
+    monesko2 = 1
+
+    //lista = []
+    let verotJarj = kaikkiTAtiedot.sort(function (a, b) {
+      return b.verot - a.verot
+    })
+    let paastotTulostus
+
+    for (let i = 0; i < verotJarj.length; i++) {
+
+      if (verotJarj[i].paastot >= 0) {
+        paastotTulostus = verotJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
+      }
+      else {
+        paastotTulostus = "Päästötietoja ei saatavilla"
+      }
+
+      let s = verotJarj[i].toimiala + " : " + lukupilkuilla(verotJarj[i].verot.toFixed(0)) + "€/vuosi"
+      tulostus = s.substr(s.indexOf(' ') + 1).trim()
+
+
+      lista.push(<li class="list-group-item">
+        <small class="text-muted">Veroja {monesko} eniten: </small> {tulostus}
+        <br></br> <small class="text-muted">Toimialan lkm kunnalla: </small>{verotJarj[i].lkm + " kpl"}
+        <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastotTulostus}
+      </li>)
+
+      monesko2++
+      monesko = monesko2 + "."
+    }
+
+
+    return (
+      <div>
+        {lista}
+      </div>
+    )
+  }
+
+  const Paastot = () => {
+    monesko = ""
+    monesko2 = 1
+
+    //lista = []
+    let paastotJarj = kaikkiTAtiedot.sort(function (a, b) {
+      return b.paastot - a.paastot
+    })
+    let paastotTulostus
+
+    console.log(paastotJarj)
+
+    for (let i = 0; i < paastotJarj.length; i++) {
+
+      if (!isNaN(paastotJarj[i].paastot)) {
+        paastotTulostus = paastotJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
+      }
+      else {
+        paastotTulostus = "Päästötietoja ei saatavilla"
+      }
+
+      let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].verot.toFixed(0)) + "€/vuosi"
+      tulostus = s.substr(s.indexOf(' ') + 1).trim()
+
+
+      lista.push(<li class="list-group-item">
+        <small class="text-muted">Veroja {monesko} eniten: </small> {tulostus}
+        <br></br> <small class="text-muted">Toimialan lkm kunnalla: </small>{paastotJarj[i].lkm + " kpl"}
+        <br></br> <small class="text-muted">Toimialan päästöt kunnalla keskimäärin: </small>{paastotTulostus}
+      </li>)
+
+      monesko2++
+      monesko = monesko2 + "."
+    }
+
+
     return (
       <div>
         {lista}
@@ -738,15 +824,15 @@ const Paikkakunnat = () => {
 
 
 
-          
+
           <div className="row">
             <div class="col jumbotron">
 
               <div className="tiedotheader">
                 <h4 align="center">{nimetJarjestyksessa[counter]}</h4>
-                
+
                 <img src={vaakunat[counter].image} alt="new" align="center" />
-                
+
               </div>
 
               <ul class="list-group list-group-horizontal list-group-flush">
@@ -781,12 +867,14 @@ const Paikkakunnat = () => {
 
               <div className="btn-group btn-group-sm pikkunapit">
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Tietoja</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
               </div>
 
               <div class="oikeala">
-               {content()}
-               </div>
+                {content()}
+              </div>
 
 
             </div>

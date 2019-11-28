@@ -141,6 +141,7 @@ ul {
 
  .list-group-item {
   position: unset;
+  
  }
 
  
@@ -156,8 +157,17 @@ input[type=search]::-webkit-search-cancel-button {
 }
 
 .oikeala {
+  
   height: 400px;
   overflow: auto;
+}
+
+.varjo {
+  z-index: 5;
+  position: relative;
+  -webkit-box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
+box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
 }
  
 

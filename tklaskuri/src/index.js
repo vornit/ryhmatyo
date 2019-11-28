@@ -803,7 +803,9 @@ const Paikkakunnat = () => {
               </div>
 
               <div class="oikeala">
+              
                {content()}
+               
                </div>
 
 

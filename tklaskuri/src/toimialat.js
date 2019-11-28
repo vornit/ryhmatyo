@@ -128,15 +128,15 @@ const Toimialat = () => {
     //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
     const etsiToimiala = (hakusana) => {
    
-   haettava = hakusana.target.value
-   select = document.getElementById("listaToimialoista");
-   for (var i = 0; i < select.length; i++){
-     var txt = select[i].text
-     var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
-     select.options[i].style.display = include ? '' : 'none';
+      haettava = hakusana.target.value
+      select = document.getElementById("listaToimialoista");
+      for (var i = 0; i < select.length; i++){
+        var txt = select[i].text
+        var include = txt.toLowerCase().startsWith(haettava.toLowerCase());
+        select.options[i].style.display = include ? '' : 'none';
      
-   }
- }
+      }
+    }
  
   //asettaa countteriin valitun indeksin, josta sitä voi sitten käyttää kaikkialla
    const tulostaToimiala = (listaValittu) => {

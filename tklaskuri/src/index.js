@@ -211,8 +211,10 @@ function parsiPaastotVuodelta(vuodenIndeksi) {
 */
 function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm) {
   //console.log(toimialojenLkmKunnalla)
+
   let toimialanLkmSuomessa;
   //let toimialanLkmKunnassa = toimialanLkmKunnalla[i]
+
   //console.log("asd: " +  toimialanLkmKunnassa)
   let toimiala = toimialaJaLkm.toimiala
   //console.log(toimiala)
@@ -241,9 +243,11 @@ function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm)
 * @param {number} i Indeksi jolla valitaan haluttu toimiala
 * @returns Toimialan keskimääräiset veromaksut kunnassa, NaN jos ei saatavilla
 */
+
 function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   let toimialanLkmSuomessa;
   let toimiala = toimialaJaLkmKunnalla.toimiala
+
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
   for (let i = 0; i < kokoSuomenToimialatJaLkmt.length; i++){
     let tAla = kokoSuomenToimialatJaLkmt[i].toimiala
@@ -280,9 +284,12 @@ function laskeSuhdeluvut(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, toim
  var verot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
 // var ohita = -1;
  var suhdeluvut = []
+
  var suhdelukuKokoSuomi = -1 //jos suhdelukua ei voi laskea
 
+
  //let toimialatYhteensaKunnassa = kunnantoimialat[0]
+
 
  //console.log(kunnantoimialat)
 
@@ -301,6 +308,7 @@ function laskeSuhdeluvut(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, toim
     //console.log(toimialatJaLkmPerKunta)
     verot = etsiVerot(toimialatJaLkmPerKunta[i], kokoSuomenToimialatJaLkmt)
     //console.log(verot)
+
     
     if ((!isNaN(paastot) && !isNaN(verot)) && (paastot > 0)) {
       suhdelukuKokoSuomi = verot / paastot
@@ -683,6 +691,7 @@ const Paikkakunnat = () => {
       let s = kunnanSuhdeluvut[i].toimiala
       tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
+      
 
       lista.push (<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
                   <small class="text-muted"> Suhdeluku: </small>{kunnanSuhdeluvut[i].suhde} </li>)
@@ -694,6 +703,8 @@ const Paikkakunnat = () => {
       //ohita = indeksi
 
     }
+
+    console.log("jaa", kunnanSuhdeluvut)
 
     //console.log(suhdeluvutJarj)
  
@@ -742,13 +753,10 @@ const Paikkakunnat = () => {
           <div className="row">
             <div class="col jumbotron">
 
-              <div className="tiedotheader">
-                <h4 align="center">{nimetJarjestyksessa[counter]}</h4>
-                
-                <img src={vaakunat[counter].image} alt="new" align="center" />
-                
-              </div>
+            <div className="row">
 
+              
+              <div className="col-md-auto jumboton">
               <ul class="list-group list-group-horizontal list-group-flush">
 
                 <ul class="list-group">
@@ -770,6 +778,16 @@ const Paikkakunnat = () => {
                 </ul>
 
               </ul>
+              </div>
+
+              <div className="col jumbotron tiedotheader">
+                <h4>{nimetJarjestyksessa[counter]}</h4>
+                <br></br>
+                <img src={vaakunat[counter].image} alt="new" />
+                
+              </div>
+
+              </div>
 
             </div>
           </div>

@@ -13,7 +13,6 @@ import dataToimialojenVerot from "./toimialojenVerot2"
 //console.log(dataToimialojenVerot)
 
 
-
 const lukupilkuilla = (x) => {
   if (x === undefined) return "Ei tiedossa";
   else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -745,8 +744,9 @@ const Paikkakunnat = () => {
 
               <div className="tiedotheader">
                 <h4 align="center">{nimetJarjestyksessa[counter]}</h4>
-
+                
                 <img src={vaakunat[counter].image} alt="new" align="center" />
+                
               </div>
 
               <ul class="list-group list-group-horizontal list-group-flush">

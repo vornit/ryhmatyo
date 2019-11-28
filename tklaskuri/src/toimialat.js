@@ -140,8 +140,7 @@ const Toimialat = () => {
  
   //asettaa countteriin valitun indeksin, josta sitä voi sitten käyttää kaikkialla
    const tulostaToimiala = (listaValittu) => {
-   
-   setToValue(listaValittu.target.value)
+    setToValue(listaValittu.target.value)
  
  }
 

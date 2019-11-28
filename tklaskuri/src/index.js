@@ -212,6 +212,7 @@ function parsiPaastotVuodelta(vuodenIndeksi) {
 */
 function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toimialojenLkmKunnalla, i) {
   //console.log(toimialojenLkmKunnalla)
+  
   let toimialanLkmSuomessa = toimialojenLkmSuomessa[i]
   let toimialanLkmKunnassa = toimialojenLkmKunnalla[i]
   //console.log("asd: " +  toimialanLkmKunnassa)
@@ -233,6 +234,7 @@ function etsiPaastot(toimialat, toimialojenPaastot, toimialojenLkmSuomessa, toim
 */
 function etsiVerot(toimialat, toimialojenLkmKunnalla, i) {
   let toimiala = toimialat[i]
+  console.log("TÄÄLLÄ KYLLÄ KÄY")
   let alkutunnus = toimiala.substr(0, toimiala.indexOf(' ')).trim()
   const veroToimialat = dataToimialojenVerot.dataset.dimension.Toimiala.category
   let toimialojenLkm = Object.keys(veroToimialat.label).length
@@ -261,17 +263,19 @@ function laskeSuhdeluvut(toimialatYlaotsikot, kunnantoimialat, toimiAlatJarj, TA
  var verot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
  var ohita = -1;
  var suhdeluvut = []
- var suhdeluku = -1 //jos suhdelukua ei voi laskea
+ var suhdeluku;
+ 
 
   for (let i = 0; i < toimialatYlaotsikot.length; i++) {
 
     indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
-    //console.log(indeksi)
+    console.log("indeksi", indeksi)
     
     paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
-    console.log(paastot)
+    console.log("etsipaastot", paastot)
+
     verot = etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
-    console.log(verot)
+    
     
     if (!isNaN(paastot)) {
       suhdeluku = verot / paastot
@@ -637,6 +641,7 @@ const Paikkakunnat = () => {
 
       tulostus = tulostaToimialat(toimiAlatJarj, kunnantoimialat, kunnanSuhdeluvut[i].toimiala)
 
+      
 
       lista.push (<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
                   <small class="text-muted"> Suhdeluku: </small>{kunnanSuhdeluvut[i].suhde} </li>)
@@ -648,6 +653,8 @@ const Paikkakunnat = () => {
       //ohita = indeksi
 
     }
+
+    console.log("jaa", kunnanSuhdeluvut)
 
     //console.log(suhdeluvutJarj)
  

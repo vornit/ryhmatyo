@@ -47,6 +47,7 @@ const Toimialat = () => {
   var kuntienToimialaSL = [];
   var toimialaSL = [];
   var kunnanNimiIndeksi;
+  var kunnanKaikkiToimialat = [];
 
   var keskiArvoValue;
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
@@ -86,6 +87,15 @@ const Toimialat = () => {
   function haeAvain(lista, value){
 
   	return Object.keys(lista).find(key => lista[key] === value);
+
+  }
+
+  function KunnanKaikkiToimialatLkm(){
+
+    var alkuindeksi;
+    for (let i = alkuindeksi; i < (alkuindeksi + toimialojenLkm); i++) {
+      kunnanToimialojenLkmt.push(toimialojenMaarat[i]);
+  }
 
   }
 

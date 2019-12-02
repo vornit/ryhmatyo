@@ -21,7 +21,7 @@ const toimialojenVerot = dataToimialojenVerot.dataset.value
 const toimialojenPaastot = dataPaastot.dataset.value
 const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.index;
 
-
+console.log("toimialalista " , toimialalista)
 
 console.log(datatoimialatKunnittain)
 
@@ -47,8 +47,9 @@ const Toimialat = () => {
   var kuntienToimialaSL = [];
   var toimialaSL = [];
   var kunnanNimiIndeksi;
-  var kunnanKaikkiToimialat = [];
+  var kuntienKaikkiToimialat = [];
   var keskiArvoValue;
+  var toimialojenLkm = Object.keys(toimialalista).length
 
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
   (n kpl koko suomen toimialoja, n kpl seuraavan kunnan toimialoja...)
@@ -58,8 +59,7 @@ const Toimialat = () => {
   function toimialanPaikkakunnat(counter) {
     var haettavaIndeksi = toimialojenAvaimet[counter]
     var ekaToimialanArvo = toimialaIndeksit[haettavaIndeksi]
-    var toimialojenLkm = Object.keys(toimialalista).length
-
+    
     for (let i = ekaToimialanArvo; i < toimialojenMaarat.length; i = (i+toimialojenLkm)){
       
       kuntienToimialaLkm.push(toimialojenMaarat[i])
@@ -67,12 +67,11 @@ const Toimialat = () => {
 
     etsiEniten();
     keskiArvoValue = keskiArvo(verotaulukko[counter], paastotaulukko[counter])
-    console.log("jaettava " , verotaulukko[counter])
-    console.log("jakaja " , paastotaulukko[counter])
     kunnanNimiIndeksi = haeAvain(kuntienIndeksit, enitenKunnassa[1])
-    console.log("keskiarvo ", keskiArvoValue)
+    
   }
 
+  //laskee toimialoille suhdeluvut
   function laskeToimialojenSL(){
 
     for (let i = 0; i < verotaulukko.length ;i++){
@@ -90,17 +89,17 @@ const Toimialat = () => {
 
   }
 
+  //Hakee jokaisen kunnan toimialojen kokonaismäärän määrän mukaan lajiteltuun listaan.
   function KunnanKaikkiToimialatLkm(){
-
-
-    for (let i = 0; i < enitenKunnassa.length; i++){
-      
-      kunnanKaikkiToimialat[i] = toimialalista[enitenKunnassa[i]]
+  	 
+  	for (let i = 1; i < enitenKunnassa.length; i++){
+  		
+      kuntienKaikkiToimialat[i] = toimialojenMaarat[(toimialojenLkm * enitenKunnassa[i])]
+    	
     }
-
   }
 
-  //pitää 5:n alkion mittaista järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
+  //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
   function etsiEniten(){
     
     var suurin = 0;
@@ -126,6 +125,7 @@ const Toimialat = () => {
     }
     console.log("enitenkunnassa " , enitenKunnassa)
     console.log("kutnientoimialasl " , kuntienToimialaSL)
+    KunnanKaikkiToimialatLkm();
        
   }
 

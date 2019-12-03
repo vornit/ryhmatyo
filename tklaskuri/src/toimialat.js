@@ -22,7 +22,7 @@ const toimialojenVerot = dataToimialojenVerot.dataset.value
 const toimialojenPaastot = dataPaastot.dataset.value
 const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.index;
 
-console.log("toimialalista " , toimialalista)
+
 
 console.log(datatoimialatKunnittain)
 
@@ -50,7 +50,7 @@ const Toimialat = () => {
   var kunnanNimiAvain;
   var kuntienKaikkiToimialat = [];
   var toimialojenLkm = Object.keys(toimialalista).length
-  console.log("kuntien indeksit " , kuntienIndeksit["091"])
+
 
 
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
@@ -68,21 +68,35 @@ const Toimialat = () => {
     }
 
     etsiEniten();
-    
     kunnanNimiAvain = haeAvain(kuntienIndeksit, enitenKunnassa[1])
     
   }
 
   //laskee toimialoille suhdeluvut
   function laskeToimialojenSL(){
-
-    for (let i = 0; i < verotaulukko.length ;i++){
-
-      toimialaSL[i] = (jaa(verotaulukko[i], paastotaulukko[i]) * jaa(kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]], kuntienKaikkiToimialat[i])) 
-
+    var toimialanvero = verotaulukko[counter]
+    var toimialanpaasto = paastotaulukko[counter]
+    for (let i = 0; i < kuntienToimialaLkm.length ;i++){
+      if(typeof toimialanpaasto === 'undefined'){
+        toimialaSL[i] = "Ei tiedossa";
+        break;
+      }
+      
+      
+      toimialaSL[i] = {kunnanindeksi: i, suhde: ((toimialanvero/toimialanpaasto) * (kuntienToimialaLkm[i]/kuntienKaikkiToimialat[i]))}
+      
     }
-    console.log("toimialasl " , toimialaSL)
 
+    let suhdeluvutJarj = toimialaSL
+    suhdeluvutJarj.sort(function(a, b){
+      return b.suhde - a.suhde;
+    })
+    console.log("verotaulukko " , verotaulukko)
+    console.log("paastotaulukko ", paastotaulukko)
+    console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
+    console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
+    console.log("toimialasl " , toimialaSL)
+    return suhdeluvutJarj;
   }
 
   //Annetaan value, jolle etsitään ja palautetaan sitä vastaava key
@@ -100,9 +114,8 @@ const Toimialat = () => {
       kuntienKaikkiToimialat[kuntienIndeksit[key]] = toimialojenMaarat[(toimialojenLkm * kuntienIndeksit[key])]
     	
     }
-    console.log("kuntienindeksit[key] " , kuntienIndeksit)
-    console.log("kuntienkaikkitoimialat: " ,kuntienKaikkiToimialat)
-    laskeToimialojenSL();
+    
+    
   }
 
   //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
@@ -129,23 +142,11 @@ const Toimialat = () => {
       }
 
     }
-    console.log("enitenkunnassa " , enitenKunnassa)
-    console.log("kutnientoimialasl " , kuntienToimialaSL)
+
     KunnanKaikkiToimialatLkm();
        
   }
 
-  
-
-  // laskee jakolaskun, mikäli mahdollista
-  function jaa(jaettava, jakaja){
-
-    if(jaettava == undefined || jakaja == undefined || jakaja == 0)
-      return "Ei tiedossa"
-    var osamaara = (jaettava/jakaja);
-    return osamaara;
-
-  }
   
   //Luo ison läjän keyn mukaan indeksöityjä listoja
   //listasta valittaessa saadaan samalla indeksillä muista listoista oikeita arvoja
@@ -184,8 +185,6 @@ const Toimialat = () => {
     var select;
     var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
-    laskeToimialojenSL();
-
     
     //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
     const etsiToimiala = (hakusana) => {
@@ -199,6 +198,8 @@ const Toimialat = () => {
      
       }
     }
+
+
  
   //asettaa countteriin valitun indeksin, josta sitä voi sitten käyttää kaikkialla
    const tulostaToimiala = (listaValittu) => {
@@ -209,6 +210,8 @@ const Toimialat = () => {
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
   
+  var suhdeluvutJarj = laskeToimialojenSL();
+  
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
@@ -216,6 +219,65 @@ const Toimialat = () => {
     else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
  
+  let paastoTulostus = "Ei tiedossa";
+  if( lukupilkuilla(paastotaulukko[counter]) != "Ei tiedossa") {
+    paastoTulostus = lukupilkuilla(paastotaulukko[counter]) + " tonnia/vuosi";
+  }
+  let veroTulostus = "Ei Tiedossa";
+    if ( lukupilkuilla(verotaulukko[counter]) != "Ei tiedossa"){
+      veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
+    }
+    
+
+  const Suhdeluku = () => {
+
+    let monesko = ""
+    let monesko2 = 1
+
+    var lista = [];
+
+    for(let i = 0; i < suhdeluvutJarj.length; i++){
+
+    let kunta = kuntienNimet[haeAvain(kuntienIndeksit, suhdeluvutJarj[i].kunnanindeksi)]
+    if(typeof suhdeluvutJarj[0].suhde === 'undefined'){
+      lista.push(<li class="list-group-item"><small class="text-muted"> Ei voida laskea </small></li>)
+      break;
+    }
+    if(suhdeluvutJarj[i].suhde == 0){
+      break;
+    }
+    lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}
+      <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
+
+    monesko2++
+    monesko = monesko2 + "."
+
+    }
+
+    return (
+      <div>
+        {lista}
+      </div>
+    )
+  }
+
+  const [page, setPage] = useState('suhdeluku')
+
+  const toPage = (page) => (event) => {
+    event.preventDefault()
+    setPage(page)
+  }
+
+
+
+  const content = () => {
+    if (page === 'suhdeluku') {
+      return <Suhdeluku />
+    } else if (page === 'maara') {
+      return <Suhdeluku />
+    }
+  }
+
  return (
   // Bootstrapin pääcontainer
   <FadeIn>
@@ -244,10 +306,10 @@ const Toimialat = () => {
 
             <ul class="list-group">
 
-      <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
-      <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])}</li>
-      <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {lukupilkuilla(verotaulukko[counter])}%</li>
-      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>    
+      <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{paastoTulostus}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
+      <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
+      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>    
             </ul>
 
             </div>
@@ -259,14 +321,12 @@ const Toimialat = () => {
 
             <div className="btn-group btn-group-sm">
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Katotaan myöhemmin onko nämä napit tarpeellisia</button>
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('suhdeluku')}>Suhdeluku</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
               </div>
-
+              <div>
+                {content()}
+              </div>
             <p></p>
-
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": {kuntienToimialaSL[0]}, {kuntienToimialaSL[1]}, {kuntienToimialaSL[2]}</p>
-
-
 
             </div>
             </div>

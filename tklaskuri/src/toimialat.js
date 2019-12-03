@@ -21,7 +21,7 @@ const toimialojenVerot = dataToimialojenVerot.dataset.value
 const toimialojenPaastot = dataPaastot.dataset.value
 const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.index;
 
-
+console.log("toimialalista " , toimialalista)
 
 console.log(datatoimialatKunnittain)
 
@@ -46,9 +46,12 @@ const Toimialat = () => {
   var toimialojenPaastotKA = [];
   var kuntienToimialaSL = [];
   var toimialaSL = [];
-  var kunnanNimiIndeksi;
+  var kunnanNimiAvain;
+  var kuntienKaikkiToimialat = [];
+  var toimialojenLkm = Object.keys(toimialalista).length
+  console.log("kuntien indeksit " , kuntienIndeksit["091"])
 
-  var keskiArvoValue;
+
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
   (n kpl koko suomen toimialoja, n kpl seuraavan kunnan toimialoja...)
   Saadaksesi kunnan x kaikki toimialat, aloita ensimmäisestä kyseisen toimialan indeksistä
@@ -57,28 +60,27 @@ const Toimialat = () => {
   function toimialanPaikkakunnat(counter) {
     var haettavaIndeksi = toimialojenAvaimet[counter]
     var ekaToimialanArvo = toimialaIndeksit[haettavaIndeksi]
-    var toimialojenLkm = Object.keys(toimialalista).length
-
+    
     for (let i = ekaToimialanArvo; i < toimialojenMaarat.length; i = (i+toimialojenLkm)){
       
       kuntienToimialaLkm.push(toimialojenMaarat[i])
     }
 
-    etsiIsoin();
-    keskiArvoValue = keskiArvo(verotaulukko[counter], paastotaulukko[counter])
-    console.log("jaettava " , verotaulukko[counter])
-    console.log("jakaja " , paastotaulukko[counter])
-    kunnanNimiIndeksi = haeAvain(kuntienIndeksit, enitenKunnassa[1])
-    console.log("keskiarvo ", keskiArvoValue)
+    etsiEniten();
+    
+    kunnanNimiAvain = haeAvain(kuntienIndeksit, enitenKunnassa[1])
+    
   }
 
+  //laskee toimialoille suhdeluvut
   function laskeToimialojenSL(){
 
     for (let i = 0; i < verotaulukko.length ;i++){
 
-      toimialaSL[i] = keskiArvo(verotaulukko[i], paastotaulukko[i])
+      toimialaSL[i] = (jaa(verotaulukko[i], paastotaulukko[i]) * jaa(kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]], kuntienKaikkiToimialat[i])) 
 
     }
+    console.log("toimialasl " , toimialaSL)
 
   }
 
@@ -89,39 +91,58 @@ const Toimialat = () => {
 
   }
 
-  //pitää 5:n alkion mittaista järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
-  function etsiIsoin(){
+  //Hakee jokaisen kunnan toimialojen määrän listaan. Kokomaa = 0, Akaa = 1...
+  function KunnanKaikkiToimialatLkm(){
+  	 
+  	for (let key in kuntienIndeksit){
+  		
+      kuntienKaikkiToimialat[kuntienIndeksit[key]] = toimialojenMaarat[(toimialojenLkm * kuntienIndeksit[key])]
+    	
+    }
+    console.log("kuntienindeksit[key] " , kuntienIndeksit)
+    console.log("kuntienkaikkitoimialat: " ,kuntienKaikkiToimialat)
+    laskeToimialojenSL();
+  }
+
+  //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
+  function etsiEniten(){
     
     var suurin = 0;
     var maxIndex = 0;
 
     for (let i = 0; i < kuntienToimialaLkm.length; i++){
-    	enitenKunnassa.push(i);
-    	if(enitenKunnassa.length > 5){
-    		enitenKunnassa.sort(function(a,b) { return kuntienToimialaLkm[b] - kuntienToimialaLkm[a];});
-    		enitenKunnassa.pop();
+    	
+      enitenKunnassa.push(i);	
+    	enitenKunnassa.sort(function(a,b) { return kuntienToimialaLkm[b] - kuntienToimialaLkm[a];});
+    		
     	}
-    }
-    for(let i = 0; i < 5; i++){
+    
+    for(let i = 0, j = 0; i < enitenKunnassa.length; i++){
+      if((toimialaSL[counter] * kuntienToimialaLkm[kuntienIndeksit[haeAvain(kuntienIndeksit, enitenKunnassa[i])]]) == NaN){
+        continue
+      }
+      else{
 
-      kuntienToimialaSL[i] = (toimialaSL[counter] * kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])])
-      console.log("kuntiennimet " , kuntienNimet)
-      console.log("kuntienIndeksit " , kuntienIndeksit)
-      console.log("enitenKunnassa " , enitenKunnassa)
+        kuntienToimialaSL[j] = (toimialaSL[counter] * kuntienToimialaLkm[kuntienIndeksit[haeAvain(kuntienIndeksit, enitenKunnassa[i])]])
+        j++;
+      }
 
     }
     console.log("enitenkunnassa " , enitenKunnassa)
     console.log("kutnientoimialasl " , kuntienToimialaSL)
+    KunnanKaikkiToimialatLkm();
        
   }
 
-  // laskee keskiarvon, mikäli mahdollista
-  function keskiArvo(jaettava, jakaja){
+  
+
+  // laskee jakolaskun, mikäli mahdollista
+  function jaa(jaettava, jakaja){
 
     if(jaettava == undefined || jakaja == undefined || jakaja == 0)
       return "Ei tiedossa"
-    var keskiArvo = (jaettava/jakaja);
-    return keskiArvo;
+    var osamaara = (jaettava/jakaja);
+    return osamaara;
 
   }
   
@@ -186,14 +207,14 @@ const Toimialat = () => {
 
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
-
+  
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
     if (x == undefined) return "Ei tiedossa";
     else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
- console.log(kuntienToimialaLkm)
+ 
  return (
   // Bootstrapin pääcontainer
   <div className="container">   
@@ -224,7 +245,7 @@ const Toimialat = () => {
       <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
       <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])}</li>
       <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {lukupilkuilla(verotaulukko[counter])}%</li>
-      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]} kpl</li>    
+      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>    
             </ul>
 
             </div>
@@ -241,8 +262,7 @@ const Toimialat = () => {
 
             <p></p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": TÄHÄN KUNTA {kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[1])]} , JOLLA VÄHITEN PÄÄSTÖJÄ VERRATTUNA TULOIHIN 
-              VALITULLA TOIMIALALLA</p>
+            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": {kuntienToimialaSL[0]}, {kuntienToimialaSL[1]}, {kuntienToimialaSL[2]}</p>
 
 
 

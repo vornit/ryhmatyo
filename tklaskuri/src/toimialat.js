@@ -129,21 +129,8 @@ const Toimialat = () => {
     	enitenKunnassa.sort(function(a,b) { return kuntienToimialaLkm[b] - kuntienToimialaLkm[a];});
     		
     	}
-    
-    for(let i = 0, j = 0; i < enitenKunnassa.length; i++){
-      if((toimialaSL[counter] * kuntienToimialaLkm[kuntienIndeksit[haeAvain(kuntienIndeksit, enitenKunnassa[i])]]) == NaN){
-        continue
-      }
-      else{
 
-        kuntienToimialaSL[j] = (toimialaSL[counter] * kuntienToimialaLkm[kuntienIndeksit[haeAvain(kuntienIndeksit, enitenKunnassa[i])]])
-        j++;
-      }
-
-    }
-
-    KunnanKaikkiToimialatLkm();
-       
+    KunnanKaikkiToimialatLkm();   
   }
 
   
@@ -228,11 +215,33 @@ const Toimialat = () => {
     }
     
 
+  const Maara = () => {
+    let monesko = "";
+    let monesko2 = 1;
+    var lista = [];
+    
+    for(let i = 1; i < enitenKunnassa.length; i++){
+
+      let kunta = kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[i])]
+      lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}
+      <small class="text-muted"> Määrä: </small>{kuntienToimialaLkm[enitenKunnassa[i]]} </li>)
+
+      monesko2++
+      monesko = monesko2 + "."
+    }
+
+    return (
+      <div>
+        {lista}
+      </div>
+    )
+    
+  }
+
   const Suhdeluku = () => {
 
-    let monesko = ""
-    let monesko2 = 1
-
+    let monesko = "";
+    let monesko2 = 1;
     var lista = [];
 
     for(let i = 0; i < suhdeluvutJarj.length; i++){
@@ -273,7 +282,7 @@ const Toimialat = () => {
     if (page === 'suhdeluku') {
       return <Suhdeluku />
     } else if (page === 'maara') {
-      return <Suhdeluku />
+      return <Maara />
     }
   }
 
@@ -318,7 +327,7 @@ const Toimialat = () => {
             <div className="col jumbotron">
 
             <div className="btn-group btn-group-sm">
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Katotaan myöhemmin onko nämä napit tarpeellisia</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('maara')}>Määrä</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
               </div>
               <div>

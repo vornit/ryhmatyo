@@ -124,7 +124,6 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat) {
     }
   }
   return suurimmanI
-
 }*/
 
 /** Muotoilee ja palauttaa merkkijonona annettua indeksiä vastaavan toimialan 
@@ -139,7 +138,6 @@ function parsiKunnanToimialat(kunnanIndeksi, toimialat) {
   //let suurin = 0;
   //let toiseksiSuurin = etsiSuurin(toimialojenLkm, suurin)
   //let kolmas = etsiSuurin(toimialojenLkm, toiseksiSuurin)
-
   //let suurimmanIndeksi = toimialojenLkm.indexOf(eniten)
   //let indeksi2 = toimialojenLkm.indexOf(toiseksiSuurin)
   //console.log(suurimmanIndeksi)
@@ -245,7 +243,7 @@ function etsiPaastot(toimialojenPaastot, toimialatJaLkmtSuomessa, toimialaJaLkm)
 * @returns Toimialan keskimääräiset veromaksut kunnassa, NaN jos ei saatavilla
 */
 
-function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
+function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt, vuosi) {
   let toimialanLkmSuomessa;
   let toimiala = toimialaJaLkmKunnalla.toimiala
 
@@ -258,7 +256,7 @@ function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   const veroToimialat = dataToimialojenVerot.dataset.dimension.Toimiala.category
   let toimialojenLkm = Object.keys(veroToimialat.label).length
   let toimialojenVeroarvot = dataToimialojenVerot.dataset.value
-  let vuoden2017Indeksi = 3
+  let vuoden2017Indeksi = vuosi
   let solujenLkmPerToimiala = 2
   let aloitusindeksi2017 = toimialojenLkm * vuoden2017Indeksi * solujenLkmPerToimiala
   let toimialojenVerot2017 = []
@@ -279,7 +277,7 @@ function etsiVerot(toimialaJaLkmKunnalla, kokoSuomenToimialatJaLkmt) {
   return toimialanVerotPerKunta
 }
 
-function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt) {
+function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, vuosi) {
   //var indeksi; //etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, -1)
   var toimialanPaastot //= etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
   var toimialanVerot //= etsiVerot(toimiAlatJarj, kunnantoimialat, indeksi)
@@ -290,7 +288,6 @@ function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta,
   //let toimialatYhteensaKunnassa = kunnantoimialat[0]
 
   //console.log(kunnantoimialat)
-
 
   for (let i = 0; i < toimialatJaLkmPerKunta.length; i++) {
     let suhdelukuKunta = -1
@@ -305,7 +302,7 @@ function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta,
 
     toimialanPaastot = etsiPaastot(TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, toimialatJaLkmPerKunta[i])
     //console.log(toimialatJaLkmPerKunta)
-    toimialanVerot = etsiVerot(toimialatJaLkmPerKunta[i], kokoSuomenToimialatJaLkmt)
+    toimialanVerot = etsiVerot(toimialatJaLkmPerKunta[i], kokoSuomenToimialatJaLkmt, vuosi)
     //console.log(verot)
 
     if ((!isNaN(toimialanPaastot) && !isNaN(toimialanVerot)) && (toimialanPaastot > 0)) {
@@ -359,6 +356,10 @@ function luoToimialatJaLkmt(toimialojenNimet, toimialojenLkmt) {
 }
 
 
+
+
+
+
 const App = () => {
 
   const [page, setPage] = useState('paikkakunnat')
@@ -369,9 +370,6 @@ const App = () => {
   }
 
 
-
-
-
   const content = () => {
     if (page === 'paikkakunnat') {
       return <Paikkakunnat />
@@ -379,6 +377,7 @@ const App = () => {
       return <ToimialatValilehti />
     }
   }
+
 
 
 
@@ -411,15 +410,22 @@ const App = () => {
 //KOMPONENTTI JOKA piirtää PAIKKAKUNNAT sivulle kaiken
 const Paikkakunnat = () => {
 
-
-
-
-
   const [page, setPage] = useState('tietoja')
 
   const toPage = (page) => (event) => {
     event.preventDefault()
     setPage(page)
+  }
+
+  const [vuosi, setVuosi] = useState(3)
+  const setToVuosi = (value) => setVuosi(value)
+
+  const vaihdaVuosi = () => {
+    setToVuosi(2)
+  }
+
+  const vaihdaVuosi2 = () => {
+    setToVuosi(1)
   }
 
 
@@ -528,7 +534,7 @@ const Paikkakunnat = () => {
 
   var toimialatJaLkmPerKunta = luoToimialatJaLkmt(toimiAlatJarj, kunnantoimialat)
   //console.log(kunnantoimialat)
-  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt);
+  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, vuosi);
   //console.log(kunnanSuhdeluvut)
 
 
@@ -629,6 +635,7 @@ const Paikkakunnat = () => {
 
 
   const Tietoja = () => {
+
     monesko = ""
     monesko2 = 1
 
@@ -885,6 +892,8 @@ const Paikkakunnat = () => {
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihdaVuosi}>2016</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihdaVuosi2}>2017</button>
               </div>
 
               <div class="oikeala">

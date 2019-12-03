@@ -391,7 +391,7 @@ const App = () => {
 
       <div className="row justify-content-md-center">
 
-        <div className="btn-group btn-group-lg">
+        <div className="btn-group btn-group-lg joo">
           <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
           <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Toimialat</button>
 
@@ -888,8 +888,11 @@ const Paikkakunnat = () => {
               </div>
 
               <div class="oikeala">
+
+
                 {content()}
               </div>
+
 
 
             </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
+import FadeIn from 'react-fade-in';
 
 
 
@@ -78,8 +79,10 @@ const Toimialat = () => {
     for (let i = 0; i < kuntienToimialaLkm.length ;i++){
       if(typeof toimialanpaasto === 'undefined'){
         toimialaSL[i] = "Ei tiedossa";
-        continue;
+        break;
       }
+      
+      
       toimialaSL[i] = {kunnanindeksi: i, suhde: ((toimialanvero/toimialanpaasto) * (kuntienToimialaLkm[i]/kuntienKaikkiToimialat[i]))}
       
     }
@@ -236,7 +239,13 @@ const Toimialat = () => {
     for(let i = 0; i < suhdeluvutJarj.length; i++){
 
     let kunta = kuntienNimet[haeAvain(kuntienIndeksit, suhdeluvutJarj[i].kunnanindeksi)]
-      
+    if(typeof suhdeluvutJarj[0].suhde === 'undefined'){
+      lista.push(<li class="list-group-item"><small class="text-muted"> Ei voida laskea </small></li>)
+      break;
+    }
+    if(suhdeluvutJarj[i].suhde == 0){
+      break;
+    }
     lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}
       <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
 
@@ -271,6 +280,7 @@ const Toimialat = () => {
 
  return (
   // Bootstrapin pääcontainer
+  <FadeIn>
   <div className="container">   
   
       <div className="row">
@@ -318,10 +328,6 @@ const Toimialat = () => {
               </div>
             <p></p>
 
-            <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": {kuntienToimialaSL[0]}, {kuntienToimialaSL[1]}, {kuntienToimialaSL[2]}</p>
-
-
-
             </div>
             </div>
 
@@ -329,6 +335,7 @@ const Toimialat = () => {
     </div>
 
     </div>
+    </FadeIn>
 
         );
   }

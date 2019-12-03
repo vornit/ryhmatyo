@@ -6,8 +6,10 @@ import datavaakunat from "./vaakunaKuvat"
 import dataverot from "./verotietoja"
 import datatoimialatKunnittain from "./toimialatKunnittain2"
 import ToimialatValilehti from './toimialat'
+import AloitusValilehti from './aloitus'
 import dataPaastot from "./paastotToimialoittain"
 import dataToimialojenVerot from "./toimialojenVerot2"
+import FadeIn from 'react-fade-in';
 
 //console.log(dataPaastot)
 //console.log(dataToimialojenVerot)
@@ -362,7 +364,7 @@ function luoToimialatJaLkmt(toimialojenNimet, toimialojenLkmt) {
 
 const App = () => {
 
-  const [page, setPage] = useState('paikkakunnat')
+  const [page, setPage] = useState('aloitus')
 
   const toPage = (page) => (event) => {
     event.preventDefault()
@@ -376,6 +378,9 @@ const App = () => {
     } else if (page === 'toimialat') {
       return <ToimialatValilehti />
     }
+    else if (page === 'aloitus') {
+      return <AloitusValilehti />
+    }
   }
 
 
@@ -386,11 +391,19 @@ const App = () => {
   return (
 
 
+
+<FadeIn>
+
     <div>
+
+
+    <button type="button" class="btn btn-outline-primary infonappi float-right" onClick={toPage('aloitus')}>Tietoja ohjelmasta</button>
+    
+    
 
       <div className="row justify-content-md-center">
 
-        <div className="btn-group btn-group-lg joo">
+        <div className="btn-group btn-group-lg joo" id="joo">
           <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('paikkakunnat')}>Paikkakunnat</button>
           <button type="button" className="btn btn-primary" aria-pressed="true" onClick={toPage('toimialat')}>Toimialat</button>
 
@@ -400,6 +413,8 @@ const App = () => {
       </div>
       {content()}
     </div>
+
+    </FadeIn>
   )
 
 
@@ -831,7 +846,9 @@ const Paikkakunnat = () => {
 
 
   return (
-    // Bootstrapin pääcontainer
+
+    <FadeIn>
+    
     <div className="container">
 
 
@@ -911,10 +928,12 @@ const Paikkakunnat = () => {
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
+
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2014}>2014</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2015}>2015</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2016}>2016</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2017}>2017</button>
+
               </div>
 
               <div class="oikeala">
@@ -936,6 +955,7 @@ const Paikkakunnat = () => {
 
       </div>
     </div>
+    </FadeIn>
   )
 
 

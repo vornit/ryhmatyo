@@ -46,10 +46,11 @@ const Toimialat = () => {
   var toimialojenPaastotKA = [];
   var kuntienToimialaSL = [];
   var toimialaSL = [];
-  var kunnanNimiIndeksi;
+  var kunnanNimiAvain;
   var kuntienKaikkiToimialat = [];
-  var keskiArvoValue;
   var toimialojenLkm = Object.keys(toimialalista).length
+  console.log("kuntien indeksit " , kuntienIndeksit["091"])
+
 
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
   (n kpl koko suomen toimialoja, n kpl seuraavan kunnan toimialoja...)
@@ -66,8 +67,8 @@ const Toimialat = () => {
     }
 
     etsiEniten();
-    keskiArvoValue = keskiArvo(verotaulukko[counter], paastotaulukko[counter])
-    kunnanNimiIndeksi = haeAvain(kuntienIndeksit, enitenKunnassa[1])
+    
+    kunnanNimiAvain = haeAvain(kuntienIndeksit, enitenKunnassa[1])
     
   }
 
@@ -76,7 +77,7 @@ const Toimialat = () => {
 
     for (let i = 0; i < verotaulukko.length ;i++){
 
-      toimialaSL[i] = keskiArvo(verotaulukko[i], paastotaulukko[i])
+      toimialaSL[i] = (jaa(verotaulukko[i], paastotaulukko[i]) * jaa(kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]], undefined)) 
 
     }
 
@@ -89,14 +90,16 @@ const Toimialat = () => {
 
   }
 
-  //Hakee jokaisen kunnan toimialojen kokonaismäärän määrän mukaan lajiteltuun listaan.
+  //Hakee jokaisen kunnan toimialojen määrän listaan. Kokomaa = 0, Akaa = 1...
   function KunnanKaikkiToimialatLkm(){
   	 
-  	for (let i = 1; i < enitenKunnassa.length; i++){
+  	for (let key in kuntienIndeksit){
   		
-      kuntienKaikkiToimialat[i] = toimialojenMaarat[(toimialojenLkm * enitenKunnassa[i])]
+      kuntienKaikkiToimialat[kuntienIndeksit[key]] = toimialojenMaarat[(toimialojenLkm * kuntienIndeksit[key])]
     	
     }
+    console.log("kuntienindeksit[key] " , kuntienIndeksit)
+    console.log("kuntienkaikkitoimialat: " ,kuntienKaikkiToimialat)
   }
 
   //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
@@ -129,13 +132,15 @@ const Toimialat = () => {
        
   }
 
-  // laskee keskiarvon, mikäli mahdollista
-  function keskiArvo(jaettava, jakaja){
+  
+
+  // laskee jakolaskun, mikäli mahdollista
+  function jaa(jaettava, jakaja){
 
     if(jaettava == undefined || jakaja == undefined || jakaja == 0)
       return "Ei tiedossa"
-    var keskiArvo = (jaettava/jakaja);
-    return keskiArvo;
+    var osamaara = (jaettava/jakaja);
+    return osamaara;
 
   }
   
@@ -238,7 +243,7 @@ const Toimialat = () => {
       <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
       <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])}</li>
       <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {lukupilkuilla(verotaulukko[counter])}%</li>
-      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiIndeksi]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiIndeksi]]} kpl</li>    
+      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>    
             </ul>
 
             </div>

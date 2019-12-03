@@ -49,7 +49,7 @@ const Toimialat = () => {
   var kunnanNimiAvain;
   var kuntienKaikkiToimialat = [];
   var toimialojenLkm = Object.keys(toimialalista).length
-  
+
 
 
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
@@ -93,7 +93,7 @@ const Toimialat = () => {
     console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
     console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
     console.log("toimialasl " , toimialaSL)
-
+    return suhdeluvutJarj;
   }
 
   //Annetaan value, jolle etsitään ja palautetaan sitä vastaava key
@@ -182,8 +182,6 @@ const Toimialat = () => {
     var select;
     var taulukkoToimialoista = luoTaulukot();
     parsiTaulukko(taulukkoToimialoista);
-    laskeToimialojenSL();
-
     
     //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
     const etsiToimiala = (hakusana) => {
@@ -197,6 +195,8 @@ const Toimialat = () => {
      
       }
     }
+
+
  
   //asettaa countteriin valitun indeksin, josta sitä voi sitten käyttää kaikkialla
    const tulostaToimiala = (listaValittu) => {
@@ -206,7 +206,8 @@ const Toimialat = () => {
 
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
-  laskeToimialojenSL();
+  
+  var suhdeluvutJarj = laskeToimialojenSL();
   
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
@@ -223,7 +224,50 @@ const Toimialat = () => {
     if ( lukupilkuilla(verotaulukko[counter]) != "Ei tiedossa"){
       veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
     }
+    
 
+  const Suhdeluku = () => {
+
+    let monesko = ""
+    let monesko2 = 1
+
+    var lista = [];
+
+    for(let i = 0; i < suhdeluvutJarj.length; i++){
+
+    let kunta = kuntienNimet[haeAvain(kuntienIndeksit, suhdeluvutJarj[i].kunnanindeksi)]
+      
+    lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}
+      <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
+
+    monesko2++
+    monesko = monesko2 + "."
+
+    }
+
+    return (
+      <div>
+        {lista}
+      </div>
+    )
+  }
+
+  const [page, setPage] = useState('suhdeluku')
+
+  const toPage = (page) => (event) => {
+    event.preventDefault()
+    setPage(page)
+  }
+
+
+
+  const content = () => {
+    if (page === 'suhdeluku') {
+      return <Suhdeluku />
+    } else if (page === 'maara') {
+      return <Suhdeluku />
+    }
+  }
 
  return (
   // Bootstrapin pääcontainer
@@ -267,9 +311,11 @@ const Toimialat = () => {
 
             <div className="btn-group btn-group-sm">
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('tietoja')}>Katotaan myöhemmin onko nämä napit tarpeellisia</button>
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={console.log('suhdeluku')}>Suhdeluku</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
               </div>
-
+              <div>
+                {content()}
+              </div>
             <p></p>
 
             <p>Parhaat kunnat toimialalla "{taulukkoToimialoista[counter]}": {kuntienToimialaSL[0]}, {kuntienToimialaSL[1]}, {kuntienToimialaSL[2]}</p>

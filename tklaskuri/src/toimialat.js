@@ -4,9 +4,6 @@ import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 import FadeIn from 'react-fade-in';
 
-
-
-
 // asetetaan dataa jsoneista muuttujiin
 
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
@@ -224,6 +221,9 @@ const Toimialat = () => {
     for(let i = 1; i < enitenKunnassa.length; i++){
 
       let kunta = kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[i])]
+      if(kuntienToimialaLkm[enitenKunnassa[i]] == 0){
+        break;
+      }
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}
       <small class="text-muted"> Määrä: </small>{kuntienToimialaLkm[enitenKunnassa[i]]} </li>)
 
@@ -256,7 +256,7 @@ const Toimialat = () => {
       break;
     }
     lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}
-      <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
+      <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde.toFixed(5)} </li>)
 
     monesko2++
     monesko = monesko2 + "."
@@ -333,7 +333,9 @@ const Toimialat = () => {
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
               </div>
               <div>
+              <div class="oikeala">
                 {content()}
+                </div>
               </div>
             <p></p>
 

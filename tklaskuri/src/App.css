@@ -152,6 +152,10 @@ ul {
 
 }
 
+.btn-primary:focus {
+  filter: brightness(85%);
+}
+
 input[type=search]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
@@ -160,6 +164,16 @@ input[type=search]::-webkit-search-cancel-button {
   
   height: 400px;
   overflow: auto;
+}
+
+button:focus{
+  filter: brightness(85%);
+  
+}
+
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+  box-shadow: none !important;
 }
 
 .varjo {

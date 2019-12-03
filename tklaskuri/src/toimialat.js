@@ -215,6 +215,16 @@ const Toimialat = () => {
     else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
  
+  let paastoTulostus = "Ei tiedossa";
+  if( lukupilkuilla(paastotaulukko[counter]) != "Ei tiedossa") {
+    paastoTulostus = lukupilkuilla(paastotaulukko[counter]) + " tonnia/vuosi";
+  }
+  let veroTulostus = "Ei Tiedossa";
+    if ( lukupilkuilla(verotaulukko[counter]) != "Ei tiedossa"){
+      veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
+    }
+
+
  return (
   // Bootstrapin pääcontainer
   <div className="container">   
@@ -242,10 +252,10 @@ const Toimialat = () => {
 
             <ul class="list-group">
 
-      <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{lukupilkuilla(paastotaulukko[counter])}</li>
-      <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])}</li>
-      <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {lukupilkuilla(verotaulukko[counter])}%</li>
-      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} LKM: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>    
+      <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{paastoTulostus}</li>
+      <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
+      <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
+      <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>    
             </ul>
 
             </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
+import FadeIn from 'react-fade-in';
 
 
 
@@ -217,6 +218,7 @@ const Toimialat = () => {
  
  return (
   // Bootstrapin pääcontainer
+  <FadeIn>
   <div className="container">   
   
       <div className="row">
@@ -273,6 +275,7 @@ const Toimialat = () => {
     </div>
 
     </div>
+    </FadeIn>
 
         );
   }

@@ -77,9 +77,10 @@ const Toimialat = () => {
 
     for (let i = 0; i < verotaulukko.length ;i++){
 
-      toimialaSL[i] = (jaa(verotaulukko[i], paastotaulukko[i]) * jaa(kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]], undefined)) 
+      toimialaSL[i] = (jaa(verotaulukko[i], paastotaulukko[i]) * jaa(kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]], kuntienKaikkiToimialat[i])) 
 
     }
+    console.log("toimialasl " , toimialaSL)
 
   }
 
@@ -100,6 +101,7 @@ const Toimialat = () => {
     }
     console.log("kuntienindeksit[key] " , kuntienIndeksit)
     console.log("kuntienkaikkitoimialat: " ,kuntienKaikkiToimialat)
+    laskeToimialojenSL();
   }
 
   //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä

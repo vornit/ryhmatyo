@@ -909,8 +909,18 @@ const Paikkakunnat = () => {
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihdaVuosi}>2016</button>
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihdaVuosi2}>2017</button>
+
+
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Vuosi
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <a className="dropdown-item"onClick={vaihdaVuosi}>2016</a>
+   <a className="dropdown-item"nClick={vaihdaVuosi2}>2017</a>
+  </div>
+
+
+                
               </div>
 
               <div class="oikeala">

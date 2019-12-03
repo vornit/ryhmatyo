@@ -649,7 +649,6 @@ const Paikkakunnat = () => {
 
   //alustetaan muuttujat
   var monesko = ""
-  var monesko2 = 1
   var lista = []
   var tulostus
   var kuntaVaiMaa = "kunnassa"
@@ -660,16 +659,20 @@ const Paikkakunnat = () => {
 
   const Tietoja = () => {
 
-    monesko = ""
-    monesko2 = 1
-
     let lkmJarj = kaikkiTAtiedot.sort(function (a, b) {
       return b.lkm - a.lkm
     })
     let paastotTulostus
+    let jaettuSija = 1
 
     for (let i = 0; i < lkmJarj.length; i++) {
-
+      if ( lkmJarj[i].lkm <= 0 ) break;
+      if ( i > 0 ) {
+        monesko = (jaettuSija+1) + '.'
+        if ( lkmJarj[i].lkm !== lkmJarj[i-1].lkm ) jaettuSija++;
+        else if (i === 1) monesko = ""
+        else monesko = jaettuSija + '.'
+      }
       if (counter == 0) kuntaVaiMaa = "koko maassa"
       else kuntaVaiMaa = "kunnassa"
 
@@ -690,8 +693,8 @@ const Paikkakunnat = () => {
         <br></br> <small class="text-muted">Toimialan verot {kuntaVaiMaa} keskimäärin: </small>{lukupilkuilla(lkmJarj[i].verot.toFixed(0)) + "€/vuosi"}
       </li>)
 
-      monesko2++
-      monesko = monesko2 + "."
+      //monesko2++
+      //monesko = monesko2 + "."
 
 
     }
@@ -711,7 +714,7 @@ const Paikkakunnat = () => {
   const Suhdeluku = () => {
 
     monesko = ""
-    monesko2 = 1
+    //monesko2 = 1
 
     //lista = []
     let suhdeluvutJarj = kaikkiTAtiedot.sort(function (a, b) {
@@ -720,6 +723,7 @@ const Paikkakunnat = () => {
 
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
 
+      if ( i > 0 ) monesko = (i+1) + '.'
       if (suhdeluvutJarj[i].suhde < 0) break;
       /*indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
       paastot = etsiPaastot(toimiAlatJarj, TAtunnuksetJaPaastoarvot, kokoSuomenToimialojenLkmt, kunnantoimialat, indeksi)
@@ -734,8 +738,8 @@ const Paikkakunnat = () => {
         <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde.toFixed(5)} </li>)
 
 
-      monesko2++
-      monesko = monesko2 + "."
+      //monesko2++
+      //monesko = monesko2 + "."
 
     }
 
@@ -756,7 +760,7 @@ const Paikkakunnat = () => {
   const Verot = () => {
 
     monesko = ""
-    monesko2 = 1
+    //monesko2 = 1
 
     //lista = []
     let verotJarj = kaikkiTAtiedot.sort(function (a, b) {
@@ -766,6 +770,8 @@ const Paikkakunnat = () => {
 
     for (let i = 0; i < verotJarj.length; i++) {
       
+      if ( verotJarj[i].lkm <= 0 ) break;
+      if ( i > 0 ) monesko = (i+1) + '.'
       if (counter == 0) kuntaVaiMaa = "koko maassa"
       else kuntaVaiMaa = "kunnassa"
 
@@ -786,8 +792,8 @@ const Paikkakunnat = () => {
         <br></br> <small class="text-muted">Toimialan päästöt {kuntaVaiMaa} keskimäärin: </small>{paastotTulostus}
       </li>)
 
-      monesko2++
-      monesko = monesko2 + "."
+      //monesko2++
+      //monesko = monesko2 + "."
     }
 
 
@@ -800,7 +806,7 @@ const Paikkakunnat = () => {
 
   const Paastot = () => {
     monesko = ""
-    monesko2 = 1
+    //monesko2 = 1
 
     //lista = []
     let paastotJarj = kaikkiTAtiedot.sort(function (a, b) {
@@ -812,18 +818,16 @@ const Paikkakunnat = () => {
 
     for (let i = 0; i < paastotJarj.length; i++) {
 
-      if (paastotJarj[i].paastot < 0) break;
+      if ( i > 0 ) monesko = (i+1) + '.'
+      //if ( paastotJarj[i].paastot)
+      if (paastotJarj[i].lkm <= 0 || paastotJarj[i].paastot < 0) break;
       if (counter == 0) kuntaVaiMaa = "koko maassa"
       else kuntaVaiMaa = "kunnassa"
 
-      if (paastotJarj[i].paastot >= 0) {
-        let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
-        tulostus = s.substr(s.indexOf(' ') + 1).trim()
+
+      let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
+      tulostus = s.substr(s.indexOf(' ') + 1).trim()
         //paastotTulostus = paastotJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
-      }
-      else {
-        tulostus = "Päästötietoja ei saatavilla"
-      }
 
       //let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
      // tulostus = s.substr(s.indexOf(' ') + 1).trim()
@@ -835,8 +839,8 @@ const Paikkakunnat = () => {
         <br></br> <small class="text-muted">Toimialan verot {kuntaVaiMaa} keskimäärin: </small>{lukupilkuilla(paastotJarj[i].verot.toFixed(0)) + "€/vuosi"}
       </li>)
 
-      monesko2++
-      monesko = monesko2 + "."
+      //monesko2++
+      //monesko = monesko2 + "."
     }
 
 

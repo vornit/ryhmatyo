@@ -21,7 +21,7 @@ const toimialojenVerot = dataToimialojenVerot.dataset.value
 const toimialojenPaastot = dataPaastot.dataset.value
 const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL2008) ja kotitaloudet"].category.index;
 
-console.log("toimialalista " , toimialalista)
+
 
 console.log(datatoimialatKunnittain)
 
@@ -49,7 +49,7 @@ const Toimialat = () => {
   var kunnanNimiAvain;
   var kuntienKaikkiToimialat = [];
   var toimialojenLkm = Object.keys(toimialalista).length
-  console.log("kuntien indeksit " , kuntienIndeksit["091"])
+  
 
 
   /*Jokaisen kunnan kaikki toimialat ovat peräkkäin listassa ositettuna 
@@ -67,19 +67,31 @@ const Toimialat = () => {
     }
 
     etsiEniten();
-    
     kunnanNimiAvain = haeAvain(kuntienIndeksit, enitenKunnassa[1])
     
   }
 
   //laskee toimialoille suhdeluvut
   function laskeToimialojenSL(){
-
-    for (let i = 0; i < verotaulukko.length ;i++){
-
-      toimialaSL[i] = (jaa(verotaulukko[i], paastotaulukko[i]) * jaa(kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]], kuntienKaikkiToimialat[i])) 
-
+    var toimialanvero = verotaulukko[counter]
+    var toimialanpaasto = paastotaulukko[counter]
+    for (let i = 0; i < kuntienToimialaLkm.length ;i++){
+      if(typeof toimialanpaasto === 'undefined'){
+        toimialaSL[i] = "Ei tiedossa";
+        continue;
+      }
+      toimialaSL[i] = {kunnanindeksi: i, suhde: ((toimialanvero/toimialanpaasto) * (kuntienToimialaLkm[i]/kuntienKaikkiToimialat[i]))}
+      
     }
+
+    let suhdeluvutJarj = toimialaSL
+    suhdeluvutJarj.sort(function(a, b){
+      return b.suhde - a.suhde;
+    })
+    console.log("verotaulukko " , verotaulukko)
+    console.log("paastotaulukko ", paastotaulukko)
+    console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
+    console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
     console.log("toimialasl " , toimialaSL)
 
   }
@@ -99,9 +111,8 @@ const Toimialat = () => {
       kuntienKaikkiToimialat[kuntienIndeksit[key]] = toimialojenMaarat[(toimialojenLkm * kuntienIndeksit[key])]
     	
     }
-    console.log("kuntienindeksit[key] " , kuntienIndeksit)
-    console.log("kuntienkaikkitoimialat: " ,kuntienKaikkiToimialat)
-    laskeToimialojenSL();
+    
+    
   }
 
   //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
@@ -128,23 +139,11 @@ const Toimialat = () => {
       }
 
     }
-    console.log("enitenkunnassa " , enitenKunnassa)
-    console.log("kutnientoimialasl " , kuntienToimialaSL)
+
     KunnanKaikkiToimialatLkm();
        
   }
 
-  
-
-  // laskee jakolaskun, mikäli mahdollista
-  function jaa(jaettava, jakaja){
-
-    if(jaettava == undefined || jakaja == undefined || jakaja == 0)
-      return "Ei tiedossa"
-    var osamaara = (jaettava/jakaja);
-    return osamaara;
-
-  }
   
   //Luo ison läjän keyn mukaan indeksöityjä listoja
   //listasta valittaessa saadaan samalla indeksillä muista listoista oikeita arvoja
@@ -207,6 +206,7 @@ const Toimialat = () => {
 
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
+  laskeToimialojenSL();
   
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin

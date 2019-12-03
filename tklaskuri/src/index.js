@@ -14,7 +14,6 @@ import FadeIn from 'react-fade-in';
 //console.log(dataPaastot)
 //console.log(dataToimialojenVerot)
 
-
 const lukupilkuilla = (x) => {
   if (x === undefined) return "Ei tiedossa";
   else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -473,6 +472,7 @@ const Paikkakunnat = () => {
   // State joka pitää muistissa indeksiä 
   const [counter, setCounter] = useState(0)
   const setToValue = (value) => setCounter(value)
+  //console.log(counter)
 
 
   //paikkakuntatiedot parsittuna omiin taulukkoihin
@@ -674,20 +674,20 @@ const Paikkakunnat = () => {
       else kuntaVaiMaa = "kunnassa"
 
       if (lkmJarj[i].paastot >= 0) {
-        paastotTulostus = lkmJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
+        paastotTulostus = lukupilkuilla(lkmJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
       }
       else {
         paastotTulostus = "Päästötietoja ei saatavilla"
       }
 
-      let s = lkmJarj[i].toimiala + " : " + lkmJarj[i].lkm
+      let s = lkmJarj[i].toimiala + " : " + lukupilkuilla(lkmJarj[i].lkm)
       tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
 
       lista.push(<li class="list-group-item">
         <small class="text-muted">Toimialoja {monesko} eniten: </small> {tulostus}<small class="text-muted"> kpl</small>
     <br></br> <small class="text-muted">Toimialan päästöt {kuntaVaiMaa} keskimäärin: </small>{paastotTulostus}
-        <br></br> <small class="text-muted">Toimialan verot kunnalla keskimäärin: </small>{lukupilkuilla(lkmJarj[i].verot.toFixed(0)) + "€/vuosi"}
+        <br></br> <small class="text-muted">Toimialan verot {kuntaVaiMaa} keskimäärin: </small>{lukupilkuilla(lkmJarj[i].verot.toFixed(0)) + "€/vuosi"}
       </li>)
 
       monesko2++
@@ -731,7 +731,7 @@ const Paikkakunnat = () => {
       
 
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
-        <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde} </li>)
+        <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde.toFixed(5)} </li>)
 
 
       monesko2++
@@ -770,7 +770,7 @@ const Paikkakunnat = () => {
       else kuntaVaiMaa = "kunnassa"
 
       if (verotJarj[i].paastot >= 0) {
-        paastotTulostus = verotJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
+        paastotTulostus = lukupilkuilla(verotJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
       }
       else {
         paastotTulostus = "Päästötietoja ei saatavilla"
@@ -782,7 +782,7 @@ const Paikkakunnat = () => {
 
       lista.push(<li class="list-group-item">
         <small class="text-muted">Veroja {monesko} eniten: </small> {tulostus}
-        <br></br> <small class="text-muted">Toimialan lkm {kuntaVaiMaa}: </small>{verotJarj[i].lkm + " kpl"}
+        <br></br> <small class="text-muted">Toimialan lkm {kuntaVaiMaa}: </small>{lukupilkuilla(verotJarj[i].lkm) + " kpl"}
         <br></br> <small class="text-muted">Toimialan päästöt {kuntaVaiMaa} keskimäärin: </small>{paastotTulostus}
       </li>)
 
@@ -806,30 +806,33 @@ const Paikkakunnat = () => {
     let paastotJarj = kaikkiTAtiedot.sort(function (a, b) {
       return b.paastot - a.paastot
     })
-    let paastotTulostus
+    //let paastotTulostus
 
-    console.log(paastotJarj)
+    //console.log(paastotJarj)
 
     for (let i = 0; i < paastotJarj.length; i++) {
 
+      if (paastotJarj[i].paastot < 0) break;
       if (counter == 0) kuntaVaiMaa = "koko maassa"
       else kuntaVaiMaa = "kunnassa"
 
-      if (!isNaN(paastotJarj[i].paastot)) {
-        paastotTulostus = paastotJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
+      if (paastotJarj[i].paastot >= 0) {
+        let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
+        tulostus = s.substr(s.indexOf(' ') + 1).trim()
+        //paastotTulostus = paastotJarj[i].paastot.toFixed(0) + " tonnia kasvihuonekaasuja/vuosi"
       }
       else {
-        paastotTulostus = "Päästötietoja ei saatavilla"
+        tulostus = "Päästötietoja ei saatavilla"
       }
 
-      let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].verot.toFixed(0)) + "€/vuosi"
-      tulostus = s.substr(s.indexOf(' ') + 1).trim()
+      //let s = paastotJarj[i].toimiala + " : " + lukupilkuilla(paastotJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
+     // tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
 
       lista.push(<li class="list-group-item">
-        <small class="text-muted">Veroja {monesko} eniten: </small> {tulostus}
-        <br></br> <small class="text-muted">Toimialan lkm {kuntaVaiMaa}: </small>{paastotJarj[i].lkm + " kpl"}
-        <br></br> <small class="text-muted">Toimialan päästöt {kuntaVaiMaa} keskimäärin: </small>{paastotTulostus}
+        <small class="text-muted">Päästöjä {monesko} eniten: </small>{tulostus}
+        <br></br> <small class="text-muted">Toimialan lkm {kuntaVaiMaa}: </small>{lukupilkuilla(paastotJarj[i].lkm) + " kpl"}
+        <br></br> <small class="text-muted">Toimialan verot {kuntaVaiMaa} keskimäärin: </small>{lukupilkuilla(paastotJarj[i].verot.toFixed(0)) + "€/vuosi"}
       </li>)
 
       monesko2++
@@ -924,7 +927,7 @@ const Paikkakunnat = () => {
 
 
               <div className="btn-group btn-group-sm pikkunapit">
-                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Tietoja</button>
+                <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                 <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>

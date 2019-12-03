@@ -13,7 +13,7 @@ const kuntienIndeksit = datatoimialatKunnittain.dataset.dimension.Kunta.category
 const kuntienNimet = datatoimialatKunnittain.dataset.dimension.Kunta.category.label
 
 const nimiJaIndeksi = dataToimialojenVerot.dataset.dimension.Toimiala.category.index
-const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
+//const toimialojenNimet = dataToimialojenVerot.dataset.dimension.Toimiala.category.label
 const toimialojenVerot = dataToimialojenVerot.dataset.value
 
 const toimialojenPaastot = dataPaastot.dataset.value
@@ -21,7 +21,7 @@ const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL
 
 
 
-console.log(datatoimialatKunnittain)
+//console.log(datatoimialatKunnittain)
 
 //Pääkomponentti toimialoille
 const Toimialat = () => {
@@ -32,17 +32,17 @@ const Toimialat = () => {
   
   //iso läjä listoja
   var enitenKunnassa = [];
-  var kuntienNimetTop = [];
-  var kunnanAvain = [];
+ // var kuntienNimetTop = [];
+  //var kunnanAvain = [];
   var verotaulukko = [];
   var alataulukko = [];
   var maarataulukko = [];
   var kuntienToimialaLkm = [];
   var paastotaulukko = [];
   var toimialojenAvaimet = [];
-  var toimialojenVerotuloKA = [];
-  var toimialojenPaastotKA = [];
-  var kuntienToimialaSL = [];
+  //var toimialojenVerotuloKA = [];
+  //var toimialojenPaastotKA = [];
+  //var kuntienToimialaSL = [];
   var toimialaSL = [];
   var kunnanNimiAvain;
   var kuntienKaikkiToimialat = [];
@@ -88,11 +88,11 @@ const Toimialat = () => {
     suhdeluvutJarj.sort(function(a, b){
       return b.suhde - a.suhde;
     })
-    console.log("verotaulukko " , verotaulukko)
-    console.log("paastotaulukko ", paastotaulukko)
-    console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
-    console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
-    console.log("toimialasl " , toimialaSL)
+    //console.log("verotaulukko " , verotaulukko)
+   // console.log("paastotaulukko ", paastotaulukko)
+   // console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
+    //console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
+   // console.log("toimialasl " , toimialaSL)
     return suhdeluvutJarj;
   }
 
@@ -118,8 +118,8 @@ const Toimialat = () => {
   //pitää järjestettyä listaa eniten valittua toimialaa sisältävien kuntien indekseistä
   function etsiEniten(){
     
-    var suurin = 0;
-    var maxIndex = 0;
+//    var suurin = 0;
+ //   var maxIndex = 0;
 
     for (let i = 0; i < kuntienToimialaLkm.length; i++){
     	
@@ -199,16 +199,16 @@ const Toimialat = () => {
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
-    if (x == undefined) return "Ei tiedossa";
+    if (x === undefined) return "Ei tiedossa";
     else return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
  
   let paastoTulostus = "Ei tiedossa";
-  if( lukupilkuilla(paastotaulukko[counter]) != "Ei tiedossa") {
+  if( lukupilkuilla(paastotaulukko[counter]) !== "Ei tiedossa") {
     paastoTulostus = lukupilkuilla(paastotaulukko[counter]) + " tonnia/vuosi";
   }
   let veroTulostus = "Ei Tiedossa";
-    if ( lukupilkuilla(verotaulukko[counter]) != "Ei tiedossa"){
+    if ( lukupilkuilla(verotaulukko[counter]) !== "Ei tiedossa"){
       veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
     }
     
@@ -221,7 +221,7 @@ const Toimialat = () => {
     for(let i = 1; i < enitenKunnassa.length; i++){
 
       let kunta = kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[i])]
-      if(kuntienToimialaLkm[enitenKunnassa[i]] == 0){
+      if(kuntienToimialaLkm[enitenKunnassa[i]] === 0){
         break;
       }
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}
@@ -252,7 +252,7 @@ const Toimialat = () => {
       lista.push(<li class="list-group-item"><small class="text-muted"> Ei voida laskea </small></li>)
       break;
     }
-    if(suhdeluvutJarj[i].suhde == 0){
+    if(suhdeluvutJarj[i].suhde === 0){
       break;
     }
     lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}

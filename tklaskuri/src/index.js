@@ -298,6 +298,7 @@ function laskeToimialanTiedot(toimialatYhteensaKunnassa, toimialatJaLkmPerKunta,
     //indeksi = etsiSuurimmanI(toimiAlatJarj, kunnantoimialat, ohita)
     //console.log(toimiAlatJarj[indeksi])
     let toimialanLkmKunnassa = toimialatJaLkmPerKunta[i].lkm
+    //console.log(toimialatJaLkmPerKunta[0].lkm)
     let toimialanOsuusPerKunta = toimialanLkmKunnassa / toimialatYhteensaKunnassa
 
 
@@ -561,10 +562,9 @@ const Paikkakunnat = () => {
   var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
 
   var toimialatJaLkmPerKunta = luoToimialatJaLkmt(toimiAlatJarj, kunnantoimialat)
-  //console.log(kunnantoimialat)
+  //console.log(kunnantoimialat[0])
   var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, vuosi);
   //console.log(kunnanSuhdeluvut)
-
 
 
 
@@ -726,6 +726,29 @@ const Paikkakunnat = () => {
       return b.suhde - a.suhde
     })
 
+    let suhteidenMaara = 0;
+
+    for (let i = 0; i < suhdeluvutJarj.length; i++){
+      if (suhdeluvutJarj[i].suhde < 0) break;
+      suhteidenMaara++;
+    }
+
+    let suhteetYht = 0;
+    for (let i = 0; i < suhdeluvutJarj.length; i++){
+      if (suhdeluvutJarj[i].suhde < 0) break;
+      suhteetYht += suhdeluvutJarj[i].suhde
+    }
+
+    let suhteetKA = suhteetYht/suhteidenMaara
+
+    console.log(Math.floor(suhteidenMaara/2))
+    var mediaani = suhdeluvutJarj[Math.floor((suhteidenMaara)/2)].suhde
+    //console.log(suhdeluvutJarj[(viimeinenSuhde)/2].suhde)
+    console.log(suhdeluvutJarj)
+    console.log(suhteetKA)
+    //console.log(viimeinenSuhde)
+    console.log(mediaani)
+
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
 
       if ( i > 0 ) monesko = (i+1) + '.'
@@ -737,10 +760,13 @@ const Paikkakunnat = () => {
       let s = suhdeluvutJarj[i].toimiala
       tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
+      let suhdeprosentti = (suhdeluvutJarj[i].suhde / mediaani)
+      //let suhdeprosentti = (suhdeluvutJarj[i].suhde / suhteetKA)
       
 
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
-        <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde.toFixed(5)} </li>)
+                <small class="text-muted"> Suhdeluku: </small>{suhdeprosentti} </li>)
+
 
 
       //monesko2++

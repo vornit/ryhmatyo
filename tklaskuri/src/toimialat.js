@@ -80,7 +80,6 @@ const Toimialat = () => {
         break;
       }
       
-      
       toimialaSL[i] = {kunnanindeksi: i, suhde: ((toimialanvero/toimialanpaasto) * (kuntienToimialaLkm[i]/kuntienKaikkiToimialat[i]))}
       
     }
@@ -94,6 +93,10 @@ const Toimialat = () => {
    // console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
     //console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
    // console.log("toimialasl " , toimialaSL)
+   for ( let i = 0; i < suhdeluvutJarj.length; i++){
+     if(suhdeluvutJarj[i].suhde == 0) suhdeluvutJarj.splice(i, (suhdeluvutJarj.length - i));
+     else continue;
+   }
     return suhdeluvutJarj;
   }
 
@@ -197,7 +200,24 @@ const Toimialat = () => {
   
   var suhdeluvutJarj = laskeToimialojenSL();
   
-
+  function ka(lista){
+    var summa = 0;
+    for (let x in lista){
+      summa = summa + lista[x].suhde
+    }
+    var keskiarvo = summa/(lista.length)
+    return keskiarvo;
+  }
+  var kaSuhdeluku = ka(suhdeluvutJarj)
+  console.log("kasuhdeluku " ,kaSuhdeluku)
+  console.log("eka " , suhdeluvutJarj[0].suhde)
+  console.log("ekan suhde ka:han " , (suhdeluvutJarj[0].suhde/kaSuhdeluku))
+  console.log("vika suhde ka:han " , (suhdeluvutJarj[suhdeluvutJarj.length-1].suhde/kaSuhdeluku))
+  console.log("vika? " , suhdeluvutJarj[suhdeluvutJarj.length-1].suhde)
+  console.log("kokopaska " , suhdeluvutJarj)
+  
+  var mediaaniIndeksi = Math.floor(suhdeluvutJarj.length/2)
+  console.log("mediaaniindeksi " , mediaaniIndeksi)
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
     if (x === undefined) return "Ei tiedossa";
@@ -257,7 +277,7 @@ const Toimialat = () => {
       break;
     }
     lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}
-      <small class="text-muted"> Suhdeluku: </small>{suhdeluvutJarj[i].suhde.toFixed(5)} </li>)
+      <small class="text-muted"> Suhdeluku: </small>{((suhdeluvutJarj[i].suhde/suhdeluvutJarj[mediaaniIndeksi].suhde)*100).toFixed(2)} % mediaanista</li>)
 
     monesko2++
     monesko = monesko2 + "."
@@ -271,7 +291,7 @@ const Toimialat = () => {
     )
   }
 
-  const [page, setPage] = useState('suhdeluku')
+  const [page, setPage] = useState('maara')
 
   const toPage = (page) => (event) => {
     event.preventDefault()

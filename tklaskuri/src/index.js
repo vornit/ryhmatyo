@@ -370,7 +370,7 @@ const App = () => {
 
   const toPage = (page2) => (event) => {
     event.preventDefault()
-    if (page2 === page ) { setPage("paikkakunnat")}
+    if (page2 === page && page2 === "aloitus" ) { setPage("paikkakunnat")}
     else setPage(page2)
   }
 

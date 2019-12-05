@@ -15,3 +15,10 @@ code {
 .container {
   visibility: hidden;
 }
+
+.oikealle {
+  text-align: right;
+  float: right;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  
+}

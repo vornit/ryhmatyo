@@ -657,6 +657,8 @@ const Paikkakunnat = () => {
   var lista = []
   var tulostus
   var kuntaVaiMaa = "kunnassa"
+  if (counter == 0) kuntaVaiMaa = "koko maassa"
+      else kuntaVaiMaa = "kunnassa"
 
   //console.log(toimiAlatJarj)
 
@@ -742,7 +744,7 @@ const Paikkakunnat = () => {
     let suhteetKA = suhteetYht/suhteidenMaara
 
     console.log(Math.floor(suhteidenMaara/2))
-    var mediaani = suhdeluvutJarj[Math.floor((suhteidenMaara)/2)].suhde
+    var mediaani = suhdeluvutJarj[Math.floor((suhteidenMaara)/2)-1].suhde
     //console.log(suhdeluvutJarj[(viimeinenSuhde)/2].suhde)
     console.log(suhdeluvutJarj)
     console.log(suhteetKA)
@@ -760,12 +762,39 @@ const Paikkakunnat = () => {
       let s = suhdeluvutJarj[i].toimiala
       tulostus = s.substr(s.indexOf(' ') + 1).trim()
 
-      let suhdeprosentti = (suhdeluvutJarj[i].suhde / mediaani)
+      let negatiivisuus
+      let suhdeprosentti = (suhdeluvutJarj[i].suhde / mediaani) * 100
+      //if (suhdeprosentti < 1)
+      if (suhdeprosentti < 100) {
+        suhdeprosentti = ((100 / suhdeprosentti) - 1) * 100
+        suhdeprosentti *= -1
+        suhdeprosentti = suhdeprosentti.toFixed(0)
+        suhdeprosentti += "% pienempi kuin mediaani"
+      }
+      else if (suhdeprosentti > 100){
+        suhdeprosentti -= 100
+        suhdeprosentti = suhdeprosentti.toFixed(0)
+        suhdeprosentti += "% suurempi kuin mediaani"
+      }
+      else suhdeprosentti = " mediaani"
+        //negatiivisuus = (negatiivisuus / 100) * 100
+       // suhdeprosentti = negatiivisuus
+      //}
       //let suhdeprosentti = (suhdeluvutJarj[i].suhde / suhteetKA)
+      let paastotTulostus
+      if (suhdeluvutJarj[i].paastot >= 0) {
+        paastotTulostus = lukupilkuilla(suhdeluvutJarj[i].paastot.toFixed(0)) + " tonnia kasvihuonekaasuja/vuosi"
+      }
+      else {
+        paastotTulostus = "Päästötietoja ei saatavilla"
+      }
       
 
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {tulostus}
-                <small class="text-muted"> Suhdeluku: </small>{suhdeprosentti} </li>)
+      <small> : </small>  {suhdeprosentti}
+      <br></br> <small class="text-muted">Toimialan verot {kuntaVaiMaa} keskimäärin: </small>{lukupilkuilla(suhdeluvutJarj[i].verot.toFixed(0)) + "€/vuosi"}
+      <br></br> <small class="text-muted">Toimialan päästöt {kuntaVaiMaa} keskimäärin: </small>{paastotTulostus}
+      </li>)
 
 
 

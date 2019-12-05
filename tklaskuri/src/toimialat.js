@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 import FadeIn from 'react-fade-in';
+import toPage from './index';
 
 
 
@@ -281,7 +282,9 @@ const Toimialat = () => {
  return (
   // Bootstrapin pääcontainer
   <FadeIn>
-  <div className="container">   
+  <div className="container"> 
+
+  
   
       <div className="row">
             <div className="col-sm">

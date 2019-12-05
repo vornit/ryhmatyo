@@ -11,6 +11,8 @@ import dataPaastot from "./paastotToimialoittain"
 import dataToimialojenVerot from "./toimialojenVerot2"
 import FadeIn from 'react-fade-in';
 
+
+
 //console.log(dataPaastot)
 //console.log(dataToimialojenVerot)
 
@@ -366,9 +368,10 @@ const App = () => {
 
   const [page, setPage] = useState('aloitus')
 
-  const toPage = (page) => (event) => {
+  const toPage = (page2) => (event) => {
     event.preventDefault()
-    setPage(page)
+    if (page2 === page ) { setPage("paikkakunnat")}
+    else setPage(page2)
   }
 
 
@@ -397,8 +400,8 @@ const App = () => {
     <div>
 
 
-    <button type="button" class="btn btn-outline-primary infonappi float-right" onClick={toPage('aloitus')}>Tietoja ohjelmasta</button>
     
+    <button type="button" id="tietoja" class="btn btn-outline-primary infonappi float-right" onClick={toPage('aloitus')}>Tietoja ohjelmasta</button>
     
 
       <div className="row justify-content-md-center">
@@ -431,6 +434,8 @@ const Paikkakunnat = () => {
     event.preventDefault()
     setPage(page)
   }
+
+
 
   const [vuosi, setVuosi] = useState(3)
   const setToVuosi = (value) => setVuosi(value)
@@ -833,6 +838,8 @@ const Paikkakunnat = () => {
     
     <div className="container">
 
+    
+
 
 
       <div className="row">
@@ -946,11 +953,14 @@ const Paikkakunnat = () => {
   )
 
 
-
+ 
 
 }
 
 ReactDOM.render(
   React.createElement(App, null),
   document.getElementById('root')
+
+ 
 )
+

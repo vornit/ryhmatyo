@@ -145,12 +145,7 @@ ul {
    zoom: 0.8;
  }
 
- .pikkunapit {
-  position:absolute;
-  z-index:10;
-  right: 0;
-  margin-right: 1em;
- }
+
 
  .infonappi {
     
@@ -194,7 +189,7 @@ input[type=search]::-webkit-search-cancel-button {
 
 .oikeala {
   
-  height: 400px;
+  height: 375px;
   overflow: auto;
 }
 

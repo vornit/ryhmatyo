@@ -117,7 +117,7 @@ h5 {
 }
 
 p {
-  font-size: 1em;
+  font-size: 2em;
 }
 
 img {
@@ -147,7 +147,11 @@ ul {
 
  .btn-group {
    
-   zoom: 0.8;
+  zoom: 0.7;  
+  margin-top: -0.7em;
+  display: flow-root;
+    
+  
  }
 
 
@@ -160,6 +164,39 @@ ul {
     
     
  }
+
+ .suhde {
+    margin-right: 8px !important;
+    border-top-left-radius: 5px !important; 
+    border-bottom-left-radius: 5px !important;
+    border-top-right-radius: 5px !important; 
+    border-bottom-right-radius: 5px !important;
+
+ }
+
+ .paastot {
+  
+  border-top-right-radius: 5px !important; 
+  border-bottom-right-radius: 5px !important;
+
+}
+
+.vuosilukunappi {
+  margin-left: 8px;
+  
+}
+
+.lkm {
+  
+  border-top-left-radius: 5px !important; 
+  border-bottom-left-radius: 5px !important;
+
+}
+
+.pikkunapit {
+  margin-bottom: 7px;
+  width: auto;
+}
 
  .small, small {
    font-size: 100%;
@@ -178,11 +215,8 @@ ul {
 
  
 
-.btn-group-sm {
-  margin-top: -0.7em;
-  
 
-}
+
 
 .btn-primary:focus {
   filter: brightness(85%);

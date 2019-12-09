@@ -392,24 +392,38 @@ const Paikkakunnat = () => {
   }
 
 
+  const [paastotVuosi, setPaastotVuosi] = useState(3)
+  const setToPaastotVuosi = (value) => setPaastotVuosi(value)
 
-  const [vuosi, setVuosi] = useState(3)
-  const setToVuosi = (value) => setVuosi(value)
+  const [verotVuosi, setVerotVuosi] = useState(3)
+  const setToVerotVuosi = (value) => setVerotVuosi(value)
+
+
+  const vuosilukufunktio = () => {
+    if (verotVuosi === 0) return "2014";
+    else if (verotVuosi === 1) return "2015";
+    else if (verotVuosi === 2) return "2016";
+    else if (verotVuosi === 3) return "2017";
+  }
 
   const vaihda2017 = () => {
-    setToVuosi(3)
+    setToVerotVuosi(3)
+    setPaastotVuosi(9)
   }
 
   const vaihda2016 = () => {
-    setToVuosi(2)
+    setToVerotVuosi(2)
+    setPaastotVuosi(8)
   }
 
   const vaihda2015 = () => {
-    setToVuosi(1)
+    setToVerotVuosi(1)
+    setPaastotVuosi(7)
   }
 
   const vaihda2014 = () => {
-    setToVuosi(0)
+    setToVerotVuosi(0)
+    setPaastotVuosi(6)
   }
 
 
@@ -495,7 +509,7 @@ const Paikkakunnat = () => {
 
   var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
 
-  var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
+  var paastotToimialoittain2008 = parsiPaastotVuodelta(paastotVuosi)
   var TAtunnuksetJaPaastoarvot = {}
   for (let i = 0; i < Object.keys(paastojenToimialatJarj).length; i++) {
     let s = paastojenToimialatJarj[i]
@@ -511,7 +525,7 @@ const Paikkakunnat = () => {
   var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
 
   var toimialatJaLkmPerKunta = luoToimialatJaLkmt(toimiAlatJarj, kunnantoimialat)
-  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, vuosi);
+  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, verotVuosi);
 
 
 
@@ -918,17 +932,31 @@ const Paikkakunnat = () => {
             <div class="row">
               <div class="col jumbotron">
 
+              <div className="btn-group btn-group pikkunapit">
 
-                <div className="btn-group btn-group-sm pikkunapit">
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
+         
+
+
+
+
+
+      <button type="button" className="btn btn-primary suhde" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
+                  <button type="button" className="btn btn-secondary lkm" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
                   <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
+                  <button type="button" className="btn btn-secondary paastot" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
+                  
 
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2014}>2014</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2015}>2015</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2016}>2016</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2017}>2017</button>
+                  <div class="dropdown float-right">
+      <button class="btn btn-secondary dropdown-toggle vuosilukunappi float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Vuosiluku: {vuosilukufunktio()}
+     </button>
+       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset">
+     <a class="dropdown-item" href="#" onClick={vaihda2014}>2014</a>
+      <a class="dropdown-item" href="#"onClick={vaihda2015}>2015</a>
+      <a class="dropdown-item" href="#"onClick={vaihda2016}>2016</a>
+      <a class="dropdown-item" href="#"onClick={vaihda2017}>2017</a>
+   </div>
+      </div>
 
                 </div>
 

@@ -384,7 +384,7 @@ const App = () => {
 //KOMPONENTTI JOKA piirtää PAIKKAKUNNAT sivulle kaiken
 const Paikkakunnat = () => {
 
-  const [page, setPage] = useState('tietoja')
+  const [page, setPage] = useState('suhdeluku')
 
   const toPage = (page) => (event) => {
     event.preventDefault()

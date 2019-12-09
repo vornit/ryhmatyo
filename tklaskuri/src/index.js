@@ -393,8 +393,15 @@ const Paikkakunnat = () => {
 
 
 
-  const [vuosi, setVuosi] = useState(3)
+  const [vuosi, setVuosi] = useState(0)
   const setToVuosi = (value) => setVuosi(value)
+
+  const vuosilukufunktio = () => {
+    if (vuosi === 0) return "2014";
+    else if (vuosi === 1) return "2015";
+    else if (vuosi === 2) return "2016";
+    else if (vuosi === 3) return "2017";
+  }
 
   const vaihda2017 = () => {
     setToVuosi(3)
@@ -918,17 +925,31 @@ const Paikkakunnat = () => {
             <div class="row">
               <div class="col jumbotron">
 
+              <div className="btn-group btn-group-sm pikkunapit">
 
-                <div className="btn-group btn-group-sm pikkunapit">
+          <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Vuosiluku: {vuosilukufunktio()}
+     </button>
+       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+     <a class="dropdown-item" href="#" onClick={vaihda2014}>2014</a>
+      <a class="dropdown-item" href="#"onClick={vaihda2015}>2015</a>
+      <a class="dropdown-item" href="#"onClick={vaihda2016}>2016</a>
+      <a class="dropdown-item" href="#"onClick={vaihda2017}>2017</a>
+   </div>
+      </div>
+
+
+
+
+
+                
                   <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
                   <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
                   <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                   <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
 
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2014}>2014</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2015}>2015</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2016}>2016</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={vaihda2017}>2017</button>
+                  
 
                 </div>
 

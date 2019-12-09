@@ -48,6 +48,7 @@ const Toimialat = () => {
   var kunnanNimiAvain;
   var kuntienKaikkiToimialat = [];
   var toimialojenLkm = Object.keys(toimialalista).length
+  var toimialojenSLtaulukko = [];
 
 
 
@@ -71,39 +72,30 @@ const Toimialat = () => {
   }
 
   //laskee toimialoille suhdeluvut
-  function laskeToimialojenSL() {
-    var toimialanvero = verotaulukko[counter]
-    var toimialanpaasto = paastotaulukko[counter]
-    for (let i = 0; i < kuntienToimialaLkm.length; i++) {
-      if (typeof toimialanpaasto === 'undefined') {
-        toimialaSL[i] = "Ei tiedossa";
-        break;
+  function jarjestaToimialojenSL() {
+    for (let i = 0; i < verotaulukko.length; i++) {
+      toimialojenSLtaulukko[i] = {slIndeksi: i, suhde: (verotaulukko[i]/paastotaulukko[i])}
+      if (isNaN(toimialojenSLtaulukko[i].suhde)) {
+        toimialojenSLtaulukko[i].suhde = 0;
+        continue;
       }
-
-      toimialaSL[i] = { kunnanindeksi: i, suhde: ((toimialanvero / toimialanpaasto) * (kuntienToimialaLkm[i] / kuntienKaikkiToimialat[i])) }
+      //toimialaSL[i] = { slIndeksi: i, suhde: toimialojenSLtaulukko[i] }
 
     }
-
-    let suhdeluvutJarj = toimialaSL
+    console.log("toimialojensltaulukko " , toimialojenSLtaulukko)
+    let suhdeluvutJarj = toimialojenSLtaulukko
+    console.log("suhdeluvut epäjärj " ,suhdeluvutJarj)
     suhdeluvutJarj.sort(function (a, b) {
       return b.suhde - a.suhde;
     })
-    //console.log("verotaulukko " , verotaulukko)
-    // console.log("paastotaulukko ", paastotaulukko)
-    // console.log("kuntienToimialaLkm ", kuntienToimialaLkm)
-    //console.log("kuntienKaikkiToimialat " , kuntienKaikkiToimialat)
-    // console.log("toimialasl " , toimialaSL)
-    for (let i = 0; i < suhdeluvutJarj.length; i++) {
-
-      if (suhdeluvutJarj[i].suhde == 0) {
-        suhdeluvutJarj.splice(i, (suhdeluvutJarj.length - i))
+    for(let i = 0; i < suhdeluvutJarj.length; i++){
+      if(suhdeluvutJarj[i].suhde == 0){
+        suhdeluvutJarj.splice(i, suhdeluvutJarj.length - i)
         break;
-        console.log(suhdeluvutJarj)
       }
-
-      else continue;
-
     }
+    
+    console.log("suhdeluvut jarj " , suhdeluvutJarj)
     return suhdeluvutJarj;
   }
 
@@ -149,7 +141,7 @@ const Toimialat = () => {
 
     for (let key in toimialalista) {
       if (key.length === 2) {
-
+        
         toimialojenAvaimet.push(key)
         alataulukko.push(toimialalista[key])
         maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
@@ -162,6 +154,7 @@ const Toimialat = () => {
 
           verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
         }
+        
       }
     }
 
@@ -205,23 +198,8 @@ const Toimialat = () => {
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
 
-  var suhdeluvutJarj = laskeToimialojenSL();
-
-  function ka(lista) {
-    var summa = 0;
-    for (let x in lista) {
-      summa = summa + lista[x].suhde
-    }
-    var keskiarvo = summa / (lista.length)
-    return keskiarvo;
-  }
-  var kaSuhdeluku = ka(suhdeluvutJarj)
-  console.log("kasuhdeluku ", kaSuhdeluku)
-  console.log("eka ", suhdeluvutJarj[0].suhde)
-  console.log("ekan suhde ka:han ", (suhdeluvutJarj[0].suhde / kaSuhdeluku))
-  console.log("vika suhde ka:han ", (suhdeluvutJarj[suhdeluvutJarj.length - 1].suhde / kaSuhdeluku))
-  console.log("vika? ", suhdeluvutJarj[suhdeluvutJarj.length - 1].suhde)
-  console.log("kokopaska ", suhdeluvutJarj)
+  var suhdeluvutJarj = jarjestaToimialojenSL();
+  console.log(suhdeluvutJarj)
 
   var mediaaniIndeksi = Math.floor(suhdeluvutJarj.length / 2)
   console.log("mediaaniindeksi ", mediaaniIndeksi)
@@ -235,9 +213,25 @@ const Toimialat = () => {
   if (lukupilkuilla(paastotaulukko[counter]) !== "Ei tiedossa") {
     paastoTulostus = lukupilkuilla(paastotaulukko[counter]) + " tonnia/vuosi";
   }
-  let veroTulostus = "Ei Tiedossa";
+  let veroTulostus = "Ei tiedossa";
   if (lukupilkuilla(verotaulukko[counter]) !== "Ei tiedossa") {
     veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
+  }
+  let sijaTulostus = "Ei tiedossa";
+  if (toimialojenSLtaulukko[counter] !== "Ei tiedossa"){
+    for ( let i = 0; i < suhdeluvutJarj.length; i++){
+      if (suhdeluvutJarj[i].slIndeksi == counter){
+        sijaTulostus = i + 1;
+      }
+    }
+  }
+  let mediaaniTulostus = "";
+  if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa"){
+    for (let i = 0; i < suhdeluvutJarj.length; i++){
+      if (suhdeluvutJarj[i].slIndeksi == counter){
+        mediaaniTulostus = (suhdeluvutJarj[i].suhde/suhdeluvutJarj[suhdeluvutJarj.length/2].suhde).toFixed(2) + "% mediaanista"
+      }
+    }
   }
 
 
@@ -366,6 +360,8 @@ const Toimialat = () => {
                   <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}. / 86. {mediaaniTulostus}</li>
+
                 </ul>
 
               </div>

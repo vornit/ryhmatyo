@@ -392,24 +392,30 @@ const Paikkakunnat = () => {
   }
 
 
+  const [paastotVuosi, setPaastotVuosi] = useState(3)
+  const setToPaastotVuosi = (value) => setPaastotVuosi(value)
 
-  const [vuosi, setVuosi] = useState(3)
-  const setToVuosi = (value) => setVuosi(value)
+  const [verotVuosi, setVerotVuosi] = useState(3)
+  const setToVerotVuosi = (value) => setVerotVuosi(value)
 
   const vaihda2017 = () => {
-    setToVuosi(3)
+    setToVerotVuosi(3)
+    setPaastotVuosi(9)
   }
 
   const vaihda2016 = () => {
-    setToVuosi(2)
+    setToVerotVuosi(2)
+    setPaastotVuosi(8)
   }
 
   const vaihda2015 = () => {
-    setToVuosi(1)
+    setToVerotVuosi(1)
+    setPaastotVuosi(7)
   }
 
   const vaihda2014 = () => {
-    setToVuosi(0)
+    setToVerotVuosi(0)
+    setPaastotVuosi(6)
   }
 
 
@@ -495,7 +501,7 @@ const Paikkakunnat = () => {
 
   var paastojenToimialatJarj = jarjestaIndekseittain(paastotToimialat)
 
-  var paastotToimialoittain2008 = parsiPaastotVuodelta(0)
+  var paastotToimialoittain2008 = parsiPaastotVuodelta(paastotVuosi)
   var TAtunnuksetJaPaastoarvot = {}
   for (let i = 0; i < Object.keys(paastojenToimialatJarj).length; i++) {
     let s = paastojenToimialatJarj[i]
@@ -511,7 +517,7 @@ const Paikkakunnat = () => {
   var kunnantoimialat = parsiKunnanToimialat(counter, toimiAlatJarj);
 
   var toimialatJaLkmPerKunta = luoToimialatJaLkmt(toimiAlatJarj, kunnantoimialat)
-  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, vuosi);
+  var kaikkiTAtiedot = laskeToimialanTiedot(kunnantoimialat[0], toimialatJaLkmPerKunta, TAtunnuksetJaPaastoarvot, kokoSuomenToimialatJaLkmt, verotVuosi);
 
 
 

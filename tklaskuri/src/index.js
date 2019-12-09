@@ -925,31 +925,31 @@ const Paikkakunnat = () => {
             <div class="row">
               <div class="col jumbotron">
 
-              <div className="btn-group btn-group-sm pikkunapit">
+              <div className="btn-group btn-group pikkunapit">
 
-          <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         
+
+
+
+
+
+      <button type="button" className="btn btn-primary suhde" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
+                  <button type="button" className="btn btn-secondary lkm" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
+                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
+                  <button type="button" className="btn btn-secondary paastot" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
+                  
+
+                  <div class="dropdown float-right">
+      <button class="btn btn-secondary dropdown-toggle vuosilukunappi float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Vuosiluku: {vuosilukufunktio()}
      </button>
-       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset">
      <a class="dropdown-item" href="#" onClick={vaihda2014}>2014</a>
       <a class="dropdown-item" href="#"onClick={vaihda2015}>2015</a>
       <a class="dropdown-item" href="#"onClick={vaihda2016}>2016</a>
       <a class="dropdown-item" href="#"onClick={vaihda2017}>2017</a>
    </div>
       </div>
-
-
-
-
-
-                
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
-
-                  
 
                 </div>
 

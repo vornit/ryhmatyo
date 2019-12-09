@@ -400,10 +400,10 @@ const Paikkakunnat = () => {
 
 
   const vuosilukufunktio = () => {
-    if (vuosi === 0) return "2014";
-    else if (vuosi === 1) return "2015";
-    else if (vuosi === 2) return "2016";
-    else if (vuosi === 3) return "2017";
+    if (verotVuosi === 0) return "2014";
+    else if (verotVuosi === 1) return "2015";
+    else if (verotVuosi === 2) return "2016";
+    else if (verotVuosi === 3) return "2017";
   }
 
   const vaihda2017 = () => {

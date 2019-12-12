@@ -3,10 +3,8 @@ import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 import FadeIn from 'react-fade-in';
-import toPage from './index';
 
 // asetetaan dataa jsoneista muuttujiin
-
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
 const toimialojenMaarat = datatoimialatKunnittain.dataset.value
@@ -73,7 +71,7 @@ const Toimialat = () => {
       return b.suhde - a.suhde;
     })
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
-      if (suhdeluvutJarj[i].suhde == 0) {
+      if (suhdeluvutJarj[i].suhde === 0) {
         suhdeluvutJarj.splice(i, suhdeluvutJarj.length - i)
         break;
       }
@@ -194,7 +192,7 @@ const Toimialat = () => {
 
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
-      if (suhdeluvutJarj[i].slIndeksi == counter) {
+      if (suhdeluvutJarj[i].slIndeksi === counter) {
         sijaTulostus = i + 1 + "/" + suhdeluvutJarj.length + " | ";
 
       }
@@ -205,7 +203,7 @@ const Toimialat = () => {
 
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
-      if (suhdeluvutJarj[i].slIndeksi == counter) {
+      if (suhdeluvutJarj[i].slIndeksi === counter) {
         let mediaaniArvo = suhdeluvutJarj[mediaaniIndeksi].suhde
         let verrattavaArvo = suhdeluvutJarj[i].suhde
 

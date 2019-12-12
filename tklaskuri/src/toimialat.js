@@ -228,20 +228,27 @@ const Toimialat = () => {
 
   const Maara = () => {
     let monesko = "";
-    let monesko2 = 1;
+    let jaettuSija = 1;
     var lista = [];
 
     for (let i = 1; i < enitenKunnassa.length; i++) {
-
+      let lukumaara = kuntienToimialaLkm[enitenKunnassa[i]]
       let kunta = kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[i])]
-      if (kuntienToimialaLkm[enitenKunnassa[i]] == 0) {
+      if (lukumaara == 0) {
         break;
       }
+      if( i > 1){
+        monesko = (jaettuSija + 1) + '.'
+        if(lukumaara !==  kuntienToimialaLkm[enitenKunnassa[i - 1]]){
+          jaettuSija++;
+        }
+        else if (i === 1) monesko = ""
+        else monesko = jaettuSija + "."
+      }
+
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}
         <small class="text-muted"> Määrä: </small>{kuntienToimialaLkm[enitenKunnassa[i]]} </li>)
 
-      monesko2++
-      monesko = monesko2 + "."
     }
 
     return (

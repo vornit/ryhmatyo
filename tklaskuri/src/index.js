@@ -985,7 +985,7 @@ const Paikkakunnat = () => {
       <button class="btn btn-secondary dropdown-toggle vuosilukunappi float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Vuosiluku: {vuosilukufunktio()}
      </button>
-       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset">
+       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
      <a class="dropdown-item" href="#" onClick={vaihda2014}>2014</a>
       <a class="dropdown-item" href="#"onClick={vaihda2015}>2015</a>
       <a class="dropdown-item" href="#"onClick={vaihda2016}>2016</a>

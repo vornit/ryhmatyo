@@ -977,7 +977,7 @@ const Paikkakunnat = () => {
       <button type="button" className="btn btn-primary pikku" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
                   <button type="button" className="btn btn-secondary pikku" aria-pressed="true" onClick={toPage('tietoja')}>Toimialojen <br></br> lukumäärät</button>
                   <button type="button" className="btn btn-secondary pikku" aria-pressed="true" onClick={toPage('verot')}>Toimialojen<br></br> verot</button>
-                  <button type="button" className="btn btn-secondary pikku" aria-pressed="true" onClick={toPage('paastot')}>Toimialojen<br></br> päästöt</button>
+                  <button type="button" className="btn btn-secondary pikku paastot" aria-pressed="true" onClick={toPage('paastot')}>Toimialojen<br></br> päästöt</button>
 
                   
 

@@ -167,12 +167,7 @@ ul {
 
  
 
- .paastot {
-  
-  border-top-right-radius: 5px !important; 
-  border-bottom-right-radius: 5px !important;
-
-}
+ 
 
 .vuosilukunappi {
   margin-left: 8px;
@@ -221,8 +216,17 @@ input[type=search]::-webkit-search-cancel-button {
 
 .oikeala {
   
-  height: 375px;
+  height: 347px;
   overflow: auto;
+  
+}
+
+.oikeala2 {
+  
+  height: 370px;
+  overflow: auto;
+  margin-bottom: -1.5em;
+  
 }
 
 button:focus{
@@ -276,8 +280,9 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
 
 .pikku {
   width: 15em;
-  height: 5em;
-  border-radius: 0px;
+  height: 4.5em;
+  border-radius: 15px;
+  
 }
 
 .pikku2 {
@@ -298,15 +303,24 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
 .infonappi {
     
 
-  width: 10em;
-  height: 4em;
+  width: 13em;
+  height: 6em;
   position: absolute;
   top: 20px;
   right: 20px;
-  font-size: 1em;
+  font-size: 0.6em;
     
     
  }
+
+ 
+ .paastot {
+  
+  border-top-right-radius: 15px !important; 
+  border-bottom-right-radius: 15px !important;
+
+}
+
 
 
  

@@ -376,7 +376,7 @@ const Toimialat = () => {
                   <button type="button" className="btn btn-secondary pikku2" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
                 </div>
                 <div>
-                  <div class="oikeala">
+                  <div class="oikeala2">
                     {content()}
                   </div>
                 </div>

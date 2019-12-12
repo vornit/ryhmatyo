@@ -54,7 +54,7 @@ const Toimialat = () => {
 
   }
 
-  //laskee toimialoille suhdeluvut
+  //jarjestaa toimialat taulukkoo suhdeluvun mukaan pitäen ylhäällä vanhaa indeksiä
   function jarjestaToimialojenSL() {
     for (let i = 0; i < verotaulukko.length; i++) {
       toimialojenSLtaulukko[i] = { slIndeksi: i, suhde: (verotaulukko[i] / paastotaulukko[i]) }
@@ -62,9 +62,8 @@ const Toimialat = () => {
         toimialojenSLtaulukko[i].suhde = 0;
         continue;
       }
-      //toimialaSL[i] = { slIndeksi: i, suhde: toimialojenSLtaulukko[i] }
-
     }
+
     let suhdeluvutJarj = toimialojenSLtaulukko
 
     suhdeluvutJarj.sort(function (a, b) {
@@ -199,6 +198,7 @@ const Toimialat = () => {
     }
   }
 
+  //lasketaan tulostus mediaanien vertailulle
   let mediaaniTulostus = "";
 
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa") {
@@ -225,7 +225,7 @@ const Toimialat = () => {
     }
   }
 
-
+  // lista kuntien toimialojen yritysten määrästä paikkakunnittain
   const Maara = () => {
     let monesko = "";
     let jaettuSija = 1;

@@ -32,7 +32,7 @@ const Aloitus = () => {
       <div className="leipa"> 
       <br></br>
       <p> Sovellus on tarkoitettu eri toimialojen veromaksujen, päästöjen ja näistä lasketun hyötysuhteen
-      tarkasteluun. Hyötusuhde on laskettu kaavalla:  <br /><em>(toimialan verotulot koko Suomessa) <hr/> (toimialan päästöt koko Suomessa)</em></p>
+      tarkasteluun. Hyötusuhde on laskettu kaavalla:  <br /><em>(toimialan veromaksut koko Suomessa) <hr/> (toimialan päästöt koko Suomessa)</em></p>
       
       Tekijät: Aleksi, Joose, Pertti, Tuomo
       </div>

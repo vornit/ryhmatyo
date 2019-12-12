@@ -18,6 +18,12 @@ a2 {
   font-family: 'Bebas Neue', cursive;
 }
 
+.oikealle {
+  position: relative;
+  float: right;
+  text-align: right;
+}
+
 div.otsikko {
    margin: 0 0 24px; text-align: justify; text-justify: inter-word;
    text-align: center;
@@ -144,7 +150,9 @@ body {
 }
 
 #listaKunnista {
+  margin-top: 3px;
   max-width: 216px;
+  height: 45em;
 }
 
 .jumbotron {
@@ -185,6 +193,7 @@ ul {
 }
 
 .pikkunapit {
+  margin-top: 0px;
   margin-bottom: 7px;
   width: auto;
 }
@@ -239,7 +248,9 @@ button:focus{
 
 .btn:focus, .btn:active, .btn:active:focus, .btn-success:active:focus {
   box-shadow: none !important;
-  background-color: #2EE59D !important;
+  background-color: #0062cc;
+  border-color: #005cbf;
+  /*background-color: rgba(30, 14, 255, 0.753) !important;*/
 }
 
 .varjo {
@@ -258,11 +269,11 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
   text-transform: uppercase;
   letter-spacing: 2.5px;
   font-weight: 500;
-  color: #000;
+  color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
   border: none;
   border-radius: 45px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);*/
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
@@ -270,15 +281,17 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
 }
 
 .btn:hover {
-  background-color: #2EE59D;
-  box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  background-color: #0062cc;
+    border-color: #005cbf;
+  /*box-shadow: 0px 15px 20px rgba(58, 46, 229, 0.4);*/
   color: #fff;
   transform: translateY(-7px);
   border: 0px solid rgb(211, 209, 209);
 }
 
 .btn:active {
-  background-color: #2EE59D;
+  background-color: #0062cc;
+    border-color: #005cbf;
 }
 
 .pikku {
@@ -300,7 +313,6 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
   border-radius: 0px;
   border-top-left-radius: 15px !important;
     border-bottom-left-radius: 15px !important;
-    
  
 
 

@@ -187,12 +187,12 @@ const Toimialat = () => {
     veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
   }
 
-  let sijaTulostus = "Ei tiedossa";
+  let sijaTulostus = "Ei sijoitusta";
 
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
       if (suhdeluvutJarj[i].slIndeksi == counter) {
-        sijaTulostus = i + 1 + "/" + suhdeluvutJarj.length + " | ";
+        sijaTulostus = i + 1 + "/" + suhdeluvutJarj.length;
 
       }
     }
@@ -247,7 +247,7 @@ const Toimialat = () => {
       }
 
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}
-        <small class="text-muted"> Määrä: </small>{kuntienToimialaLkm[enitenKunnassa[i]]} </li>)
+        <small class="oikealle">{kuntienToimialaLkm[enitenKunnassa[i]]} kpl</small> </li>)
 
     }
 
@@ -291,11 +291,11 @@ const Toimialat = () => {
                 </div>
                 <ul class="list-group">
 
-                  <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{paastoTulostus}</li>
-                  <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
-                  <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
-                  <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>
-                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}{mediaaniTulostus}</li>
+                  <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small><small class="oikealle">{paastoTulostus}</small></li>
+                  <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small><small class="oikealle"> {lukupilkuilla(maarataulukko[counter])} kpl</small></li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small><small class="oikealle">{veroTulostus}</small></li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small>{kuntienNimet[kunnanNimiAvain]}<small class="oikealle">{kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</small></li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}<small class="oikealle">{mediaaniTulostus}</small></li>
 
                 </ul>
               </div>

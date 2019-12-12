@@ -172,7 +172,6 @@ const Toimialat = () => {
   toimialanPaikkakunnat(counter)
 
   var suhdeluvutJarj = jarjestaToimialojenSL();
-
   var mediaaniIndeksi = Math.floor((suhdeluvutJarj.length / 2) - 1)
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
@@ -252,8 +251,6 @@ const Toimialat = () => {
 
   }
 
-
-
   return (
     // Bootstrapin pääcontainer
     <FadeIn>
@@ -280,7 +277,7 @@ const Toimialat = () => {
               <div className="col jumbotron">
                 <div>
 
-                  <p>Tietoa toimialasta</p>
+                  <h6>Tietoa toimialasta</h6>
 
                 </div>
                 <ul class="list-group">
@@ -298,7 +295,7 @@ const Toimialat = () => {
             <div className="row">
               <div className="col jumbotron">
 
-                <p>Toimialan yritysten määrät paikkakunnilla</p>
+                <h6>Toimialan yritysten määrät paikkakunnilla</h6>
 
                 <div>
                   <div class="oikeala">

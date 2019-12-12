@@ -938,6 +938,9 @@ const Paikkakunnat = () => {
 
 
                   <div className="col-md-auto jumboton">
+                    <div>
+                      <h6>Tietoja kunnasta</h6>
+                    </div>
                     <ul class="list-group list-group-horizontal list-group-flush">
 
                       <ul class="list-group">

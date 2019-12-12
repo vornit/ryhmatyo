@@ -192,7 +192,7 @@ const Toimialat = () => {
 
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
-      if (suhdeluvutJarj[i].slIndeksi === counter) {
+      if (suhdeluvutJarj[i].slIndeksi == counter) {
         sijaTulostus = i + 1 + "/" + suhdeluvutJarj.length + " | ";
 
       }
@@ -203,7 +203,7 @@ const Toimialat = () => {
 
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
-      if (suhdeluvutJarj[i].slIndeksi === counter) {
+      if (suhdeluvutJarj[i].slIndeksi == counter) {
         let mediaaniArvo = suhdeluvutJarj[mediaaniIndeksi].suhde
         let verrattavaArvo = suhdeluvutJarj[i].suhde
 
@@ -221,7 +221,6 @@ const Toimialat = () => {
         else {
           mediaaniTulostus = "Mediaani"
         }
-
       }
     }
   }
@@ -235,7 +234,7 @@ const Toimialat = () => {
     for (let i = 1; i < enitenKunnassa.length; i++) {
 
       let kunta = kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[i])]
-      if (kuntienToimialaLkm[enitenKunnassa[i]] === 0) {
+      if (kuntienToimialaLkm[enitenKunnassa[i]] == 0) {
         break;
       }
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}

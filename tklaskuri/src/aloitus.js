@@ -6,6 +6,7 @@ import logo from "./logo.png"
 
 
 
+
 //Pääkomponentti Aloitukselle
 const Aloitus = () => {
 
@@ -30,10 +31,9 @@ const Aloitus = () => {
       </div>
       <div className="leipa"> 
       <br></br>
-      
       <p> Sovellus on tarkoitettu eri toimialojen päästöjen, verojen ja näistä lasketun hyötysuhteen
-      tarkasteluun. Hyötysuhteet on laskettu kaavalla: <br /><em>(toimialan verotulot koko Suomessa) / (toimialan päästöt koko Suomessa)</em></p>
-      <br></br>
+      tarkasteluun. Hyötusuhde on laskettu kaavalla:  <br /><em>(toimialan verotulot koko Suomessa) <hr/> (toimialan päästöt koko Suomessa)</em></p>
+      
       Tekijät: Aleksi, Joose, Pertti, Tuomo
       </div>
 

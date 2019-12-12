@@ -897,7 +897,8 @@ const Paikkakunnat = () => {
       </div>
     )
   }
-
+let kuntaVaiMaako = "koko maasta"
+if (counter != 0) kuntaVaiMaako = "kunnasta"
 
   return (
 
@@ -938,6 +939,7 @@ const Paikkakunnat = () => {
 
 
                   <div className="col-md-auto jumboton">
+                    <div><h6>Tietoja {kuntaVaiMaako}</h6></div>
                     <ul class="list-group list-group-horizontal list-group-flush">
 
                       <ul class="list-group">
@@ -986,9 +988,9 @@ const Paikkakunnat = () => {
 
 
       <button type="button" className="btn btn-primary suhde" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet ekologisuuden mukaan</button>
-                  <button type="button" className="btn btn-secondary lkm" aria-pressed="true" onClick={toPage('tietoja')}>Toimialojen lukumäärät</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Toimialojen verot</button>
-                  <button type="button" className="btn btn-secondary paastot" aria-pressed="true" onClick={toPage('paastot')}>Toimialojen äästöt</button>
+                  <button type="button" className="btn btn-secondary lkm" aria-pressed="true" onClick={toPage('tietoja')}>Toimialojen<br />lukumäärät</button>
+                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Toimialojen<br />verot</button>
+                  <button type="button" className="btn btn-secondary paastot" aria-pressed="true" onClick={toPage('paastot')}>Toimialojen<br />päästöt</button>
 
                   
 

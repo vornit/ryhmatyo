@@ -172,7 +172,6 @@ const Toimialat = () => {
   toimialanPaikkakunnat(counter)
 
   var suhdeluvutJarj = jarjestaToimialojenSL();
-
   var mediaaniIndeksi = Math.floor((suhdeluvutJarj.length / 2) - 1)
 
   // jakaa hienosti regexillä luvut kolmen sarjoihin
@@ -255,8 +254,6 @@ const Toimialat = () => {
     )
 
   }
-
-
 
 
   return (

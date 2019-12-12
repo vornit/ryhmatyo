@@ -1,12 +1,10 @@
-import React, { useState, Component } from 'react';
+import React, {useState} from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
 import FadeIn from 'react-fade-in';
-import toPage from './index';
 
 // asetetaan dataa jsoneista muuttujiin
-
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index
 const toimialojenMaarat = datatoimialatKunnittain.dataset.value
@@ -73,7 +71,7 @@ const Toimialat = () => {
       return b.suhde - a.suhde;
     })
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
-      if (suhdeluvutJarj[i].suhde == 0) {
+      if (suhdeluvutJarj[i].suhde === 0) {
         suhdeluvutJarj.splice(i, suhdeluvutJarj.length - i)
         break;
       }
@@ -195,7 +193,7 @@ const Toimialat = () => {
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
       if (suhdeluvutJarj[i].slIndeksi == counter) {
-        sijaTulostus = i + 1 + "./" + suhdeluvutJarj.length + ". | ";
+        sijaTulostus = i + 1 + "/" + suhdeluvutJarj.length + " | ";
 
       }
     }
@@ -212,18 +210,17 @@ const Toimialat = () => {
         if (verrattavaArvo < mediaaniArvo) {
           mediaaniTulostus = ((mediaaniArvo - verrattavaArvo) / verrattavaArvo) * 100
           mediaaniTulostus = mediaaniTulostus * (-1)
-          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
+          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(0))
           mediaaniTulostus += "% mediaanista"
         }
         else if (verrattavaArvo > mediaaniArvo) {
           mediaaniTulostus = ((verrattavaArvo - mediaaniArvo) / mediaaniArvo) * 100
-          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
+          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(0))
           mediaaniTulostus = "+" + mediaaniTulostus + "% mediaanista"
         }
         else {
           mediaaniTulostus = "Mediaani"
         }
-
       }
     }
   }
@@ -237,7 +234,7 @@ const Toimialat = () => {
     for (let i = 1; i < enitenKunnassa.length; i++) {
 
       let kunta = kuntienNimet[haeAvain(kuntienIndeksit, enitenKunnassa[i])]
-      if (kuntienToimialaLkm[enitenKunnassa[i]] === 0) {
+      if (kuntienToimialaLkm[enitenKunnassa[i]] == 0) {
         break;
       }
       lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Eniten paikkakunnalla: </small> {kunta}
@@ -291,7 +288,7 @@ const Toimialat = () => {
                   <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>
-                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}. / 86. {mediaaniTulostus}</li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}{mediaaniTulostus}</li>
 
                 </ul>
               </div>

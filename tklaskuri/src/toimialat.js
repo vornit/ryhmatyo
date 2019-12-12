@@ -74,7 +74,7 @@ const Toimialat = () => {
   //laskee toimialoille suhdeluvut
   function jarjestaToimialojenSL() {
     for (let i = 0; i < verotaulukko.length; i++) {
-      toimialojenSLtaulukko[i] = {slIndeksi: i, suhde: (verotaulukko[i]/paastotaulukko[i])}
+      toimialojenSLtaulukko[i] = { slIndeksi: i, suhde: (verotaulukko[i] / paastotaulukko[i]) }
       if (isNaN(toimialojenSLtaulukko[i].suhde)) {
         toimialojenSLtaulukko[i].suhde = 0;
         continue;
@@ -82,20 +82,19 @@ const Toimialat = () => {
       //toimialaSL[i] = { slIndeksi: i, suhde: toimialojenSLtaulukko[i] }
 
     }
-    console.log("toimialojensltaulukko " , toimialojenSLtaulukko)
     let suhdeluvutJarj = toimialojenSLtaulukko
-    console.log("suhdeluvut epäjärj " ,suhdeluvutJarj)
+
     suhdeluvutJarj.sort(function (a, b) {
       return b.suhde - a.suhde;
     })
-    for(let i = 0; i < suhdeluvutJarj.length; i++){
-      if(suhdeluvutJarj[i].suhde == 0){
+    for (let i = 0; i < suhdeluvutJarj.length; i++) {
+      if (suhdeluvutJarj[i].suhde == 0) {
         suhdeluvutJarj.splice(i, suhdeluvutJarj.length - i)
         break;
       }
     }
-    
-    console.log("suhdeluvut jarj " , suhdeluvutJarj)
+
+
     return suhdeluvutJarj;
   }
 
@@ -134,27 +133,28 @@ const Toimialat = () => {
     KunnanKaikkiToimialatLkm();
   }
 
-
   //Luo ison läjän keyn mukaan indeksöityjä listoja
   //listasta valittaessa saadaan samalla indeksillä muista listoista oikeita arvoja
   function luoTaulukot() {
-
+    let paastoToimialojenlkm = (Object.keys(toimialojenPaastotIndeksit).length)
     for (let key in toimialalista) {
       if (key.length === 2) {
-        
+
         toimialojenAvaimet.push(key)
         alataulukko.push(toimialalista[key])
         maarataulukko.push(toimialojenMaarat[toimialaIndeksit[key]])
-        paastotaulukko.push(toimialojenPaastot[toimialojenPaastotIndeksit[key]])
+        paastotaulukko.push(toimialojenPaastot[toimialojenPaastotIndeksit[key] + paastoToimialojenlkm * 9])
         if (toimialojenVerot[nimiJaIndeksi[key]] == null) {
 
           verotaulukko.push("Ei tiedossa")
+
         }
         else {
 
           verotaulukko.push(toimialojenVerot[nimiJaIndeksi[key]])
+
         }
-        
+
       }
     }
 
@@ -199,10 +199,10 @@ const Toimialat = () => {
   toimialanPaikkakunnat(counter)
 
   var suhdeluvutJarj = jarjestaToimialojenSL();
-  console.log(suhdeluvutJarj)
 
-  var mediaaniIndeksi = Math.floor(suhdeluvutJarj.length / 2)
-  console.log("mediaaniindeksi ", mediaaniIndeksi)
+
+  var mediaaniIndeksi = Math.floor((suhdeluvutJarj.length / 2) - 1)
+
   // jakaa hienosti regexillä luvut kolmen sarjoihin
   function lukupilkuilla(x) {
     if (x === undefined) return "Ei tiedossa";
@@ -218,34 +218,34 @@ const Toimialat = () => {
     veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
   }
   let sijaTulostus = "Ei tiedossa";
-  if (toimialojenSLtaulukko[counter] !== "Ei tiedossa"){
-    for ( let i = 0; i < suhdeluvutJarj.length; i++){
-      if (suhdeluvutJarj[i].slIndeksi == counter){
+  if (toimialojenSLtaulukko[counter] !== "Ei tiedossa") {
+    for (let i = 0; i < suhdeluvutJarj.length; i++) {
+      if (suhdeluvutJarj[i].slIndeksi == counter) {
         sijaTulostus = i + 1 + "./" + suhdeluvutJarj.length + ". | ";
       }
     }
   }
   let mediaaniTulostus = "";
-  if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa"){
-    for (let i = 0; i < suhdeluvutJarj.length; i++){
-      if (suhdeluvutJarj[i].slIndeksi == counter){
+  if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa") {
+    for (let i = 0; i < suhdeluvutJarj.length; i++) {
+      if (suhdeluvutJarj[i].slIndeksi == counter) {
         let mediaaniArvo = suhdeluvutJarj[mediaaniIndeksi].suhde
         let verrattavaArvo = suhdeluvutJarj[i].suhde
-        
-      if (verrattavaArvo < mediaaniArvo) {
-        mediaaniTulostus = ((mediaaniArvo - verrattavaArvo) / verrattavaArvo) * 100
-        mediaaniTulostus = mediaaniTulostus * (-1)
-        mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
-        mediaaniTulostus += "% mediaanista"
-      }
-      else if (verrattavaArvo > mediaaniArvo) {
-        mediaaniTulostus = ((verrattavaArvo - mediaaniArvo) / mediaaniArvo) * 100
-        mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
-        mediaaniTulostus = "+" + mediaaniTulostus + "% mediaanista"
-      }
-      else {
-        mediaaniTulostus = "Mediaani"
-      }
+
+        if (verrattavaArvo < mediaaniArvo) {
+          mediaaniTulostus = ((mediaaniArvo - verrattavaArvo) / verrattavaArvo) * 100
+          mediaaniTulostus = mediaaniTulostus * (-1)
+          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
+          mediaaniTulostus += "% mediaanista"
+        }
+        else if (verrattavaArvo > mediaaniArvo) {
+          mediaaniTulostus = ((verrattavaArvo - mediaaniArvo) / mediaaniArvo) * 100
+          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
+          mediaaniTulostus = "+" + mediaaniTulostus + "% mediaanista"
+        }
+        else {
+          mediaaniTulostus = "Mediaani"
+        }
       }
     }
   }
@@ -277,70 +277,7 @@ const Toimialat = () => {
 
   }
 
-  const Suhdeluku = () => {
 
-    let monesko = "";
-    let monesko2 = 1;
-    var lista = [];
-
-    for (let i = 0; i < suhdeluvutJarj.length; i++) {
-
-      let prosentti = suhdeluvutJarj[i].suhde / suhdeluvutJarj[mediaaniIndeksi].suhde
-      let kunta = kuntienNimet[haeAvain(kuntienIndeksit, suhdeluvutJarj[i].kunnanindeksi)]
-      if (typeof suhdeluvutJarj[0].suhde === 'undefined') {
-        lista.push(<li class="list-group-item"><small class="text-muted"> Ei voida laskea </small></li>)
-        break;
-      }
-      
-      prosentti *= 100
-      if (prosentti < 100) {
-        prosentti = ((100 / prosentti) - 1) * 100
-        prosentti *= -1 
-        prosentti = prosentti.toFixed(2)
-        prosentti += "% pienempi kuin mediaani"
-      }
-
-      else if (prosentti > 100) {
-        prosentti -= 100
-        prosentti = prosentti.toFixed(2)
-        prosentti += "% korkeampi kuin mediaani"
-      }
-
-      else {
-        prosentti = "Mediaani"
-      }
-
-      lista.push(<li class="list-group-item"><small class="text-muted">{monesko} Paras hyötysuhde: </small> {kunta}
-        <small class="text-muted">: </small>{prosentti} </li>)
-
-      monesko2++
-      monesko = monesko2 + "."
-
-    }
-
-    return (
-      <div>
-        {lista}
-      </div>
-    )
-  }
-
-  const [page, setPage] = useState('maara')
-
-  const toPage = (page) => (event) => {
-    event.preventDefault()
-    setPage(page)
-  }
-
-
-
-  const content = () => {
-    if (page === 'suhdeluku') {
-      return <Suhdeluku />
-    } else if (page === 'maara') {
-      return <Maara />
-    }
-  }
 
   return (
     // Bootstrapin pääcontainer
@@ -369,7 +306,9 @@ const Toimialat = () => {
 
             <div className="row">
               <div className="col jumbotron">
-
+                <div>
+                  <p>Tietoa toimialasta</p>
+                </div>
                 <ul class="list-group">
 
                   <li class="list-group-item"><small class="text-muted">Toimialan kokonaispäästöt: </small>{paastoTulostus}</li>
@@ -387,13 +326,13 @@ const Toimialat = () => {
 
               <div className="col jumbotron">
 
-                <div className="btn-group btn-group-sm">
-                  <button type="button" className="btn btn-secondary pikku2" aria-pressed="true" onClick={toPage('maara')}>Määrä</button>
-                  <button type="button" className="btn btn-secondary pikku2" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
-                </div>
+
+                <p>Toimialan yritysten määrät paikkakunnilla</p>
+
+
                 <div>
                   <div class="oikeala">
-                    {content()}
+                    <Maara />
                   </div>
                 </div>
                 <p></p>

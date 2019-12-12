@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, {useState} from 'react';
 import datatoimialatKunnittain from "./toimialatKunnittain2";
 import dataToimialojenVerot from "./toimialojenVerot";
 import dataPaastot from "./paastotToimialoittain";
@@ -212,12 +212,12 @@ const Toimialat = () => {
         if (verrattavaArvo < mediaaniArvo) {
           mediaaniTulostus = ((mediaaniArvo - verrattavaArvo) / verrattavaArvo) * 100
           mediaaniTulostus = mediaaniTulostus * (-1)
-          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
+          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(0))
           mediaaniTulostus += "% mediaanista"
         }
         else if (verrattavaArvo > mediaaniArvo) {
           mediaaniTulostus = ((verrattavaArvo - mediaaniArvo) / mediaaniArvo) * 100
-          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
+          mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(0))
           mediaaniTulostus = "+" + mediaaniTulostus + "% mediaanista"
         }
         else {

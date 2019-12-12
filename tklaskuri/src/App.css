@@ -301,6 +301,7 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
   border-radius: 0px;
   border-top-left-radius: 15px !important;
     border-bottom-left-radius: 15px !important;
+    
  
 
 
@@ -332,7 +333,23 @@ box-shadow: inset 0px -42px 34px 2px rgba(0,0,0,0.75);
 }
 
 .row {
-  
+  width: auto;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 2px solid rgb(17, 17, 17);
+  margin: 1em 0;
+  margin-top: -2px;
+  margin-bottom: -2px;
+  padding: 0;
+  width: 500px;
+}
+
+jaa {
+  margin-bottom: 2em;
 }
 
 

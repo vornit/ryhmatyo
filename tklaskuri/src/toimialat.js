@@ -221,7 +221,7 @@ const Toimialat = () => {
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa"){
     for ( let i = 0; i < suhdeluvutJarj.length; i++){
       if (suhdeluvutJarj[i].slIndeksi == counter){
-        sijaTulostus = i + 1 + "./" + suhdeluvutJarj.length + ". | ";
+        sijaTulostus = i + 1;
       }
     }
   }
@@ -229,23 +229,7 @@ const Toimialat = () => {
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa" && sijaTulostus !== "Ei tiedossa"){
     for (let i = 0; i < suhdeluvutJarj.length; i++){
       if (suhdeluvutJarj[i].slIndeksi == counter){
-        let mediaaniArvo = suhdeluvutJarj[mediaaniIndeksi].suhde
-        let verrattavaArvo = suhdeluvutJarj[i].suhde
-        
-      if (verrattavaArvo < mediaaniArvo) {
-        mediaaniTulostus = ((mediaaniArvo - verrattavaArvo) / verrattavaArvo) * 100
-        mediaaniTulostus = mediaaniTulostus * (-1)
-        mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
-        mediaaniTulostus += "% mediaanista"
-      }
-      else if (verrattavaArvo > mediaaniArvo) {
-        mediaaniTulostus = ((verrattavaArvo - mediaaniArvo) / mediaaniArvo) * 100
-        mediaaniTulostus = lukupilkuilla(mediaaniTulostus.toFixed(2))
-        mediaaniTulostus = "+" + mediaaniTulostus + "% mediaanista"
-      }
-      else {
-        mediaaniTulostus = "Mediaani"
-      }
+        mediaaniTulostus = (suhdeluvutJarj[i].suhde/suhdeluvutJarj[suhdeluvutJarj.length/2].suhde).toFixed(2) + "% mediaanista"
       }
     }
   }
@@ -335,11 +319,9 @@ const Toimialat = () => {
 
 
   const content = () => {
-    if (page === 'suhdeluku') {
-      return <Suhdeluku />
-    } else if (page === 'maara') {
+   
       return <Maara />
-    }
+    
   }
 
   return (
@@ -376,7 +358,7 @@ const Toimialat = () => {
                   <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>
-                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}{mediaaniTulostus}</li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}. / 86. {mediaaniTulostus}</li>
 
                 </ul>
 
@@ -393,7 +375,7 @@ const Toimialat = () => {
                 </div>
                 <div>
                   <div class="oikeala2">
-                    {content()}
+                  <Maara />
                   </div>
                 </div>
                 <p></p>

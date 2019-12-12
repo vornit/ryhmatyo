@@ -1,5 +1,6 @@
 import React  from 'react';
 import FadeIn from 'react-fade-in';
+import logo from "./logo.png"
 
 
 
@@ -17,11 +18,14 @@ const Aloitus = () => {
  return (
   // Bootstrapin pääcontainer
 
+  
   <FadeIn>
 
   
+  
   <div className="otsikko">   
-      <a1 className="otsikko">Toimialaselvitys</a1>
+      <img src={logo} alt="logo" width="30%"/>
+      
       <br></br>
       </div>
       <div className="leipa"> 

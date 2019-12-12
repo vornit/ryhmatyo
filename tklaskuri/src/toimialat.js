@@ -388,8 +388,8 @@ const Toimialat = () => {
               <div className="col jumbotron">
 
                 <div className="btn-group btn-group-sm">
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('maara')}>Määrä</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
+                  <button type="button" className="btn btn-secondary pikku2" aria-pressed="true" onClick={toPage('maara')}>Määrä</button>
+                  <button type="button" className="btn btn-secondary pikku2" aria-pressed="true" onClick={toPage('suhdeluku')}>Suhdeluku</button>
                 </div>
                 <div>
                   <div class="oikeala">

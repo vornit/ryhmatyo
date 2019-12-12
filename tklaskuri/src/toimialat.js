@@ -138,12 +138,30 @@ const Toimialat = () => {
       taulukko[x] = taulukko[x].replace(/^[\s\d]+/, '');
     }
   }
+  function compare(a, b) {
+  if (a.nimi > b.nimi) return 1;
+  if (b.nimi > a.nimi) return -1;
+
+  return 0;
+  }
+
+  function aakkosta(lista){
+  	var uusilista = [];
+  	for (let i = 0; i < lista.length; i++){
+  		uusilista[i] = {indeksi : i, nimi: lista[i]}
+  	}
+  	uusilista.sort(compare);
+  	return uusilista
+  }
 
   var toimialaInd = 0;
   var haettava;
   var select;
   var taulukkoToimialoista = luoTaulukot();
   parsiTaulukko(taulukkoToimialoista);
+  var valmislista = aakkosta(taulukkoToimialoista)
+  console.log(valmislista)
+
 
   //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
   const etsiToimiala = (hakusana) => {
@@ -161,7 +179,7 @@ const Toimialat = () => {
   //asettaa countteriin valitun indeksin, josta sitä voi sitten käyttää kaikkialla
   const tulostaToimiala = (listaValittu) => {
 
-    setToValue(listaValittu.target.value)
+    setToValue(valmislista[listaValittu.target.value].indeksi)
 
   }
 
@@ -276,7 +294,7 @@ const Toimialat = () => {
 
             <select id="listaToimialoista" className="form-control" size="30" onChange={tulostaToimiala} >
 
-              {taulukkoToimialoista.map(s => (<option value={toimialaInd++}>{s}</option>))}
+              {valmislista.map(s => (<option value={toimialaInd++}>{s.nimi}</option>))}
 
             </select>
           </div>

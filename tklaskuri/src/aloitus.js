@@ -18,14 +18,15 @@ const Aloitus = () => {
   // Bootstrapin pääcontainer
 
   <FadeIn>
-  <div className="containeraloitus">   
   
-      <a1>Toimialaselvitys</a1>
+  <div className="containeraloitus">   
+      <a1 className="otsikko">Toimialaselvitys</a1>
       <br></br>
       
       <br></br>
+      
       <p> Sovellus on tarkoitettu eri toimialojen päästöjen, verojen ja näistä lasketun hyötysuhteen
-      tarkasteluun.</p>
+      tarkasteluun. Hyötysuhteet on laskettu kaavalla: <br /><em>(toimialan verotulot koko Suomessa) / (toimialan päästöt koko Suomessa)</em></p>
       <br></br>
       Tekijät: Aleksi, Joose, Pertti, Tuomo
 

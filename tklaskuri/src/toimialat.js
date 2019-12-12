@@ -6,6 +6,7 @@ import FadeIn from 'react-fade-in';
 import toPage from './index';
 
 // asetetaan dataa jsoneista muuttujiin
+console.log(dataToimialojenVerot)
 
 const toimialalista = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.label
 const toimialaIndeksit = datatoimialatKunnittain.dataset.dimension.Toimiala2008.category.index

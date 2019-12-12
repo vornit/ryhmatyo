@@ -30,6 +30,7 @@ div.containeraloitus {
 
 
 
+
 .App {
   text-align: center;
 }
@@ -118,6 +119,7 @@ h5 {
 
 p {
   font-size: 2em;
+  text-align: left;
 }
 
 img {

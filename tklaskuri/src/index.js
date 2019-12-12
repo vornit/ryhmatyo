@@ -940,10 +940,10 @@ const Paikkakunnat = () => {
 
 
 
-      <button type="button" className="btn btn-primary suhde" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
-                  <button type="button" className="btn btn-secondary lkm" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
-                  <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
-                  <button type="button" className="btn btn-secondary paastot" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
+      <button type="button" className="btn btn-primary pikku" aria-pressed="true" onClick={toPage('suhdeluku')}>Hyötysuhteet</button>
+                  <button type="button" className="btn btn-secondary pikku" aria-pressed="true" onClick={toPage('tietoja')}>Lukumäärät</button>
+                  <button type="button" className="btn btn-secondary pikku" aria-pressed="true" onClick={toPage('verot')}>Verot</button>
+                  <button type="button" className="btn btn-secondary paastot pikku" aria-pressed="true" onClick={toPage('paastot')}>Päästöt</button>
                   
 
                   <div class="dropdown float-right">

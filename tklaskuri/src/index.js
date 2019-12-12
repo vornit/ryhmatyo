@@ -944,21 +944,21 @@ if (counter != 0) kuntaVaiMaako = "kunnasta"
 
                       <ul class="list-group">
 
-                        <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{kuntienAsLuvut[counter]}</li>
-                        <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {vlMuutokset[counter] + "%"}</li>
-                        <li class="list-group-item"> <small class="text-muted">Työllisyysaste: </small> {tyoAsteet[counter] + "%"}</li>
-                        <li class="list-group-item"> <small class="text-muted">Työpaikkojen lukumäärä: </small> {tpLukumaarat[counter]}</li>
-                        <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {tulonsaajat[counter]}</li>
+                        <li class="list-group-item"><small class="text-muted">Kunnan asukasluku: </small>{lukupilkuilla(kuntienAsLuvut[counter])}</li>
+                        <li class="list-group-item"><small class="text-muted">Väkiluvun muutos edellisestä vuodesta: </small> {lukupilkuilla(vlMuutokset[counter] + "%")}</li>
+                        <li class="list-group-item"> <small class="text-muted">Työllisyysaste: </small> {lukupilkuilla(tyoAsteet[counter] + "%")}</li>
+                        <li class="list-group-item"> <small class="text-muted">Työpaikkojen lukumäärä: </small> {lukupilkuilla(tpLukumaarat[counter])}</li>
+                        <li class="list-group-item"><small class="text-muted">Tulonsaajia: </small> {lukupilkuilla(tulonsaajat[counter])}</li>
                       </ul>
 
                       <ul class="list-group">
 
 
-                        <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {veronalaisetTulotKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small> </li>
-                        <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {ansioTulotKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small></li>
-                        <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> {verotYhteensaKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small></li>
-                        <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small> {valtionVeroKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small></li>
-                        <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small> {kunnallisVeroKeskimaarin[counter]}<small class="text-muted"> €/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {lukupilkuilla(veronalaisetTulotKeskimaarin[counter])}<small class="text-muted"> €/vuosi </small> </li>
+                        <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> {lukupilkuilla(ansioTulotKeskimaarin[counter])}<small class="text-muted"> €/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> {lukupilkuilla(verotYhteensaKeskimaarin[counter])}<small class="text-muted"> €/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small> {lukupilkuilla(valtionVeroKeskimaarin[counter])}<small class="text-muted"> €/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small> {lukupilkuilla(kunnallisVeroKeskimaarin[counter])}<small class="text-muted"> €/vuosi </small></li>
                       </ul>
 
                     </ul>

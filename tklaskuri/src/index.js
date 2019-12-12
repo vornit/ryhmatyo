@@ -980,8 +980,7 @@ const Paikkakunnat = () => {
 
               <div className="btn-group btn-group pikkunapit">
 
-         
-
+      
 
 
 
@@ -990,17 +989,18 @@ const Paikkakunnat = () => {
                   <button type="button" className="btn btn-secondary lkm" aria-pressed="true" onClick={toPage('tietoja')}>Toimialojen lukumäärät</button>
                   <button type="button" className="btn btn-secondary" aria-pressed="true" onClick={toPage('verot')}>Toimialojen verot</button>
                   <button type="button" className="btn btn-secondary paastot" aria-pressed="true" onClick={toPage('paastot')}>Toimialojen äästöt</button>
+
                   
 
                   <div class="dropdown float-right">
       <button class="btn btn-secondary dropdown-toggle vuosilukunappi float-right" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Vuosiluku: {vuosilukufunktio()}
      </button>
-       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuOffset">
-     <a class="dropdown-item" href="#" onClick={vaihda2014}>2014</a>
-      <a class="dropdown-item" href="#"onClick={vaihda2015}>2015</a>
-      <a class="dropdown-item" href="#"onClick={vaihda2016}>2016</a>
-      <a class="dropdown-item" href="#"onClick={vaihda2017}>2017</a>
+       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+     <a class="dropdown-item"  onClick={vaihda2014}>2014</a>
+      <a class="dropdown-item" onClick={vaihda2015}>2015</a>
+      <a class="dropdown-item" onClick={vaihda2016}>2016</a>
+      <a class="dropdown-item" onClick={vaihda2017}>2017</a>
    </div>
       </div>
 

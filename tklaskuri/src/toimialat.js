@@ -195,7 +195,7 @@ const Toimialat = () => {
   if (toimialojenSLtaulukko[counter] !== "Ei tiedossa") {
     for (let i = 0; i < suhdeluvutJarj.length; i++) {
       if (suhdeluvutJarj[i].slIndeksi == counter) {
-        sijaTulostus = i + 1 + "./" + suhdeluvutJarj.length + ". | ";
+        sijaTulostus = i + 1 + "/" + suhdeluvutJarj.length + " | ";
 
       }
     }
@@ -291,7 +291,7 @@ const Toimialat = () => {
                   <li class="list-group-item"><small class="text-muted">Toimialojen kokonaislukumäärä: </small> {lukupilkuilla(maarataulukko[counter])} kpl</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialan verot yhteensä: </small> {veroTulostus}</li>
                   <li class="list-group-item"> <small class="text-muted">Toimialaa eniten paikkakunnalla: </small> {kuntienNimet[kunnanNimiAvain]} Lkm: {kuntienToimialaLkm[kuntienIndeksit[kunnanNimiAvain]]} kpl</li>
-                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}. / 86. {mediaaniTulostus}</li>
+                  <li class="list-group-item"> <small class="text-muted">Toimialan sijoitus ekologisuuden mukaan: </small> {sijaTulostus}{mediaaniTulostus}</li>
 
                 </ul>
               </div>

@@ -160,8 +160,6 @@ const Toimialat = () => {
   var taulukkoToimialoista = luoTaulukot();
   parsiTaulukko(taulukkoToimialoista);
   var valmislista = aakkosta(taulukkoToimialoista)
-  console.log(valmislista)
-
 
   //Hakupalkki, joka vertaa hakupalkin sisältöä select -listan sisältöön ja näyttää vain matchaavat
   const etsiToimiala = (hakusana) => {

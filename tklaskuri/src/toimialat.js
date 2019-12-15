@@ -19,7 +19,7 @@ const toimialojenPaastotIndeksit = dataPaastot.dataset.dimension["Toimialat (TOL
 const Toimialat = () => {
 
   // Counter pitää tiedossa valitun toimialan indeksin
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(53)
   const setToValue = (value) => setCounter(value)
 
   //iso läjä listoja
@@ -180,6 +180,7 @@ const Toimialat = () => {
     setToValue(valmislista[listaValittu.target.value].indeksi)
 
   }
+  //console.log(counter)
 
   //tämä pitää olla täällä, koska counter
   toimialanPaikkakunnat(counter)
@@ -200,7 +201,7 @@ const Toimialat = () => {
 
   let veroTulostus = "Ei tiedossa";
   if (lukupilkuilla(verotaulukko[counter]) !== "Ei tiedossa") {
-    veroTulostus = lukupilkuilla(verotaulukko[counter]) + " €/vuosi";
+    veroTulostus = lukupilkuilla(verotaulukko[counter]) + "€/vuosi";
   }
 
   let sijaTulostus = "Ei sijoitusta";

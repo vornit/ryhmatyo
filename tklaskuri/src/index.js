@@ -972,11 +972,11 @@ const Paikkakunnat = () => {
                       <ul class="list-group">
 
 
-                        <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {lukupilkuilla(veronalaisetTulotKeskimaarin[counter])} €/vuosi </li>
-                        <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> <small class="oikealle">{lukupilkuilla(ansioTulotKeskimaarin[counter])} €/vuosi </small></li>
-                        <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> <small class="oikealle">{lukupilkuilla(verotYhteensaKeskimaarin[counter])} €/vuosi </small></li>
-                        <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small><small class="oikealle"> {lukupilkuilla(valtionVeroKeskimaarin[counter])} €/vuosi </small></li>
-                        <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small><small class="oikealle">{lukupilkuilla(kunnallisVeroKeskimaarin[counter])} €/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Veronalaiset tulot keskimäärin: </small> {lukupilkuilla(veronalaisetTulotKeskimaarin[counter])}€/vuosi </li>
+                        <li class="list-group-item"><small class="text-muted">Ansiotulot keskimäärin: </small> <small class="oikealle">{lukupilkuilla(ansioTulotKeskimaarin[counter])}€/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Verot yhteensä keskimäärin: </small> <small class="oikealle">{lukupilkuilla(verotYhteensaKeskimaarin[counter])}€/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Valtionvero keskimäärin: </small><small class="oikealle"> {lukupilkuilla(valtionVeroKeskimaarin[counter])}€/vuosi </small></li>
+                        <li class="list-group-item"><small class="text-muted">Kunnallisvero keskimäärin: </small><small class="oikealle">{lukupilkuilla(kunnallisVeroKeskimaarin[counter])}€/vuosi </small></li>
                       </ul>
 
                     </ul>
